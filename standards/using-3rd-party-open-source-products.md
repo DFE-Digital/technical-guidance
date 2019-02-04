@@ -14,7 +14,7 @@ include:
 However, many organisations ‘open’ their code, but monetise the software through
 means that restrict the freedom of the user. Some open source software does not
 have a strong community, and can be risky to use should problems arise which the
-MOJ does not understand how to resolve.
+DfE does not understand how to resolve.
 
 ## Criteria for identifying truly open-source products
 
@@ -26,7 +26,7 @@ consider if that risk is acceptable.
 
 If the code for the product you're evaluating doesn't have an active community
 working on it, the software presents a sustainability and security risk to the
-MOJ.
+DfE.
 
 There is no established method for assessing the maturity of open source
 communities, however factors to consider include:

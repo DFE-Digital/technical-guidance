@@ -7,10 +7,10 @@ expires: 2018-01-31
 Everything we produce or use, whether open or closed, should have an
 appropriate licence applied (as [indicated by the service
 manual][service manual licencing]). Without a licence, others (even
-within the MOJ) have no way of knowing for sure if they can use it, or
+within the DfE) have no way of knowing for sure if they can use it, or
 how.
 
-At the MOJ, we use the [MIT License](https://opensource.org/licenses/MIT).
+At the DfE, we use the [MIT License](https://opensource.org/licenses/MIT).
 
 [service manual licencing]: https://www.gov.uk/service-manual/technology/making-source-code-open-and-reusable#licensing-your-code
 
@@ -29,11 +29,11 @@ is being used.
 
 ### Use the correct copyright notice
 
-The Copyright is Crown Copyright; you can put "Ministry of Justice" in
+The Copyright is Crown Copyright; you can put "Department for Education" in
 brackets. For example:
 
 ```
-Copyright (c) 2017 Crown Copyright (Ministry of Justice)
+Copyright (c) 2017 Crown Copyright (Department for Education)
 ```
 
 The year should be the year the code was first published. Where the
@@ -42,7 +42,7 @@ shown as a period from first to most recent update (e.g. 2015-2017).
 
 ### Example
 
-`repo-audit` has a good [example of our licence](https://github.com/ministryofjustice/repo-audit/blob/master/LICENSE).
+`manage-courses-frontend` has a good [example of our licence](https://github.com/DFE-Digital/manage-courses-frontend/blob/master/LICENSE).
 
 ## Reusing or incorporating others' work
 

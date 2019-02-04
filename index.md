@@ -1,12 +1,12 @@
-# DfE technical guidance
-This site documents the technical standards and guidance that we expect teams working 
+# DfE Digital technical guidance
+This site documents the technical standards and guidance that we expect teams working
 within the [Department for Education](https://www.gov.uk/government/organisations/department-for-education)
 to follow when building digital services.
 
 It complements the [Service Manual](https://www.gov.uk/service-manual),
 which covers service design more broadly.
 
-It is inspired by the [GDS Way](https://gds-way.cloudapps.digital) and the 
+It is inspired by the [GDS Way](https://gds-way.cloudapps.digital) and the
 [Ministry of Justice Technical Guidance](https://ministryofjustice.github.io/technical-guidance/#moj-technical-guidance)
 
 ## Principles

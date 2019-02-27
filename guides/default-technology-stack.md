@@ -29,10 +29,14 @@ DfE Digital uses Azure as its primary hosting capability.  New services should r
 
 ### Infrastructure as code
 
-DfE Digital uses Terraform and ARM Templates for scripting the azure environments.
+DfE Digital uses [Azure Resource Manager (ARM)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authoring-templates) templates for automating and scripting Azure infrastructure creation and changes.
 
 ### CI/CD pipelines
 
-DfE Digital uses Travis CI and Azure DevOps for building build and deployment pipelines.
+DfE Digital [Azure DevOps](https://azure.microsoft.com/en-gb/services/devops/) (formerly VSTS) for build and deployment pipelines. Configuration is via a YAML definition.
+
+### Containerisation
+
+DfE Digital uses Docker to isolate and package up application depedencies from infrastructure and environment concerns.
 
 ```

@@ -39,4 +39,8 @@ DfE Digital [Azure DevOps](https://azure.microsoft.com/en-gb/services/devops/) (
 
 DfE Digital uses Docker to isolate and package up application depedencies from infrastructure and environment concerns.
 
-```
+## Logging, monitoring and alerting
+
+DfE Digital uses [Azure Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview) for logging and monitoring, with the ability to send custom telemetry - for Ruby applications this can be achieved via the [ApplicationInsights-Ruby](https://github.com/Microsoft/ApplicationInsights-Ruby) gem.
+
+[Sentry](https://sentry.io/welcome/) is used for alerting

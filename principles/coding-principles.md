@@ -89,3 +89,45 @@ Don’t swallow unexpected open type or base type exceptions in your libraries, 
 ### 2. PEP 8
 Always try to follow [pep8 code style](https://www.python.org/dev/peps/pep-0008/) and
 consider the [Zen of Python](https://www.python.org/dev/peps/pep-0020/)
+
+## Testing-specific principles
+
+### 1. Write tests
+Always write tests for any code that you write. Besides giving developers
+confidence that the code works, the tests will give context that otherwise
+would be missing. This is especially valuable a few years down the road when
+all of the original developers have left the project.
+
+### 2. Use test-driven development or behaviour-driven development
+Use test-driven development or behaviour-driven development if possible. It
+ensures that before you write your code that you have success criteria, and
+that your code is testable.
+
+### 3. Follow the testing pyramid
+The [testing pyramid](https://martinfowler.com/bliki/TestPyramid.html) makes
+the point to write many low level unit tests, fewer integration tests, and even
+fewer acceptance tests.
+
+### 4. Decide on a testing strategy
+At the beginning of a new project, it's good to decide on a testing strategy as
+a team. Decide what kind of testing tools to use and what types of tests to
+write, using the testing pyramid as the basis.
+
+### 5. Mock consistently
+When doing TDD, developers tend to follow either the [London or the Chicago](https://softwareengineering.stackexchange.com/questions/123627/what-are-the-london-and-chicago-schools-of-tdd)
+school of TDD.
+
+If you follow the London (mockist) style of TDD, make sure you
+have sufficient integration tests to compensate for all the mocking.
+
+Decide as a team which style you prefer and use it consistently across the
+project, rather than mixing the two.
+
+### 6. Measure test coverage
+Measure the test coverage of your project and make your build fail if it is not
+at 100%. If you cannot do that, then make your build fail if the test coverage
+goes down instead.
+
+If possible, run your acceptance tests separately and do not include them in
+the test coverage, as they tend to give a lot of coverage without having any
+unit tests.

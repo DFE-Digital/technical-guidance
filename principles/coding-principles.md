@@ -124,9 +124,12 @@ Decide as a team which style you prefer and use it consistently across the
 project, rather than mixing the two.
 
 ### 6. Measure test coverage
-Measure the test coverage of your project and make your build fail if it is not
-at 100%. If you cannot do that, then make your build fail if the test coverage
-goes down instead.
+Measure the test coverage of your project. Come up with a target coverage
+percentage as a team and make your build fail if coverage doesn't meet the
+target.
+
+If it's feasibly, aim for a 100%. If coverage is near 100%, consider making the
+build fail only if coverage goes down.
 
 If possible, run your acceptance tests separately and do not include them in
 the test coverage, as they tend to give a lot of coverage without having any

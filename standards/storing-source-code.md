@@ -19,7 +19,7 @@ You should keep secrets separate from source code, and keep them private.
 
 New repositories for products and services live in the
 [Department for Education Digital organisation](https://github.com/DfE-Digital)
-on GitHub.
+on GitHub. New repositories must be created within the Department for Education Digital organisation, whether they contain service production code or prototypes. Work created outside of the DfE Digital organisation should be transferred into the DfE Digital organisation at the earliest opportunity. [Guide to transferring a repository](https://help.github.com/en/articles/transferring-a-repository).
 
 You can use your personal GitHub account (but you should [add your DfE
 email address to your account](https://help.github.com/articles/adding-an-email-address-to-your-github-account/),

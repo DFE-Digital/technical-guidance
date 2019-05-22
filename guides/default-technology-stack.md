@@ -25,7 +25,7 @@ We recommend that teams look at the [node boilerplate project](https://github.co
 ## Hosting Stack
 ### Azure
 
-DfE Digital uses Azure as its primary hosting capability.  New services should request an Azure account via the AO project, which will create a number of subscriptions and allocate permissions.  We recommend using 2 or 3 subscriptions to represent the developer, staging and production environments.
+DfE Digital uses Azure as its primary hosting capability. New services should request an Azure account via the AO project, which will create a number of subscriptions and allocate permissions.  We recommend using 2 or 3 subscriptions to represent the developer, staging and production environments.
 
 ### Infrastructure as code
 

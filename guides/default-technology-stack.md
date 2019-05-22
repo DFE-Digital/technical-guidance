@@ -25,7 +25,11 @@ We recommend that teams look at the [node boilerplate project](https://github.co
 ## Hosting Stack
 ### Azure
 
-DfE Digital uses Azure as its primary hosting capability.  New services should request an Azure account via the AO project, which will create a number of subscriptions and allocate permissions.  We recommend using 2 or 3 subscriptions to represent the developer, staging and production environments.
+DfE Digital uses Azure as its primary hosting capability. New services should request an Azure account via the Cloud Infrastructure Platform (CIP) team. Contact for onboarding form:
+
+<CloudPlatform.ENGINEERING@education.gov.uk>
+
+The CIP team will create a number of subscriptions and allocate permissions.  We recommend using 2 or 3 subscriptions to represent the developer, staging and production environments. Azure accounts created on CIP are accessible from any device.
 
 ### Infrastructure as code
 
@@ -33,7 +37,7 @@ DfE Digital uses [Azure Resource Manager (ARM)](https://docs.microsoft.com/en-us
 
 ### CI/CD pipelines
 
-DfE Digital [Azure DevOps](https://azure.microsoft.com/en-gb/services/devops/) (formerly VSTS) for build and deployment pipelines. Configuration is via a YAML definition.
+DfE Digital [Azure DevOps](https://azure.microsoft.com/en-gb/services/devops/) (formerly VSTS) for build and deployment pipelines. Configuration is via a YAML definition. Access to Azure DevOps can be granted as part of onboarding onto the Cloud Infrastructure Platform.
 
 ### Containerisation
 

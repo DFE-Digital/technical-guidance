@@ -41,7 +41,7 @@ DfE Digital [Azure DevOps](https://azure.microsoft.com/en-gb/services/devops/) (
 
 ### Containerisation
 
-DfE Digital uses Docker to isolate and package up application depedencies from infrastructure and environment concerns. All repositories should be added to the [`dfedigital`](https://hub.docker.com/u/dfedigital) Docker Hub organisation. Ask in the `#developers` channel on the DfE Slack to have members added to the DfE Docker Hub organisation and for credentials to use with your CI/CD pipeline.
+DfE Digital uses Docker to isolate and package up application depedencies from infrastructure and environment concerns. All repositories should be added to the [`dfedigital`](https://hub.docker.com/u/dfedigital) Docker Hub organisation. Ask in the [`#developers`](https://ukgovernmentdfe.slack.com/messages/CAGBHB4JV) channel on the DfE Slack to have members added to the DfE Docker Hub organisation and for credentials to use with your CI/CD pipeline.
 
 ## Logging, monitoring and alerting
 

@@ -56,7 +56,7 @@ It is inspired by the [GDS Way](https://gds-way.cloudapps.digital) and the
 
 ## Adding new guidance
 
-Create a new Markdown file that follows this pattern, add a link to it
+Create a new Markdown file in the [DfE Digital technology guidance repo](https://github.com/DFE-Digital/technology-guidance) that follows this pattern, add a link to it
 from this page, and make a pull request:
 
 ```markdown

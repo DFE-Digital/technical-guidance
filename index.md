@@ -3,7 +3,8 @@ This site documents the technical standards and guidance that we expect teams wo
 within the [Department for Education](https://www.gov.uk/government/organisations/department-for-education)
 to follow when building digital services.
 
-It complements the [Service Manual](https://www.gov.uk/service-manual),
+It complements the [Service Manual](https://www.gov.uk/service-manual) and its
+[Technology section](https://www.gov.uk/service-manual/technology),
 which covers service design more broadly.
 
 It is inspired by the [GDS Way](https://gds-way.cloudapps.digital) and the

@@ -20,19 +20,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-Ministry of Justice's technical guidance site incorporates code from
+DfE Digital's technical guidance site incorporates code from
 [GDS's Tech Docs Template](https://github.com/alphagov/tech-docs-template),
 Copyright (c) 2016 Crown Copyright (Government Digital Service).
 GDS's Tech Docs Template is distributed under the terms of the MIT
 License
 
-Ministry of Justice's technical guidance site incorporates [@allejo's
+DfE Digital's technical guidance site incorporates [@allejo's
 Pure Liquid Jekyll Table of Contents](https://allejo.io/blog/a-jekyll-toc-in-liquid-only/),
 Copyright (c) 2017 Vladimir Jimenez.
 Pure Liquid Jekyll Table of Contents is distributed under the terms of
 the BSD-3 License
 
-Ministry of Justice's technical guidance site incorporates content from
+DfE Digital's technical guidance site incorporates content from
 [GDS's The GDS Way](https://github.com/alphagov/gds-way),
 Copyright (c) 2017 Crown Copyright (Government Digital Service).
 GDS's The GDS Way is distributed under the terms of the [Open

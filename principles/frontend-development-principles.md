@@ -111,9 +111,6 @@ the happy path.
 - You should preferably use your back-end test harness (eg, rspec, unittest) so
 that all the application’s tests are in the same place. Most support browser-based
 tests using webdriver.
-- Don’t just check the text contents of a page, but also check the computed CSS
-(eg. [Money to prisoners](https://github.com/ministryofjustice/money-to-prisoners-cashbook/blob/master/mtp_cashbook/apps/cashbook/tests/test_functional.py#L108)).
-
 
 BDD (using [cucumber](https://cucumber.io/) or any other human-readable way to
 write tests) will only work if your team has the right workflow for it. Unless

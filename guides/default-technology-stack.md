@@ -44,6 +44,8 @@ DfE Digital uses [Azure Resource Manager (ARM)](https://docs.microsoft.com/en-us
 
 DfE Digital [Azure DevOps](https://azure.microsoft.com/en-gb/services/devops/) (formerly VSTS) for build and deployment pipelines. Configuration is via a YAML definition. Access to Azure DevOps can be granted as part of onboarding onto the Cloud Infrastructure Platform.
 
+Further support can be gained in ['cloud-platform](https://ukgovernmentdfe.slack.com/app_redirect?channel=C7L4D0LM9) or refer to Microsoft documentation on [YAML](https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema) definitions for pipelines.
+
 ### Containerisation
 
 DfE Digital uses Docker to isolate and package up application depedencies from infrastructure and environment concerns. All repositories should be added to the [`dfedigital`](https://hub.docker.com/u/dfedigital) Docker Hub organisation.

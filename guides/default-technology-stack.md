@@ -40,8 +40,6 @@ Support for Azure use in general can also be gained from the community in ['clou
 
 DfE Digital uses [Azure Resource Manager (ARM)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authoring-templates) templates for automating and scripting Azure infrastructure creation and changes.
 
-
-
 ### CI/CD pipelines
 
 DfE Digital [Azure DevOps](https://azure.microsoft.com/en-gb/services/devops/) (formerly VSTS) for build and deployment pipelines. Configuration is via a YAML definition. Access to Azure DevOps can be granted as part of onboarding onto the Cloud Infrastructure Platform.

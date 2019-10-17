@@ -25,11 +25,15 @@ We recommend that teams look at the [node boilerplate project](https://github.co
 ## Hosting Stack
 ### Azure
 
-DfE Digital uses Azure as its primary hosting capability. New services should request an Azure account via the Cloud Infrastructure Platform (CIP) team. Contact for onboarding form:
+DfE Digital uses Microsoft Azure as its primary hosting platform. New services should request an Azure account via the Cloud Infrastructure Platform (CIP) team.
 
-<CloudPlatform.ENGINEERING@education.gov.uk>
+For more information about CIP and the onboarding process of services and users you can contact the team on:
 
-The CIP team will create a number of subscriptions and allocate permissions.  We recommend using 2 or 3 subscriptions to represent the developer, staging and production environments. Azure accounts created on CIP are accessible from any device.
+<CloudPlatform.ENGINEERING@education.gov.uk> or (https://ukgovernmentdfe.slack.com/app_redirect?channel=C7L4D0LM9)
+
+CIP Docs - (http://docs.platform.education.gov.uk)
+DfE Architecture Docs - (https://dfe-digital.github.io/enterprise-architecture/common-components/#1-cloud-infrastructure-platform)
+
 
 ### Infrastructure as code
 

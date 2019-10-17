@@ -47,9 +47,9 @@ DfE Digital [Azure DevOps](https://azure.microsoft.com/en-gb/services/devops/) (
 
 DfE Digital uses Docker to isolate and package up application depedencies from infrastructure and environment concerns. All repositories should be added to the [`dfedigital`](https://hub.docker.com/u/dfedigital) Docker Hub organisation.
 
-Ask in the [`#developers`](https://ukgovernmentdfe.slack.com/messages/CAGBHB4JV) channel on the DfE Slack to have members added to the DfE Docker Hub organisation and for credentials to use with your CI/CD pipeline.
+When intergrating Dockerhub in CI/CD it's best to use an appropriately named generic Dockerhub account (e.g. `your-project-name`) set up specifically for your project and documented in your team's runbook / opsmanual. This saves problems caused when users move on from a project.
 
-When using Dockerhub users in CI/CD it's best to use an appropriately named generic account (e.g. `your-project-name`) set up specifically for your project and documented in your team's runbook / opsmanual. This saves problems caused when users move on from a project.
+Ask in the [`#digital-tools-support`](https://ukgovernmentdfe.slack.com/messages/CMS9V0JQL) channel on the DfE Slack to have members added to the DfE Docker Hub organisation and for help adding credentials to use with your CI/CD pipeline.
 
 ## Logging, monitoring and alerting
 

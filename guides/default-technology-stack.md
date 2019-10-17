@@ -34,10 +34,13 @@ For more information about CIP and the onboarding process of services and users 
 CIP Docs - (http://docs.platform.education.gov.uk)
 DfE Architecture Docs - (https://dfe-digital.github.io/enterprise-architecture/common-components/#1-cloud-infrastructure-platform)
 
+Support for Azure use in general can also be gained from the community in ['cloud-platform](https://ukgovernmentdfe.slack.com/app_redirect?channel=C7L4D0LM9)
 
 ### Infrastructure as code
 
 DfE Digital uses [Azure Resource Manager (ARM)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authoring-templates) templates for automating and scripting Azure infrastructure creation and changes.
+
+
 
 ### CI/CD pipelines
 

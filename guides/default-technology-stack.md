@@ -31,20 +31,20 @@ For more information about CIP and the onboarding process of services and users 
 
 <CloudPlatform.ENGINEERING@education.gov.uk> or (https://ukgovernmentdfe.slack.com/app_redirect?channel=C7L4D0LM9)
 
-CIP Docs - (http://docs.platform.education.gov.uk)
-DfE Architecture Docs - (https://dfe-digital.github.io/enterprise-architecture/common-components/#1-cloud-infrastructure-platform)
+*   [CIP Documentation Site](http://docs.platform.education.gov.uk)
+*   [DfE Enterprise Architecture](https://dfe-digital.github.io/enterprise-architecture/common-components/#1-cloud-infrastructure-platform)
 
-Support for Azure use in general can also be gained from the community in ['cloud-platform](https://ukgovernmentdfe.slack.com/app_redirect?channel=C7L4D0LM9)
+Community support for Azure use in general can also be gained from the community in ['cloud-platform](https://ukgovernmentdfe.slack.com/app_redirect?channel=C7L4D0LM9)
 
 ### Infrastructure as code
 
 DfE Digital uses [Azure Resource Manager (ARM)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authoring-templates) templates for automating and scripting Azure infrastructure creation and changes.
 
 Additional documentation is in progress but some examples of Azure automation at scale that can be viewed and contributed to are:
-[Teachers-Service](https://github.com/DFE-Digital/bat-platform-building-blocks)
-[Apprenticeships-Service](https://github.com/SkillsFundingAgency/das-platform-building-blocks)
-[Shared-Infrastructure](https://github.com/SkillsFundingAgency/das-shared-infrastructure)
-[Signin](https://github.com/DFE-Digital/login.dfe.infrastructure)
+*   [Teachers-Service](https://github.com/DFE-Digital/bat-platform-building-blocks)
+*   [Apprenticeships-Service](https://github.com/SkillsFundingAgency/das-platform-building-blocks)
+*   [Shared-Infrastructure](https://github.com/SkillsFundingAgency/das-shared-infrastructure)
+*   [Signin](https://github.com/DFE-Digital/login.dfe.infrastructure)
 
 ### CI/CD pipelines
 

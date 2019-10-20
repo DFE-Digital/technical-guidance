@@ -36,6 +36,18 @@ For more information about CIP and the onboarding process of services and users 
 
 Community support for Azure use in general can also be gained from the community in ['cloud-platform](https://ukgovernmentdfe.slack.com/app_redirect?channel=C7L4D0LM9)
 
+### GOV.UK PaaS
+
+We are currently exploring usage of [GOV.UK PaaS](https://www.cloud.service.gov.uk/) as a secondary offering, particularly for [12 factor apps](https://12factor.net/).
+
+* [Features](https://www.cloud.service.gov.uk/features)
+* [Documentation](https://docs.cloud.service.gov.uk/)
+* [Pricing](https://www.cloud.service.gov.uk/pricing)
+
+GOV.UK PaaS needs to be approved by the DfE architecture and security teams. This is currently being progressed.
+
+If you would like to see this platform adopted in DfE please contact [digital-tools-support@digital.education.gov.uk](mailto:digital-tools-support@digital.education.gov.uk)
+
 ### Infrastructure as code
 
 DfE Digital uses [Azure Resource Manager (ARM)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authoring-templates) templates for automating and scripting Azure infrastructure creation and changes.

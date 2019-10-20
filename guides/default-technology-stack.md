@@ -25,27 +25,40 @@ We recommend that teams look at the [node boilerplate project](https://github.co
 ## Hosting Stack
 ### Azure
 
-DfE Digital uses Azure as its primary hosting capability. New services should request an Azure account via the Cloud Infrastructure Platform (CIP) team. Contact for onboarding form:
+DfE Digital uses Microsoft Azure as its primary hosting platform. New services should request an Azure account via the Cloud Infrastructure Platform (CIP) team.
 
-<CloudPlatform.ENGINEERING@education.gov.uk>
+For more information about CIP and the onboarding process of services and users you can contact the team on:
 
-The CIP team will create a number of subscriptions and allocate permissions.  We recommend using 2 or 3 subscriptions to represent the developer, staging and production environments. Azure accounts created on CIP are accessible from any device.
+<CloudPlatform.ENGINEERING@education.gov.uk> or (https://ukgovernmentdfe.slack.com/app_redirect?channel=C7L4D0LM9)
+
+*   [CIP Documentation Site](http://docs.platform.education.gov.uk)
+*   [DfE Enterprise Architecture](https://dfe-digital.github.io/enterprise-architecture/common-components/#1-cloud-infrastructure-platform)
+
+Community support for Azure use in general can also be gained from the community in ['cloud-platform](https://ukgovernmentdfe.slack.com/app_redirect?channel=C7L4D0LM9)
 
 ### Infrastructure as code
 
 DfE Digital uses [Azure Resource Manager (ARM)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authoring-templates) templates for automating and scripting Azure infrastructure creation and changes.
 
+Additional documentation is in progress but some examples of Azure automation at scale that can be viewed and contributed to are:
+*   [Teachers-Service](https://github.com/DFE-Digital/bat-platform-building-blocks)
+*   [Apprenticeships-Service](https://github.com/SkillsFundingAgency/das-platform-building-blocks)
+*   [Shared-Infrastructure](https://github.com/SkillsFundingAgency/das-shared-infrastructure)
+*   [Signin](https://github.com/DFE-Digital/login.dfe.infrastructure)
+
 ### CI/CD pipelines
 
 DfE Digital [Azure DevOps](https://azure.microsoft.com/en-gb/services/devops/) (formerly VSTS) for build and deployment pipelines. Configuration is via a YAML definition. Access to Azure DevOps can be granted as part of onboarding onto the Cloud Infrastructure Platform.
+
+Further support can be gained in ['cloud-platform](https://ukgovernmentdfe.slack.com/app_redirect?channel=C7L4D0LM9) or refer to Microsoft documentation on [YAML](https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema) definitions for pipelines.
 
 ### Containerisation
 
 DfE Digital uses Docker to isolate and package up application depedencies from infrastructure and environment concerns. All repositories should be added to the [`dfedigital`](https://hub.docker.com/u/dfedigital) Docker Hub organisation.
 
-Ask in the [`#developers`](https://ukgovernmentdfe.slack.com/messages/CAGBHB4JV) channel on the DfE Slack to have members added to the DfE Docker Hub organisation and for credentials to use with your CI/CD pipeline.
+When intergrating Dockerhub in CI/CD it's best to use an appropriately named generic Dockerhub account (e.g. `your-project-name`) set up specifically for your project and documented in your team's runbook / opsmanual. This saves problems caused when users move on from a project.
 
-When using Dockerhub users in CI/CD it's best to use an appropriately named generic account (e.g. `your-project-name`) set up specifically for your project and documented in your team's runbook / opsmanual. This saves problems caused when users move on from a project.
+Ask in the [`#digital-tools-support`](https://ukgovernmentdfe.slack.com/messages/CMS9V0JQL) channel on the DfE Slack to have members added to the DfE Docker Hub organisation and for help adding credentials to use with your CI/CD pipeline.
 
 ## Logging, monitoring and alerting
 

@@ -14,6 +14,15 @@ These recommendations are purely that, recommendations, rather than standards th
 
 DfE Digital has a strong preference for a Ruby on Rails stack for development.  We recommend using the latest stable version of Ruby on Rails (5.2 at time of writing) on the latest stable version of Ruby (2.5 at the time of writing).
 
+Ruby was selected as the programming language of choice for digital delivery for a number of reasons:
+
+* Ease of hiring developers from user centred backgrounds with experience of working in multi-disciplinary teams engaged in agile/iterative delivery. We can tap into a large pool of Ruby developers already experienced with government digital due to the wide adoption of Ruby and the Ruby on Rails framework within GDS, MOJ Digital and other departments
+* Generally a large pool of Ruby developers available in the two DfE Digital key locations of London and Manchester. There are active and vibrant Ruby communities in both locations ([NWRUG](https://nwrug.org/) and [LRUG](http://lrug.org/))
+* The number of Ruby focused digital agencies and managed services setting up in Manchester and other areas of the country to meet the increased need for digital delivery and related specialists
+* The reuse potential of the hundreds of [open source repositories from GDS](https://github.com/alphagov) and [other government digital departments](https://github.com/ministryofjustice), as well as the extensive ecosystem of GOV.UK centred Ruby gems
+* [The very large ecosystem of Ruby gems](https://rubygems.org/) allows for rapid prototyping and building with access to a wide range of mature, common functionality
+* Consolidating on one language and framework as part of the digital strategy ensures consistency, reducing risks around long-term sustainability of services easier and streamlines permanent capability building, while also aligning with wider government digital
+
 We recommend that teams look at the [boilerplate project](https://github.com/DFE-Digital/govuk-rails-boilerplate) when starting their projects.
 
 ### The Node.JS stack

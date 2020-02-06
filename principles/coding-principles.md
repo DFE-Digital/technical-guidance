@@ -78,18 +78,6 @@ Always put specific exception types in rescue statements (unless you have good r
 ### 2. Use meta-programming with extreme caution
 Unless done very carefully, meta-programming makes code harder to read, debug, and understand. It also creates performance issues through purging method caches, etc. Just because you can meta-program in Ruby, doesn’t mean you should  - there’s nearly always a better way.
 
-## Python-specific principles:
-
-### 1. Handle exceptions at the application level, not component level
-(<i>This differs slightly from the related Ruby-specific principle in wording and philosophy</i>)
-
-
-Don’t swallow unexpected open type or base type exceptions in your libraries, let them propagate up to the application. It’s usually only there that sufficient context exists to decide upon the appropriate action. Always specify an exception type in a try/except unless there is a good reason not to.
-
-### 2. PEP 8
-Always try to follow [pep8 code style](https://www.python.org/dev/peps/pep-0008/) and
-consider the [Zen of Python](https://www.python.org/dev/peps/pep-0020/)
-
 ## Testing-specific principles
 
 ### 1. Write tests

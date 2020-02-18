@@ -116,7 +116,7 @@ Measure the test coverage of your project. Come up with a target coverage
 percentage as a team and make your build fail if coverage doesn't meet the
 target.
 
-If it's feasibly, aim for a 100%. If coverage is near 100%, consider making the
+If feasible, aim for 100%. If coverage is near 100%, consider making the
 build fail only if coverage goes down.
 
 If possible, run your acceptance tests separately and do not include them in

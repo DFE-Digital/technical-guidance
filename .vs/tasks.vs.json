@@ -1,0 +1,15 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskLabel": "task-coding-principles",
+      "appliesTo": "principles/coding-principles.md",
+      "type": "launch"
+    },
+    {
+      "taskLabel": "task-coding-principles",
+      "appliesTo": "principles/coding-principles.md",
+      "type": "launch"
+    }
+  ]
+}

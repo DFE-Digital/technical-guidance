@@ -65,7 +65,18 @@ It’s tempting to build an inheritance tree of objects extending others and red
 This includes estimates of work - if they are to be used for assigning budget or predicting delivery dates, they should always come with a level of confidence, or a best/worst case range (e.g. “between x and y days” or “maybe x days, but i’m only 50% confident of that”)
 The larger the chunk of work you’re estimating, the more inaccurate you will be - so if it doesn’t fit into a single sprint, break it down until it does
 
-## Ruby-specific principles:
+## OOD principles:
+
+### 1. Use [SOLID](https://scotch.io/bar-talk/s-o-l-i-d-the-first-five-principles-of-object-oriented-design)
+SOLID helps to develop sofware that is easy to maintain and extend.
+
+### 2. Use common software [design paterns](https://www.dofactory.com/net/design-patterns)
+In software engineering, a design pattern is a general repeatable solution to a commonly occurring problem in software design. 
+A design pattern isn't a finished design that can be transformed directly into code. 
+It is a description or template for how to solve a problem that can be used in many different situations.
+The examples provided in the link above are written in C#.
+
+## Exception / Error handling and programming technique principles:
 
 ### 1. Handle exceptions at the application level, not component level
 (<i>This differs slightly from the Python principle in wording and philosophy</i>)
@@ -76,7 +87,7 @@ Exceptions are for the unexpected & unhandleable, not flow control.
 Always put specific exception types in rescue statements (unless you have good reason not to)
 
 ### 2. Use meta-programming with extreme caution
-Unless done very carefully, meta-programming makes code harder to read, debug, and understand. It also creates performance issues through purging method caches, etc. Just because you can meta-program in Ruby, doesn’t mean you should  - there’s nearly always a better way.
+Unless done very carefully, metaprogramming makes code harder to read, debug, and understand. It also creates performance issues through purging method caches, etc. Just because you can meta-program in Ruby, doesn’t mean you should  - there’s nearly always a better way.
 
 ## Testing-specific principles
 

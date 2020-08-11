@@ -23,14 +23,14 @@ on GitHub. New repositories must be created within the [Department for Education
 
 You can use your personal GitHub account (but you should [add your DfE
 email address to your account](https://help.github.com/articles/adding-an-email-address-to-your-github-account/),
-and maybe [use that for notifications](https://help.github.com/articles/managing-notification-emails-for-organizations/)).
+and [use it for notifications](https://help.github.com/articles/managing-notification-emails-for-organizations/)).
 Ask your delivery manager to request you being added to the Github organisation.
 
-Another Github organisation account heavilly used by the DfE but not the defaukt for DfE-Digital is ['SkillsFundingAgency'](https://github.com/SkillsFundingAgency/).
+Another Github organisation account heavilly used by the DfE but not the default for DfE-Digital is ['SkillsFundingAgency'](https://github.com/SkillsFundingAgency/).
 
 Repositories should be [clearly named]({{ '/standards/naming-things' | relative_url }}),
 and have an [appropriate licence]({{ '/standards/licencing-software-or-code' | relative_url }})
 and enough documentation that someone new can get started with the
 project.
 
-Private repositories are not a good way to protect secrets, and should only be used where access to the code might reveal draft policy decisions.  Secrets should be managed at the platform level.
+Private repositories are not a good way to protect secrets, and should only be used where access to the code might reveal draft policy decisions. Secrets should be managed at the platform level.

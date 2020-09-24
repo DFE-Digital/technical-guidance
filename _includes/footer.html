@@ -1,4 +1,16 @@
 <footer class="footer">
+  {% if site.footer_links %}
+    <ul>
+      {% for link in site.footer_links %}
+        <li>
+          <a href="{{ link[1] }}">
+            {{ link[0] }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
   <div class="footer__licence">
     <a class="footer__licence-logo" href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence</a>
     <p class="footer__licence-description">All content is available under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence v3.0</a>, except where otherwise stated</p>

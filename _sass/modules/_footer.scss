@@ -79,6 +79,12 @@ $footer-text: $footer-link;
   }
 }
 
+.footer__licence ul {
+  @include core-16;
+  list-style: none;
+  padding: 0;
+}
+
 .footer__licence-description {
   @include core-16;
   margin: 0 0 1em;

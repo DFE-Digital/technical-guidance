@@ -6,7 +6,7 @@ header_links:
   GitHub: https://github.com/DFE-Digital/technical-guidance
 
 footer_links:
-  Accessibility: /accessibility
+  Accessibility: technical-guidance/accessibility
 
 defaults:
   -

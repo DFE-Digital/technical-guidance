@@ -1,0 +1,158 @@
+---
+category: APIs
+expires: 2021-06-23
+---
+
+# API Guidance: Developing a DfE API
+
+APIs are an increasingly important part of DFE services. We are supporting an API first approach to help make our services highly operable and automated. API's, however, should start with a need or a problem to solve. They can be used in many different ways. They can be used to integrate systems and services, collect or share data, consume and publish events as well as consume other APIs.
+
+[Target audience](#who-is-the-target-audience-of-this-guidance?)
+
+[User needs and APIs](#user-needs)
+
+[API design](#api-design)
+
+[Naming an API](#naming-an-api)
+
+[DfE API naming convention](#dfe-api-naming-convention)
+
+[API standards](#dfe-api-standards)
+
+[Publishing and managing your API](#how-and-where-to-publish-a-dfe-api)
+
+[API specification and documenting an API](#api-specification-and-documentation)
+
+[Making an API secure](#api-security)
+
+[Understand your data](#understand-your-data)
+
+[Return Codes](#return-codes-(http))
+
+[Testing](#testing)
+
+[Tools](#tools)
+
+## Who is the target audience of this guidance
+
+Anyone designing or developing an API on behalf of the Department for Education, primarily aimed at software developers working within the DfE on internal or external facing APIs designed to integrate systems.
+
+There are a number of different ways to create an API, this guide does not give step by step guidance but should be used to help the process and ensure your API is written to DfE/GDS guidlines and standards.
+
+## User Needs
+
+Understand who your users are and what their needs are, consider their needs in context of the end to end service. Ensure you fully understand the problem space. For example your API might be intended to be consumed by an educational software supplier who are certainly a key user, but are they the only users you should be considering when designing an API? Maybe not, ask yourself who are the end users? It could be a teacher, a pupil, a school administrator for example. Is your API designed in a way that considers their needs as well as the software vendor?
+
+Fully understanding users and their needs is the most important ingredient to ensuring your API is fit for purpose. Work with you user not just to define the API design but also ask consumers what is sufficient to test your API. Ensure your API is testable and ceate a sandbox including aspects such as authorisation if applicable.
+
+If your API is intended to be used by DfE suppliers and providers then make sure you establish working relationships with them at the beginning of your API journey and ensure your service is fully aware of their responsibilities of maintaining these relationships throughout the life of the API. 
+
+## API Design
+
+There are many good resources on good API design. Even if you are an experienced API developer its a good idea to keep up to date on good design practice. Here are a few resources:
+
+[Google APIs 101](https://cloud.google.com/blog/products/api-management/google-cloud-api-design-tips) 
+
+[API Evangelist](http://apievangelist.com)
+
+[GOV.UK API Design Guidance](https://www.gov.uk/government/collections/api-design-guidance)
+
+Design around your users and your data. The illustration below shows a simple design pattern. Understanding data flow, security and master / authoritive sources is a key part of the design process. For example if your API exposes data to consumers then it ensures you expose the right data from the right source.
+
+## Naming an API
+
+API names are important, especially those APIs that are external as they are representing the DfE and need to be reflective of the APIs purpose. Your API name is an opportunity to convey a lot of information in a concise manner. It helps to set the context for what to expect within the API. The name must also adhere to GDS standards in order to be granted an api.gov.uk sub domain name.
+
+First, follow the GDS guidance here [When naming an API](https://www.gov.uk/guidance/gds-api-technical-and-data-standards#when-naming-and-hosting-your-api)
+
+### DfE API naming convention
+
+Use the below convention for external facing DfE APIs:
+
+`<https://education-{api-name}.api.gov.uk/{resource>}`
+
+Example:
+
+`<https://education-school-attendance.api.gov.uk/submission>`
+
+APIs must be named following these standards and guidlines, failure to do so may mean you will not be able to use an **api.gov.uk** domain making your API less discoverable for users.
+
+ Once you have agreed a name you can get your domain from [here](https://www.gov.uk/guidance/get-an-api-domain-on-govuk).
+
+## DfE API standards
+
+At DfE we inherit from the [GDS API technical and data standards](https://www.gov.uk/guidance/gds-api-technical-and-data-standards)
+
+**You must follow these guidlines when developing an API for use in DfE. It helps us deliver secure, user centred API's that support our user centred digital services.**
+
+## How and where to publish a DfE API
+
+The best API designers also consume their own APIs. Consider your new API in the context of existing DfE APIs and services. Ensure you are not duplicating or confusing potential users. Should you be building a new API or adding a resource to an existing API? Find out what APIs already exist in your local repositories as well as the following public repositories (not exhaustive):
+
+* [DfE developer hub](https://dfe-developerhub.education.gov.uk) A new service that provides a GOV.UK branded public facing front door to DfE's APIs. A place to publish your DfE APIs, document them, provide information on authentication and access requests. It also provides a sandbox to allow potential users to test your API.
+
+* [DfE- Digital GitHub Repo](https://github.com/DFE-Digital)
+    Git Hub repository containing some of DfE's API source and documentation.
+
+* [GOV.UK API catalogue](https://www.api.gov.uk/#uk-government-apis) A new alpha service providing a cross Government view of available APIs (If you publish here please just list your API and sign post back to the [DfE developer hub](https://dfe-developerhub.education.gov.uk)) for documentation, testing etc.
+
+
+The DfE has a number of disparate API catalogues/repo's. We have recognised this and are working to rationalise these using the [DfE developer hub](https://dfe-developerhub.education.gov.uk) to make it easier and provide a consistent way for potential users and publishers of APIs to get connected.
+
+## API Specification and documentation
+
+Use [OAS](https://swagger.io/specification/) (Open API Standard v3) to specify your RESTful API. It defines a standard, language-agnostic interface to RESTful APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined, a consumer can understand and interact with the remote service with a minimal amount of implementation logic.
+
+An OpenAPI definition can then be used by documentation generation tools to display the API, code generation tools to generate servers and clients in various programming languages, testing tools, and many other use cases. Publish your documentation with your API and use [DfE developer hub](https://dfe-developerhub.education.gov.uk).
+
+## API Security
+
+Make sure that your API is secure. GDS provides specific guidlines [here](https://www.gov.uk/guidance/gds-api-technical-and-data-standards#when-to-authenticate-your-api). As well as this general guide, we have provided specific guidance here on securing your DfE API [here](https://dfe-developerhub.education.gov.uk/documentation/authorisation)
+
+## Understand your data
+
+If your API is providing access to DfE data then ensure it is done so securely and it is data that can be shared (you should contact the DfE SIRO office to check). Never expose sensitive data unless you have implemented the necessary authentication and that the data owner is fully aware and has approved its publication.
+
+Do not expose obsolete data items and internal identifiers in public facing / external APIs. This is true even if they are part of an existing process you are automating. Doing so, leads to poor integrations, increases the likelihood of errors and unecessarily ties the department to deprocated data structures.
+
+Design your API to use [data fields](https://www.gov.uk/guidance/gds-api-technical-and-data-standards#design-data-fields-with-user-needs-in-mind) with users in mind. Ensuring fields are relevant for example your response might need to return all relevant options to a user. Document all query arguments, parameters, and schema objects.
+
+As the details of each operation become more concrete, use the opportunity to fully capture the details about query arguments and parameters. This includes things such as:
+
+The name and type,
+a clear description, including a human-readable summary of any specific format rules or restrictions
+Min/max values, defaults when the value isn’t provided, and other related details.
+
+## Return Codes (HTTP)
+
+Use standard http return codes as per the list maintained by [W3C](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html). 
+
+All API response status codes are separated into five classes (or categories) in a global standard. The first digit of the status code defines the class of response. The last two digits do not have any class or categorization role.
+
+* 1xx (Informational): The request is received and continues to be processed
+* 2xx (Successful): The request is successfully received, understood, and accepted
+* 3xx (Redirection): Further action needs to be taken to complete the request
+* 4xx (Client Error): The request contains the wrong syntax or cannot be fulfilled
+* 5xx (Server Error): The server fails to fulfill an apparently valid request
+
+## Testing
+
+To successfully test an API, you need to fully understand its purpose and workflow. Leverage toolsets and automate where possible. Test your APIs compliance, performance and scalability and create positive and negative tests.
+
+## Tools
+
+If you are an experienced API developer you will already have a preferred toolset. For those starting out creating API's here is a list of useful tools to check out.
+
+[Postman](https://www.postman.com)
+Free (non enterprise versions) set of tools to develop/test APIs, includes a handy mock server feature.
+
+[Open API 3 Specification](https://swagger.io/docs/specification/about/)
+Full specification documentation with helpful snippets and links to tools.
+
+[Visual Studio Code](https://code.visualstudio.com)
+Free IDE with a number of useful extensions for working with APIs e.g:
+
+    vs-rest-api (vs extension via marketplace -free)
+
+[Swagger Hub](https://swagger.io/tools/swaggerhub/)
+Similar to Postman, suite of API tools.

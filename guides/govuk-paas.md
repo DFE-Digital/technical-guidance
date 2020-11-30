@@ -7,7 +7,7 @@ expires: 2020-05-01
 
 GOV.UK Platform as a Service (PaaS) is a platform developed by [Government Digital Service (GDS)](https://www.gov.uk/government/organisations/government-digital-service) and available for government departments to deploy applications and backend services. It is based on the widely used open source platform [Cloud Foundry](https://www.cloudfoundry.org/) and built on [Amazon Web Services](https://aws.amazon.com/).
 
-Several production applications are already running on GOV.UK PaaS but production usage still needs to be approved by the DfE architecture and security teams on a case-by-case basis. This is currently being progressed. In the meantime, please speak with your architecture partner or contact architecture.services@education.gov.uk.
+Several production applications are already running on GOV.UK PaaS but production usage still needs to be approved by the DfE architecture and security teams on a case-by-case basis. This is currently being progressed. In the meantime, please speak with your architecture partner or contact architecture.services@education.gov.uk. You can also request access to a sandbox space to explore GOV.UK PaaS for free. See [Onboarding](#onboarding).
 
 ## Suitability
 
@@ -23,13 +23,13 @@ Native Windows applications will not run. However, .NET Core is supported as it 
 
 ### Rapid development
 
-The strategic Azure platform may take time and resource to set up, requiring specialised engineers to set up and manage. PaaS provides the ability to spin environments up/down without infrastructure expertise, enabling prototyping and fast iteration, which is particularly useful in Discovery and Alpha. Some teams use [Heroku](https://heroku.com/) to deploy a prototype quickly. PaaS provides similar features but government hosted and cheaper.
+The strategic Azure platform may take time and resource to set up, requiring specialised engineers to set up and manage. GOV.UK PaaS provides the ability to spin environments up/down without infrastructure expertise, enabling prototyping and fast iteration, which is particularly useful in Discovery and Alpha. Some teams use [Heroku](https://heroku.com/) to deploy a prototype quickly. GOV.UK PaaS provides similar features but government hosted and cheaper.
 
 Also, it allows short lived environments created for the unique purpose of validating a new feature, similar to [Heroku review apps](https://devcenter.heroku.com/articles/github-integration-review-apps). This allows for ephemeral/temporary environments to be created and disposed "on the fly" and removes the contention usually observed when sharing environments.
 
 ### Low cost
 
-PaaS is particularly adapted to services with budget constraints as total cost is lower than full IaaS. Cost of hosting is usually lower than Azure but most of the savings will come from the lower dependency on dedicated infrastructure engineers.
+GOV.UK PaaS is particularly adapted to services with budget constraints as total cost is lower than full IaaS. Cost of hosting is usually lower than Azure but most of the savings will come from the lower dependency on dedicated infrastructure engineers.
 
 Specialist engineers may still be requested on an ad hoc basis for guidance and to make sure the application is production ready.
 
@@ -40,7 +40,7 @@ A platform-as-a-service [includes them already](https://docs.cloudfoundry.org/co
 
 As a result, setting up an application does not require full time infrastructure specialists or ops engineers. However, the set-up is limited to what is available in the platform: see [application development](https://www.cloud.service.gov.uk/application-development/) and [constraints](https://www.cloud.service.gov.uk/constraints/).
 
-A limited number of [backing services](https://www.cloud.service.gov.uk/application-development/#backing-services) are provided: PostgreSQL, MySQL, Redis, Elasticsearch, AWS S3, and InfluxDB. They run in the platform and cannot be accessed externally but can be easily linked to your application in a PaaS container.
+A limited number of [backing services](https://www.cloud.service.gov.uk/application-development/#backing-services) are provided: PostgreSQL, MySQL, Redis, Elasticsearch, AWS S3, and InfluxDB. They run in the platform and cannot be accessed externally but can be easily linked to your application in a GOV.UK PaaS container.
 
 Application logs and performance metrics are [available in the platform](https://docs.cloud.service.gov.uk/monitoring_apps.html#monitoring-apps) in standard format and can be accessed manually, via the web portal or via external tools. The platform itself doesn't provide log storage or custom visualisations.
 
@@ -62,6 +62,129 @@ Instead, transport security is achieved by using HTTPS/TLS and authentication vi
 * [Pricing](https://www.cloud.service.gov.uk/pricing)
 * [Cloud Foundry](https://docs.cloudfoundry.org/)
 
-## Contact
+## Organisations and spaces
+To separate users, applications, services and ultimately costs, GOV.UK PaaS provides [organisations and spaces](https://docs.cloud.service.gov.uk/orgs_spaces_users.html#managing-organisations-spaces-and-users).
 
-If you are interested in adopting this platform please contact [digital-tools-support@digital.education.gov.uk](mailto:digital-tools-support@digital.education.gov.uk)
+![Organisations and spaces](/assets/images/orgs_and_spaces.png)
+### Organisations
+We create a GOV.UK PaaS organisation per DfE organisational unit, such as Teacher services, National Retraining Scheme, etc. Therefore each organisational unit may only pay for what they use.
+
+As GDS manage a long list of orgs, organisations are namespaced by department, for example: dfe-teacher-services and dfe-childrens-social-care.
+
+GDS can bill all DfE orgs under a single purchase order if desired, giving central oversight on billing.
+
+### Spaces
+Developers in each service should have a space to push apps and services. Each space represents one or more environments for a service. For example, service "abcd" may own spaces "abcd-dev", "abcd-staging", "abcd-production". Naming of spaces is not mandated but should be explicit.
+
+Each space may have a different set of user permissions as developers in mature teams should not be able to push to production manually, unless explicitly given permission to. Ideally only CI/CD systems should be able to make changes in production. Developers in a service don't have access to another service’s applications, unless explicitly given permission, on as granular a basis as required.
+### Management
+Management or organisations, spaces and users is done by the digital tools team:
+* Request GDS to create a new organisation and agree with the corresponding finance team
+* Create/Delete spaces in the organisations
+* Add/Remove users to the organisations. Assign/Unassign user roles in the organisations and spaces
+* Designate "space manager" users who are responsible for the spaces bills and for adding/removing users to their spaces
+
+To allow rapid response to incidents, privilege escalation is done by the space managers. It is currently a manual process and they are responsible to revoke the privilege when it is not needed anymore.
+
+## Onboarding
+
+If you are interested in adopting this platform and would like to explore it, please contact digital-tools in #digital-tools-support Slack channel or email [digital-tools-support@digital.education.gov.uk](mailto:digital-tools-support@digital.education.gov.uk). They will provide an account with access to the sandbox space.
+
+If you are planning to use GOV.UK PaaS in production, you will need new spaces (See [Organisations and spaces](#organisations_and_spaces)), dedicated to your service. Finance must be agreed as you will be responsible for the bills. DfE owns different GOV.UK PaaS organisations, each one with separate finance arrangement. When you request the spaces, ask for the organisation most relevant to your service. Digital tools will seek agreement from its finance team so you may want to contact them first. If there is no organisation relevant to your service, it may be required to create a new organisation. Discuss it with your finance team and digital tools.
+
+The request for user onboarding should provide:
+* Email address
+* Organisation (digital tools can guide you)
+* Space or spaces
+* Role:
+  * *SpaceManager*, only for managers, senior developers, tech leads or devops engineers
+  * *SpaceDeveloper* for developers. Only for non-production spaces.
+  * *SpaceAuditor* for readonly access
+
+## Getting started
+Once you have an account on GOV.UK PaaS, you can follow this video for a quick walkthrough covering the basics:
+* Where is the documentation
+* Command line
+* Login
+* Push a simple application
+* Read the logs
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/i7kBe5S8jdQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Support
+
+For users, spaces, organisations ask digital tools in #digital-tools-support Slack channel.
+For technical issues or guidance, the DfE infrastructure engineers can help you. Reach out on #devops-community Slack channel.
+
+The team at GDS can be reached on [cross-government slack](https://ukgovernmentdigital.slack.com/) in the #govuk-paas channel during office hours. They always have one dedicated engineer on support who will answer queries.
+
+The platform is [supported 24x7](https://www.cloud.service.gov.uk/#supported-24-hours-a-day-7-days-a-week) by the GOV.UK PaaS team and they can be reached using the form linked or via email. Support requests are tracked via Zendesk tickets.
+
+In case of suspected outage, always check [the status page](https://status.cloud.service.gov.uk/). It is highly recommended to subscribe to the mailing list (linked on the status page) to learn about potential disruptions.
+
+## Tooling
+
+### cf cli
+
+The default tool to deploy to GOV.UK PaaS is the [cf command line tool](https://docs.cloud.service.gov.uk/get_started.html#set-up-the-cloud-foundry-command-line). It is easy to use and any developer can use it to push applications and create services like postgres or redis.
+
+When deploying with the cli, we recommend using [manifests](https://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html):
+* It avoids passing multiple options on the command line
+* Manifests can be stored in the git repository
+* Secrets or variables can be passed at deploy time
+
+### Terraform
+The Cloud Foundry provider for Terraform allows describing the deployment in a declarative way. It is the recommended way for robust deployments and continuous delivery pipelines.
+
+#### Why
+
+* The declarative syntax avoids having to think about dependencies. Terraform will create the resources in the right order and destroy them in the right order when required. It also makes it idempotent so terraform won’t recreate a resource already created.
+* This is particularly useful to create disposable environments for testing or review apps, and delete them when they are not required anymore.
+* The syntax is elegant, powerful and modular
+* It can read data from environment variables, AWS parameter store, Azure keyvault, yaml files, json files, etc.
+* It can create an environment made of very different technologies. For example, we create an environment with Azure, GOV.UK PaaS and Statuscake in a single Terraform run.
+
+#### Caution
+
+* Terraform requires to store its state in a persistent storage. An IaaS solution may be used alongside GOV.UK PaaS, like an Azure Storage Account or AWS S3 bucket. GOV.UK PaaS also provides an [Amazon S3 service](https://docs.cloud.service.gov.uk/deploying_services/s3/).
+* All the resources are under Terraform control, including databases. It is a good practice to back upp critical databases externally as an additional protection. Terraform [prevent_destroy lifecycle](https://www.terraform.io/docs/configuration/resources.html#prevent_destroy) may help as well.
+
+#### Cloud Foundry provider
+The Cloud Foundry community maintains the [Cloud Foundry Terraform provider](https://registry.terraform.io/providers/cloudfoundry-community/cloudfoundry/latest/docs).
+
+It can be easily downloaded and installed on Terraform 0.13 and above with:
+```hcl
+terraform {
+  required_providers {
+    cloudfoundry = {
+      source = "cloudfoundry-community/cloudfoundry"
+      version = "~> 0.12"
+    }
+  }
+}
+```
+
+#### Zero downtime
+
+By default when an application is pushed to GOV.UK PaaS, the live version is deleted, the new version is built, then the new version becomes live. This can create a few minutes downtime.
+
+To avoid this issue, the provider offers an elegant [blue-green](https://registry.terraform.io/providers/cloudfoundry-community/cloudfoundry/latest/docs/resources/app#application-deployment-strategy-blue-green-deploy) deployment strategy. It builds the new version alongside the live one, and it switches traffic to it smoothly when it’s up and running.
+
+### Docker
+
+The default option to deploy an application to GOV.UK PaaS is using buildpacks. They are preconfigured environments for a variety of programming languages. The developer pushes their code using `cf push` and Cloud Foundry will build it remotely using the relevant buildpack. This is **not** the DfE recommended way to deploy to GOV.UK PaaS, except for very simple applications like static websites.
+
+Another solution is to use Docker. Using `cf push --docker-image my-app` tells Cloud Foundry to:
+* Pull the my-app image from Docker Hub or a private registry
+* Unpack the files
+* Run the application in Cloud Foundry container environment
+
+This approach has several advantages:
+* Avoid vendor lock-in: Docker is commonly used in other platform like Kubernetes, Azure app service, Azure container instances, AWS ECS, etc. Should we want to move away from GOV.UK PaaS, it’s possible.
+* Build only once: The Docker image is a build artifact identified by a specific tag (usually the commit id). It can be deployed consistently across different environments.
+* Faster deployments: The deployment to each environment only takes a few seconds as the image is already built.
+* Faster build: Docker build cache can be leveraged to reduce built time massively.
+
+The terraform Cloud Foundry provider also supports Docker.
+
+**Important:** If you use Docker Hub as Docker registry, make sure to set up authentication as unauthenticated pulls are significantly [rate limited](https://docs.docker.com/docker-hub/download-rate-limit/).

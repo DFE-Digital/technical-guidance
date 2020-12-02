@@ -1,7 +1,7 @@
 # Technical guidance
 
 How we build and operate products at the Department for Education. This repo
-is inspired by (and steals shamelessly from) the [GDS Way](https://gds-way.cloudapps.digital) and the 
+is inspired by (and steals shamelessly from) the [GDS Way](https://gds-way.cloudapps.digital) and the
 [Ministry of Justice Technical Guidance](https://ministryofjustice.github.io/technical-guidance/#moj-technical-guidance)
 .
 
@@ -49,7 +49,11 @@ you want them to be reviewed and published.
 We can preview our changes locally by running this command:
 
 ```bash
-bundle exec jekyll serve --watch
+$ bundle exec jekyll serve --watch --livereload
+```
+or
+```bash
+$ make serve
 ```
 
 This will create a local web server, probably at http://127.0.0.1:4000

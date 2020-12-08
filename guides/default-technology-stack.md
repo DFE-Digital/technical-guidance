@@ -49,7 +49,7 @@ Community support for Azure use in general can also be gained from the community
 
 We are currently exploring usage of [GOV.UK Platform as a Service](https://www.cloud.service.gov.uk/) as a secondary offering for applications requiring less customisation than provided by a full infrastructure-as-a-service platform such as Azure. It is suitable for less complex web services that follow typical GOV.UK patterns.
 
-For more details please refer to the [GOV.UK Platform as a Service](/guides/govuk-paas)
+For more details please refer to the [GOV.UK Platform as a Service](../govuk-paas)
 
 ### Infrastructure as code
 

@@ -28,9 +28,9 @@ Ruby was selected as the programming language of choice for digital delivery for
 
 We recommend that teams look at the [boilerplate project](https://github.com/DFE-Digital/govuk-rails-boilerplate) when starting their projects.
 
-### The .NET stack
+### The .NET Core stack
 
-The department has many applications written in .NET and is continuing to develop more. The free and open source [.NET Core](https://en.wikipedia.org/wiki/.NET_Core) aligns with government guidance on using [open source to improve transparency, flexibility and accountability](https://www.gov.uk/guidance/be-open-and-use-open-source).
+The department has many applications written in C# and the.NET framework and is continuing to develop more. The free and open source [.NET Core](https://en.wikipedia.org/wiki/.NET_Core) aligns with government guidance on using [open source to improve transparency, flexibility and accountability](https://www.gov.uk/guidance/be-open-and-use-open-source).
 
 ### The Node.js stack
 

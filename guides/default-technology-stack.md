@@ -34,7 +34,9 @@ The department has many applications written in C# and the.NET framework and is 
 
 ### The Node.js stack
 
-DfE has some services built in [Node.js](https://nodejs.org/en/), but this is not a core language or framework supported by the department for backend development. Frontend usage is exempted from this but should be gauged in the wider context of your service and service area. Everyone is free to use the [GOV.UK Prototype Kit](https://govuk-prototype-kit.herokuapp.com/docs) for non-production prototyping.
+DfE has some services built in [Node.js](https://nodejs.org/en/), but this is not a core language or framework supported by the department for developing services. Frontend usage may be allowable but should be gauged in the wider context of your service and service area. This should be determined by the team working closely with the software development and technical architecture communities.
+
+Everyone is free to use the [GOV.UK Prototype Kit](https://govuk-prototype-kit.herokuapp.com/docs) for prototyping.
 
 ## Hosting Stack
 ### Azure

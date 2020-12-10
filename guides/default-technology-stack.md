@@ -25,11 +25,11 @@ Ruby was selected as the programming language of choice for digital delivery for
 
 We recommend that teams look at the [boilerplate project](https://github.com/DFE-Digital/govuk-rails-boilerplate) when starting their projects.
 
-### The Node.JS stack
+### The Node.js stack
 
-DfE Digital has some services built in node.js, and will continue to build and support more.  We recommend using the latest stable version of Node (8.x at time of writing) and the express framework (version 4.x at time of writing).
+DfE has some services built in [Node.js](https://nodejs.org/en/), but this is not a core language or framework supported by the department for developing services. Frontend usage may be allowable but should be gauged in the wider context of your service and service area. This should be determined by the team working closely with the software development and technical architecture communities.
 
-We recommend that teams look at the [node boilerplate project](https://github.com/DFE-Digital/login.dfe.node-boilerplate) when starting their projects
+Everyone is free to use the [GOV.UK Prototype Kit](https://govuk-prototype-kit.herokuapp.com/docs) for prototyping.
 
 ## Hosting Stack
 ### Azure

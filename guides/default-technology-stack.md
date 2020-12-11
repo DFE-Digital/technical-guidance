@@ -10,6 +10,9 @@ At DfE Digital, we believe that boring decisions are good decisions.  We therefo
 These recommendations are purely that, recommendations, rather than standards that you must meet.  There are often reasons from deviating from these recommendations, but as a team you should be prepared to justify why you made these decisions, and to trace that back to a user need the drives the decision.
 
 ## Application Stacks
+
+The department supports two core tech stacks: Ruby and .NET.
+
 ### The Ruby Stack
 
 DfE Digital has a strong preference for a Ruby on Rails stack for development.  We recommend using the latest stable version of Ruby on Rails (5.2 at time of writing) on the latest stable version of Ruby (2.5 at the time of writing).
@@ -24,6 +27,10 @@ Ruby was selected as the programming language of choice for digital delivery for
 * Consolidating on one language and framework as part of the digital strategy ensures consistency, reducing risks around long-term sustainability of services easier and streamlines permanent capability building, while also aligning with wider government digital
 
 We recommend that teams look at the [boilerplate project](https://github.com/DFE-Digital/govuk-rails-boilerplate) when starting their projects.
+
+### The .NET Core stack
+
+The department has many applications written in C# and the.NET framework and is continuing to develop more. The free and open source [.NET Core](https://en.wikipedia.org/wiki/.NET_Core) aligns with government guidance on using [open source to improve transparency, flexibility and accountability](https://www.gov.uk/guidance/be-open-and-use-open-source).
 
 ### The Node.js stack
 

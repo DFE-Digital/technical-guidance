@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright (c) 2017 Crown Copyright (Ministry of Justice)
+Copyright (c) 2020 Crown Copyright (Department for Education)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,20 +20,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-DfE Digital's technical guidance site incorporates code from
+The DfE Technical Guidance site incorporates code from
 [GDS's Tech Docs Template](https://github.com/alphagov/tech-docs-template),
 Copyright (c) 2016 Crown Copyright (Government Digital Service).
 GDS's Tech Docs Template is distributed under the terms of the MIT
-License
+License.
 
-DfE Digital's technical guidance site incorporates [@allejo's
-Pure Liquid Jekyll Table of Contents](https://allejo.io/blog/a-jekyll-toc-in-liquid-only/),
-Copyright (c) 2017 Vladimir Jimenez.
-Pure Liquid Jekyll Table of Contents is distributed under the terms of
-the BSD-3 License
-
-DfE Digital's technical guidance site incorporates content from
-[GDS's The GDS Way](https://github.com/alphagov/gds-way),
+The DfE Technical Guidance site is based on [GDS's The GDS Way](https://github.com/alphagov/gds-way),
 Copyright (c) 2017 Crown Copyright (Government Digital Service).
 GDS's The GDS Way is distributed under the terms of the [Open
 Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)

@@ -66,7 +66,8 @@ Instead, transport security is achieved by using HTTPS/TLS and authentication vi
 ## Organisations and spaces
 To separate users, applications, services and ultimately costs, GOV.UK PaaS provides [organisations and spaces](https://docs.cloud.service.gov.uk/orgs_spaces_users.html#managing-organisations-spaces-and-users).
 
-![Organisations and spaces](/assets/images/orgs_and_spaces.png)
+<%= image_tag 'orgs_and_spaces.png' %>
+
 ### Organisations
 We create a GOV.UK PaaS organisation per DfE organisational unit, such as Teacher services, National Retraining Scheme, etc. Therefore each organisational unit may only pay for what they use.
 
@@ -80,6 +81,7 @@ Developers in each service should have a space to push apps and services. Each s
 Each space may have a different set of user permissions as developers in mature teams should not be able to push to production manually, unless explicitly given permission to. Ideally only CI/CD systems should be able to make changes in production. Developers in a service don't have access to another service’s applications, unless explicitly given permission, on as granular a basis as required.
 ### Management
 Management or organisations, spaces and users is done by the digital tools team:
+
 * Request GDS to create a new organisation and agree with the corresponding finance team
 * Create/Delete spaces in the organisations
 * Add/Remove users to the organisations. Assign/Unassign user roles in the organisations and spaces
@@ -94,6 +96,7 @@ If you are interested in adopting this platform and would like to explore it, pl
 If you are planning to use GOV.UK PaaS in production, you will need new spaces (See [Organisations and spaces](#organisations_and_spaces)), dedicated to your service. Finance must be agreed as you will be responsible for the bills. DfE owns different GOV.UK PaaS organisations, each one with separate finance arrangement. When you request the spaces, ask for the organisation most relevant to your service. Digital tools will seek agreement from its finance team so you may want to contact them first. If there is no organisation relevant to your service, it may be required to create a new organisation. Discuss it with your finance team and digital tools.
 
 The request for user onboarding should provide:
+
 * Email address
 * Organisation (digital tools can guide you)
 * Space or spaces
@@ -104,6 +107,7 @@ The request for user onboarding should provide:
 
 ## Getting started
 Once you have an account on GOV.UK PaaS, you can follow this video for a quick walkthrough covering the basics:
+
 * Where is the documentation
 * Command line
 * Login
@@ -130,6 +134,7 @@ In case of suspected outage, always check [the status page](https://status.cloud
 The default tool to deploy to GOV.UK PaaS is the [cf command line tool](https://docs.cloud.service.gov.uk/get_started.html#set-up-the-cloud-foundry-command-line). It is easy to use and any developer can use it to push applications and create services like postgres or redis.
 
 When deploying with the cli, we recommend using [manifests](https://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html):
+
 * It avoids passing multiple options on the command line
 * Manifests can be stored in the git repository
 * Secrets or variables can be passed at deploy time
@@ -154,6 +159,7 @@ The Cloud Foundry provider for Terraform allows describing the deployment in a d
 The Cloud Foundry community maintains the [Cloud Foundry Terraform provider](https://registry.terraform.io/providers/cloudfoundry-community/cloudfoundry/latest/docs).
 
 It can be easily downloaded and installed on Terraform 0.13 and above with:
+
 ```hcl
 terraform {
   required_providers {
@@ -176,11 +182,13 @@ To avoid this issue, the provider offers an elegant [blue-green](https://registr
 The default option to deploy an application to GOV.UK PaaS is using buildpacks. They are preconfigured environments for a variety of programming languages. The developer pushes their code using `cf push` and Cloud Foundry will build it remotely using the relevant buildpack. This is **not** the DfE recommended way to deploy to GOV.UK PaaS, except for very simple applications like static websites.
 
 Another solution is to use Docker. Using `cf push --docker-image my-app` tells Cloud Foundry to:
+
 * Pull the my-app image from Docker Hub or a private registry
 * Unpack the files
 * Run the application in Cloud Foundry container environment
 
 This approach has several advantages:
+
 * Avoid vendor lock-in: Docker is commonly used in other platform like Kubernetes, Azure app service, Azure container instances, AWS ECS, etc. Should we want to move away from GOV.UK PaaS, it’s possible.
 * Build only once: The Docker image is a build artifact identified by a specific tag (usually the commit id). It can be deployed consistently across different environments.
 * Faster deployments: The deployment to each environment only takes a few seconds as the image is already built.

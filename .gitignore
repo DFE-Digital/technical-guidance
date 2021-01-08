@@ -14,3 +14,6 @@
 
 # Ignore .DS_store file
 .DS_Store
+
+# Ignore built documentation
+/build

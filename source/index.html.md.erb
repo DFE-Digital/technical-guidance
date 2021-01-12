@@ -1,0 +1,78 @@
+---
+title: DfE Technical Guidance
+---
+
+# <%= current_page.data.title %>
+
+This site documents the technical standards and guidance that we expect teams working
+within the [Department for Education](https://www.gov.uk/government/organisations/department-for-education)
+to follow when building digital services.
+
+It complements the [Service Manual](https://www.gov.uk/service-manual) and its
+[Technology section](https://www.gov.uk/service-manual/technology),
+which covers service design more broadly.
+
+It is inspired by the [GDS Way](https://gds-way.cloudapps.digital) and the
+[Ministry of Justice Technical Guidance](https://ministryofjustice.github.io/technical-guidance/#moj-technical-guidance).
+
+## Principles
+
+* [Coding Principles](documentation/principles/coding-principles.html)
+* [Frontend Development Principles](documentation/principles/frontend-development-principles.html)
+
+## Standards
+
+### Building software
+
+* [Licensing software or code](documentation/standards/licencing-software-or-code.html)
+* [Naming things](documentation/standards/naming-things.html)
+* [Storing source code](documentation/standards/storing-source-code.html)
+
+### General standards
+
+* [Using 3rd-party open source products](documentation/standards/using-3rd-party-open-source-products.html)
+
+## Guides
+
+### APIs
+
+* [API Guidance: Developing a DfE API](documentation/guides/api-guidance.html)
+
+### Development guides
+
+* [The DfE Digital Technology Stack](documentation/guides/default-technology-stack.html)
+* [GOV.UK Platform as a Service](documentation/guides/govuk-paas.html)
+
+## Adding new guidance
+
+Create a new Markdown file in the [DfE Digital technology guidance repo](https://github.com/DFE-Digital/technology-guidance) that follows this pattern, add a link to it
+from this page, and make a pull request:
+
+```markdown
+---
+title: The Title of Your Page
+last_reviewed_on: 2020-08-05
+review_in: 3 months
+---
+
+# <%%= current_page.data.title %>
+
+Introduction of a couple of paragraphs to explain why the thing you're
+writing a standard about is important.
+
+## User needs
+
+Why do we do this thing? Who is it helping?
+
+## Principles
+
+What broad approaches do we follow when we do this thing?
+
+## Tools
+
+What specific bits of software (commercial or open source) do
+we use to help us do this thing?
+```
+
+The service manual has some useful information on
+[learning about and writing user needs](https://www.gov.uk/service-manual/user-research/start-by-learning-user-needs).

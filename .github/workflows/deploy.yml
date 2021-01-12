@@ -1,0 +1,42 @@
+name: Deploy to GOV.UK PaaS
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+
+    - name: setup ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+        bundler-cache: true
+
+    - name: Install Cloud Foundry CLI
+      env:
+        CF_CLI_VERSION: 7.1.0
+        CF_CLI_URL: https://packages.cloudfoundry.org/stable?release=linux64-binary&version=
+      run: |
+        curl -sL "${CF_CLI_URL}${CF_CLI_VERSION}" | sudo tar -zx -C /usr/local/bin
+        cf7 version
+
+    - name: Build docs with middleman
+      run: make build
+
+    - name: Push to GOV.UK PaaS
+      env:
+        CF_USERNAME: ${{ secrets.CF_USERNAME }}
+        CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
+      run: |
+        cf api https://api.london.cloud.service.gov.uk
+        cf auth
+        cf target -o dfe-teacher-services -s technical-architecture
+        cf push -p build -b staticfile_buildpack dfe-technical-guidance
+

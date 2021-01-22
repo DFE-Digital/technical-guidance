@@ -82,7 +82,7 @@ Once the pull request is merged, the deploy Github action workflow runs the buil
 
 ## GOV.UK PaaS set-up
 The application is called `dfe-technical-guidance` and is supported by the [Staticfile buildpack][] . It is deployed in the space
-`technical-architecture`, in the `dfe-teacher-services` organisation.
+`technical-architecture`, in the `dfe` organisation.
 
 The custom domain, SSL certificate and CDN are provided by the `technical-guidance` [cdn-route][] service.
 

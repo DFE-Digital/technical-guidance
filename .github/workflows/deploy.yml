@@ -37,6 +37,5 @@ jobs:
       run: |
         cf api https://api.london.cloud.service.gov.uk
         cf auth
-        cf target -o dfe-teacher-services -s technical-architecture
+        cf target -o dfe -s technical-architecture
         cf push -p build -b staticfile_buildpack dfe-technical-guidance
-

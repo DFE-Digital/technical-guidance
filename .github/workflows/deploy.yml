@@ -21,7 +21,7 @@ jobs:
 
     - name: Install Cloud Foundry CLI
       env:
-        CF_CLI_VERSION: 7.1.0
+        CF_CLI_VERSION: v7
         CF_CLI_URL: https://packages.cloudfoundry.org/stable?release=linux64-binary&version=
       run: |
         curl -sL "${CF_CLI_URL}${CF_CLI_VERSION}" | sudo tar -zx -C /usr/local/bin

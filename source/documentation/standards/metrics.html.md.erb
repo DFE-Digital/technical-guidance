@@ -1,0 +1,57 @@
+---
+title: Metrics
+last_reviewed_on: 2021-03-15
+review_in: 3 months
+---
+
+# <%= current_page.data.title %>
+
+## User needs
+
+Users should be able to label metric data so that it is compatible with
+UK Government PaaS Exporter metrics.
+
+```
+<metric name>{<label name>=<label value>, ...}
+```
+  
+## Principles
+
+HELP - Description of the Metric
+TYPE - Should be one of the [Prometheus Metric Types](https://prometheus.io/docs/concepts/metric_types/)
+Metric Name - The name of the metric should identify what it contains. 
+Label Name -  labels are used to differentiate the characteristics of the thing that is being measured
+  
+Where possible use the same metric name and label name across different applications. However, ensure that the value is consistant in scale and the data it
+represents.
+
+```
+cpu_usage_percentage{ app="get-into-teaching-api" }  75 
+cpu_usage_percentage{ app="get-teacher-training-adviser" }  30 
+```
+  
+### Platform Specific Labels
+When using the UK Government PaaS there are a number of values that are provided by the hosted environment, which can help identify where the data is from, such
+as Organisation and Space. By providing this data it in a standard format, it allows the monitoring of platform wide information and common dashboards.
+
+app | Application | from the Environment variable VCAP_APPLICATION (json) application_name.
+exported_instance | Instance | from the Environment variable INSTANCE_INDEX
+organisation | Organisation |from the Environment variable VCAP_APPLICATION (json) organisation_name
+space | Space |  from the Environment variable VCAP_APPLICATION (json) space_name
+  
+CAUTION: Remember that every unique combination of key-value label pairs represents a new time series, which can dramatically increase the amount of data stored.
+Do not use labels to store dimensions with high cardinality (many different label values), such as user IDs, email addresses, or other unbounded sets of values.  
+
+### Examples
+
+```  
+# HELP metric_name Description of the metric
+# TYPE metric_name type
+# Comment that's not parsed by prometheus
+cpu_usage_percentage{app="get-into-teaching-app", exported_instance="0" , organisation="dfe" , space="get-into-teaching-production" }  55
+```
+  
+### Conventions
+
+Guidence on (Metric naming and labelling)[https://prometheus.io/docs/practices/naming/]
+

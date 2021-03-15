@@ -32,10 +32,9 @@ branch.
 - SPSS (legacy)
  
 ## Platform Management
-- Powershell (for DevOps / orchestration)
-- CLI
+- Powershell
+- Bash
 - ARM
-- Bat files
  
 ## Business Intelligence Tools
 - PowerBI
@@ -46,6 +45,7 @@ branch.
 - XLST
 - JSON
 - XML (legacy)
+- YAML
  
 ## Other
 Not necessarily programming languages but worth a notable mention

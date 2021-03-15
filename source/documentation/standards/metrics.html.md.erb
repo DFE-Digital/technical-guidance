@@ -22,7 +22,7 @@ UK Government PaaS Exporter metrics and common across applications.
 - **Metric Name** The name of the metric should identify what it contains. 
 - **Label Name** labels are used to differentiate the characteristics of the thing that is being measured
   
-Where possible use the same metric name and label name across different applications. However, ensure that the value is consistant in scale and the data it
+Where possible use the same metric name and label name across different applications. However, ensure that the value is consistent in scale and the data it
 represents.
 
 ```
@@ -34,7 +34,7 @@ cpu_usage_percentage{ app="get-teacher-training-adviser" }  30
 When using the UK Government PaaS there are a number of values that are provided by the hosted environment, which can help identify where the data is from, such
 as Organisation and Space. By providing this data it in a standard format, it allows the monitoring of platform wide information and common dashboards.
 
-| Label | Purpose | Dervived from |
+| Label | Purpose | Derived from |
 |-------|---------|---------------|
 | app | Application | from the Environment variable VCAP_APPLICATION (json) application_name.|
 | exported_instance | Instance | from the Environment variable INSTANCE_INDEX|
@@ -55,5 +55,5 @@ cpu_usage_percentage{app="get-into-teaching-app", exported_instance="0" , organi
   
 ### Conventions
 
-Guidence on [Metric naming and labelling](https://prometheus.io/docs/practices/naming/)
+Guidance on [Metric naming and labelling](https://prometheus.io/docs/practices/naming/)
 

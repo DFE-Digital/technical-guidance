@@ -1,4 +1,48 @@
-| Left-aligned | Center-aligned | Right-aligned |
-| :---         |     :---:      |          ---: |
-| git status   | git status     | git status    |
-| git diff     | git diff       | git diff      |
+| Feature  | Azure | Gov UK PaaS |
+| :---         | :---         | :---         |
+| Service Management Wrap Cost   | TBD | 10% Overhead    |
+| Need for DevOps/Infra Ops engineers    | Yes       | Dependent (e.g. need for ad-hoc basis for such as High availability configuration and similar examples)      |
+| Disaster Recovery and Load Balancing    | Yes, configurable       | Yes, but not configurable at a low level      |
+| Auto and horizontal scaling    | Yes, configurable       | Yes, configurable      |
+| Rapid deployment    | Yes       | Yes      |
+| Nature of Ecosystem    | IaaS and PaaS       | PaaS only      |
+| Compliance with DfE Standards    | Yes       | Yes      |
+| Public facing type apps/services    | Configurable       | Suited (configurational setup)     |
+| Lightweight Apps    | Acceptable       | Suited (Time to market)     |
+| Time-Bound Prototypying    | Acceptable       | Suited (Time to market)      |
+| OTS Platform Security    | Good, via security rules       | Good, built in the platform      |
+| Areas of Operation    | Full techn stack       | PaaS only      |
+| GitHub Integration    | TBD       | Configured by service      |
+| Platform design lends itself to loosley coupled applications | Nothing preventing it       | Yes      |
+| Containerised App Deployment  | Configurable       | Suited      |
+| Multi-region    | Yes, Locations TBD       | Yes, IRE and London      |
+| Developer Self-Service Model    | No       | Yes      |
+| Containers    | Yes       | Yes      |
+| Serverless Compute    | Yes       | No      |
+| Languages Supported    | .Net, JavaScript, Java, PHP, Python, Ruby, Docker + others       | Java, .NET on Windows, .NET Core, Node.js, Go, PHP, Python, Ruby, HTML, Docker Images (currently recommended; that would allow any language)      |
+| Command Execution    | API, CLI, Portal, Powershell       | Portal, CLI, Terraform, API directly      |
+| Docker Run Time Environment    | Yes       | Yes      |
+| Docker Image Registery    | Yes       | No      |
+| IaaC    | Yes       | Yes      |
+| Open Source    | Varied       | Yes, via CloudFoundry      |
+| Technology Supplier    | CIPS       | GDS      |
+| Vendor Maturity    | Very High       | Very High      |
+| RBAC Governance    | Excellent       | Poor      |
+| Enforced User Security Policies    | Yes       | No      |
+| Enforced Platform Security    | Yes       | Yes      |
+| Aligned to Twelve Factor Principles    | Not specfically       | Yes      |
+| Provision and Remove Environments    | Laboured       | Fast      |
+| Commercial Support    | Microsoft, Bytes       | GDS      |
+| Community Support    | CIPS, Azure community       | GDS, Cloudfoundry, Cross-Government       |
+| Charging Granularity    | Minute (Azure)       | Hour (via Marketplace)      |
+| Time to Provision    | Days / weeks       | Hours / days      |
+| Current Utilisation No of Applications/services and %    | ~44, >95%       | ~4, <5%      |
+| Event Auditing    | Very Strong       | Strong      |
+| Smaller sized applications/services for iterative development    | Configurable       | Suited      |
+| Monitoring Solution   | Yes       | Limited via Portal (Additonal tools are pluggable)       |
+| Deployed by buildpacks/docker    | Yes       | Yes      |
+| Accessuble via HTTP or TCP    | TBD       | Yes      |
+| Service Overhead Cost Model    | Complex       | Simplified (10% blanket fee)      |
+| Support Time Coverage    | 24/7       | 24/7      |
+| Support Contact     | Mon-Fri 9am-5pm excluding Bank Holidays       | Mon-Fri 9am-5pm excluding Bank Holidays      |
+| Incident Management Hierarchy    | P1 Critical, P2 Major, P3 Significant, P4 Minor        | P1 Critical, P2 Major, P3 Significant, P4 Minor       |

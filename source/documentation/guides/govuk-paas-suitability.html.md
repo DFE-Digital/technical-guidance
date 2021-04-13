@@ -15,7 +15,7 @@
 | GitHub Integration    | TBD       | Configured by service      |
 | Platform design lends itself to loosley coupled applications | Nothing preventing it       | Yes      |
 | Containerised App Deployment  | Configurable       | Suited      |
-| Multi-region    | Yes, Locations TBD       | Yes, IRE and London      |
+| Multi-region    | Single, West-Europe (Netherlands)       | Yes, IRE and London      |
 | Developer Self-Service Model    | No       | Yes      |
 | Containers    | Yes       | Yes      |
 | Serverless Compute    | Yes       | No      |

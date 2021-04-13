@@ -36,7 +36,7 @@
 | Community Support    | CIPS, Azure community       | GDS, Cloudfoundry, Cross-Government       |
 | Charging Granularity    | Minute (Azure)       | Hour (via Marketplace)      |
 | Time to Provision    | Days / weeks       | Hours / days      |
-| Current Utilisation No of Applications/services and %    | ~44, >95%       | ~4, <5%      |
+| Current Utilisation No of Applications/services and %    | ~46, ~82%       | ~10, ~17.6%      |
 | Event Auditing    | Very Strong       | Strong      |
 | Smaller sized applications/services for iterative development    | Configurable       | Suited      |
 | Monitoring Solution   | Yes       | Limited via Portal (Additional tools are pluggable)       |

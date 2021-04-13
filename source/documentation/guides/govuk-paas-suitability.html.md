@@ -39,9 +39,9 @@
 | Current Utilisation No of Applications/services and %    | ~44, >95%       | ~4, <5%      |
 | Event Auditing    | Very Strong       | Strong      |
 | Smaller sized applications/services for iterative development    | Configurable       | Suited      |
-| Monitoring Solution   | Yes       | Limited via Portal (Additonal tools are pluggable)       |
+| Monitoring Solution   | Yes       | Limited via Portal (Additional tools are pluggable)       |
 | Deployed by buildpacks/docker    | Yes       | Yes      |
-| Accessuble via HTTP or TCP    | TBD       | Yes      |
+| Accessible via HTTP or TCP    | TBD       | Yes      |
 | Service Overhead Cost Model    | Complex       | Simplified (10% blanket fee)      |
 | Support Time Coverage    | 24/7       | 24/7      |
 | Support Contact     | Mon-Fri 9am-5pm excluding Bank Holidays       | Mon-Fri 9am-5pm excluding Bank Holidays      |

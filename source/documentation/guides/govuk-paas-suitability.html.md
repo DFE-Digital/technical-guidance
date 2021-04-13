@@ -9,9 +9,9 @@
 | Compliance with DfE Standards    | Yes       | Yes      |
 | Public facing type apps/services    | Configurable       | Suited (configurational setup)     |
 | Lightweight Apps    | Acceptable       | Suited (Time to market)     |
-| Time-Bound Prototypying    | Acceptable       | Suited (Time to market)      |
+| Time-Bound Prototyping    | Acceptable       | Suited (Time to market)      |
 | OTS Platform Security    | Good, via security rules       | Good, built in the platform      |
-| Areas of Operation    | Full techn stack       | PaaS only      |
+| Areas of Operation    | Full technical stack       | PaaS only      |
 | GitHub Integration    | TBD       | Configured by service      |
 | Platform design lends itself to loosley coupled applications | Nothing preventing it       | Yes      |
 | Containerised App Deployment  | Configurable       | Suited      |

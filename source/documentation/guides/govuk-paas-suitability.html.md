@@ -7,7 +7,7 @@
 | Rapid deployment    | Yes       | Yes      |
 | Nature of Ecosystem    | IaaS and PaaS       | PaaS only      |
 | Compliance with DfE Standards    | Yes       | Yes      |
-| Public facing type apps/services    | Configurable       | Suited (configurational setup)     |
+| Public facing type apps/services    | Configurable       | Configurable     |
 | Lightweight Apps    | Acceptable       | Suited (Time to market)     |
 | Time-Bound Prototyping    | Acceptable       | Suited (Time to market)      |
 | OTS Platform Security    | Good, via security rules       | Good, built in the platform      |

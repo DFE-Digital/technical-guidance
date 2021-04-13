@@ -12,7 +12,7 @@
 | Time-Bound Prototyping    | Acceptable       | Suited (Time to market)      |
 | OTS Platform Security    | Good, via security rules       | Good, built in the platform      |
 | Areas of Operation    | Full technical stack       | PaaS only      |
-| GitHub Integration    | TBD       | Configured by service      |
+| GitHub Integration    | Configured by service       | Configured by service      |
 | Platform design lends itself to loosley coupled applications | Nothing preventing it       | Yes      |
 | Containerised App Deployment  | Configurable       | Suited      |
 | Multi-region    | Single, West-Europe (Netherlands)       | Yes, IRE and London      |

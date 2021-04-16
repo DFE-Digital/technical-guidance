@@ -1,8 +1,6 @@
 server:
 	bundle exec middleman server
 
-PHONY: build
+.PHONY: build
 build:
 	bundle exec middleman build
-
-#

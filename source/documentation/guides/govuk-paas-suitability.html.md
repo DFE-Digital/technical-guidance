@@ -1,3 +1,10 @@
+---
+title: PaaS Suitability Matrix vs Azure CIP
+last_reviewed_on: 2021-04-14
+review_in: 2 months
+---
+# <%= current_page.data.title %>
+
 | Feature  | Azure | Gov UK PaaS |
 | :---         | :---         | :---         |
 | Service Management Cost   | Strictly the Azure costs, paid centrally at the moment, (moving to a model where teams pay for it)  | 10% on top of AWS costs and the teams pay for it    |

@@ -36,7 +36,7 @@ review_in: 2 months
 | Open Source    | Varied       | Yes, via CloudFoundry      |
 | Technology Supplier    | CIPS       | GDS      |
 | Vendor Maturity    | Very High       | Very High      |
-| RBAC Governance    | Excellent       | Poor      |
+| RBAC Governance    | Excellent       | Excellent      |
 | Enforced User Security Policies    | Yes       | No      |
 | Enforced Platform Security    | Yes       | Yes      |
 | Aligned to Twelve Factor Principles    | Not specfically       | Yes      |

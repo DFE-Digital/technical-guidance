@@ -1,6 +1,6 @@
 | Feature  | Azure | Gov UK PaaS |
 | :---         | :---         | :---         |
-| Service Management Wrap Cost   | TBD | 10% Overhead    |
+| Service Management Cost   | Strictly the Azure costs, paid centrally at the moment, (moving to a model where teams pay for it)  | 10% on top of AWS costs and the teams pay for it    |
 | Need for DevOps/Infra Ops engineers    | Yes       | Dependent (e.g. need for ad-hoc basis for such as High availability configuration and similar examples)      |
 | Disaster Recovery and Load Balancing    | Yes, configurable       | Yes, but not configurable at a low level      |
 | Auto and horizontal scaling    | Yes, configurable       | Yes, configurable      |
@@ -27,7 +27,7 @@
 | Open Source    | Varied       | Yes, via CloudFoundry      |
 | Technology Supplier    | CIPS       | GDS      |
 | Vendor Maturity    | Very High       | Very High      |
-| RBAC Governance    | Excellent       | Poor      |
+| RBAC Governance    | Excellent       | Excellent      |
 | Enforced User Security Policies    | Yes       | No      |
 | Enforced Platform Security    | Yes       | Yes      |
 | Aligned to Twelve Factor Principles    | Not specfically       | Yes      |
@@ -41,7 +41,7 @@
 | Smaller sized applications/services for iterative development    | Configurable       | Suited      |
 | Monitoring Solution   | Yes       | Limited via Portal (Additional tools are pluggable)       |
 | Deployed by buildpacks/docker    | Yes       | Yes      |
-| Accessible via HTTP or TCP    | TBD       | Yes      |
+| Accessible via HTTP or TCP    | Yes       | Yes      |
 | Service Overhead Cost Model    | Complex       | Simplified (10% blanket fee)      |
 | Support Time Coverage    | 24/7       | 24/7      |
 | Support Contact     | Mon-Fri 9am-5pm excluding Bank Holidays       | Mon-Fri 9am-5pm excluding Bank Holidays      |

@@ -38,4 +38,4 @@ jobs:
         cf api https://api.london.cloud.service.gov.uk
         cf auth
         cf target -o dfe -s technical-architecture
-        cf push -p build -b staticfile_buildpack dfe-technical-guidance
+        cf push -p build -b staticfile_buildpack --disk 128M --memory 64M dfe-technical-guidance

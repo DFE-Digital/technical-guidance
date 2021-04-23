@@ -1,0 +1,48 @@
+name: Delete review app
+
+on:
+  pull_request:
+    branches:
+    - master
+    types:
+    - closed
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set environment variables
+      run: |
+        SPACE=technical-architecture-dev
+        echo "SPACE=${SPACE}" >> $GITHUB_ENV
+        APP_NAME=dfe-technical-guidance-${{ github.event.number }}
+        echo "APP_NAME=${APP_NAME}" >> $GITHUB_ENV
+
+    - name: Configure Cloud Foundry CLI
+      uses: DFE-Digital/github-actions/setup-cf-cli@master
+      with:
+        CF_USERNAME: ${{ secrets.CF_USERNAME }}
+        CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
+        CF_SPACE_NAME: ${{ env.SPACE }}
+
+    - name: Wait for deploy to finish
+      uses: fountainhead/action-wait-for-check@v1.0.0
+      with:
+       token: ${{ secrets.GITHUB_TOKEN }}
+       checkName: build-and-push
+       ref: ${{ github.event.pull_request.head.sha }}
+       timeoutSeconds: 300
+       intervalSeconds: 15
+
+    - name: Delete ${{ env.APP_NAME }}
+      run: cf delete -rf ${{ env.APP_NAME }}
+
+    - name: Post Pull Request Comment
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        message: Review app <https://${{ env.APP_NAME }}.london.cloudapps.digital> was deleted

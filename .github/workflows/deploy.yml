@@ -66,3 +66,5 @@ jobs:
       uses: marocchino/sticky-pull-request-comment@v2
       with:
         message: Review app deployed to <https://${{ env.APP_NAME }}.london.cloudapps.digital>
+
+### TEST close PR ###

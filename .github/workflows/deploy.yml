@@ -19,23 +19,15 @@ jobs:
         ruby-version: 2.7
         bundler-cache: true
 
-    - name: Install Cloud Foundry CLI
-      env:
-        CF_CLI_VERSION: v7
-        CF_CLI_URL: https://packages.cloudfoundry.org/stable?release=linux64-binary&version=
-      run: |
-        curl -sL "${CF_CLI_URL}${CF_CLI_VERSION}" | sudo tar -zx -C /usr/local/bin
-        cf7 version
-
     - name: Build docs with middleman
       run: make build
 
-    - name: Push to GOV.UK PaaS
-      env:
+    - name: Configure Cloud Foundry CLI
+      uses: DFE-Digital/github-actions/setup-cf-cli@master
+      with:
         CF_USERNAME: ${{ secrets.CF_USERNAME }}
         CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
-      run: |
-        cf api https://api.london.cloud.service.gov.uk
-        cf auth
-        cf target -o dfe -s technical-architecture
-        cf push -p build -b staticfile_buildpack --disk 128M --memory 64M dfe-technical-guidance
+        CF_SPACE_NAME: technical-architecture
+
+    - name: Push to GOV.UK PaaS
+      run: cf push -p build -b staticfile_buildpack --disk 128M --memory 64M dfe-technical-guidance

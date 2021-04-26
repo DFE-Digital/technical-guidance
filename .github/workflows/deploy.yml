@@ -4,38 +4,65 @@ on:
   push:
     branches:
     - master
+  pull_request:
+    branches:
+    - master
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
     steps:
-    - name: checkout
+    - uses: DFE-Digital/github-actions/turnstyle@master
+      name: Check workflow concurrency
+      with:
+        initial-wait-seconds: 15
+        poll-interval-seconds: 15
+        abort-after-seconds: 300
+        same-branch-only: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Checkout
       uses: actions/checkout@v2
 
-    - name: setup ruby
+    - name: Setup ruby
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: 2.7
         bundler-cache: true
 
-    - name: Install Cloud Foundry CLI
-      env:
-        CF_CLI_VERSION: v7
-        CF_CLI_URL: https://packages.cloudfoundry.org/stable?release=linux64-binary&version=
-      run: |
-        curl -sL "${CF_CLI_URL}${CF_CLI_VERSION}" | sudo tar -zx -C /usr/local/bin
-        cf7 version
-
     - name: Build docs with middleman
       run: make build
 
-    - name: Push to GOV.UK PaaS
-      env:
+    - name: Set environment variables (Push)
+      if: ${{ github.event_name == 'push' }}
+      run: |
+        SPACE=technical-architecture
+        echo "SPACE=${SPACE}" >> $GITHUB_ENV
+        APP_NAME=dfe-technical-guidance
+        echo "APP_NAME=${APP_NAME}" >> $GITHUB_ENV
+
+    - name: Set environment variables (Pull request)
+      if: ${{ github.event_name == 'pull_request' }}
+      run: |
+        SPACE=technical-architecture-dev
+        echo "SPACE=${SPACE}" >> $GITHUB_ENV
+        APP_NAME=dfe-technical-guidance-${{ github.event.number }}
+        echo "APP_NAME=${APP_NAME}" >> $GITHUB_ENV
+
+    - name: Configure Cloud Foundry CLI with space ${{ env.SPACE }}
+      uses: DFE-Digital/github-actions/setup-cf-cli@master
+      with:
         CF_USERNAME: ${{ secrets.CF_USERNAME }}
         CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
-      run: |
-        cf api https://api.london.cloud.service.gov.uk
-        cf auth
-        cf target -o dfe -s technical-architecture
-        cf push -p build -b staticfile_buildpack --disk 128M --memory 64M dfe-technical-guidance
+        CF_SPACE_NAME: ${{ env.SPACE }}
+
+    - name: Push ${{ env.APP_NAME }} to GOV.UK PaaS
+      run: cf push -p build -b staticfile_buildpack --disk 128M --memory 64M ${{ env.APP_NAME }}
+
+    - name: Post comment to Pull Request ${{ github.event.number }}
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        message: Review app deployed to <https://${{ env.APP_NAME }}.london.cloudapps.digital>

@@ -3,4 +3,4 @@ server:
 
 .PHONY: build
 build:
-	bundle exec middleman build
+	bundle exec middleman build --verbose

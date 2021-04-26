@@ -20,8 +20,11 @@ Once you have Ruby and Bundler set up, you can install this project's
 dependencies by running the following in this directory:
 
 ```bash
-bundle install
+bundle
 ```
+
+This will install all required dependencies, including the [govuk-tech-docs gem] and
+[middleman].
 
 ## Making documentation changes
 
@@ -61,10 +64,8 @@ You should now be able to view a live preview at http://localhost:4567.
 
 ## Build
 
-If you want to publish the website without using a build script you may need to
-build the static HTML files. This will also allow you to preview the site exactly how it is published.
-
-Type the following to build the HTML:
+If you want to preview the site exactly how it is published, you can build the static HTML files locally. It also helps debugging
+issues by running in verbose mode. Type the following:
 
 ```
 make build
@@ -76,9 +77,20 @@ the HTML and asset files ready to be published.
 ## Publishing changes
 
 Every change should be reviewed in a pull request, no matter how minor, and we've enabled [branch protection][] to enforce this.
+
 Once the pull request is merged, the deploy Github action workflow runs the build and pushes the static site to GOV.UK PaaS.
 
 [branch protection]: https://help.github.com/articles/about-protected-branches/
+
+## Review apps
+
+Every pull request builds a separate _review app_. It is a unique version of the documentation implementing the changes from
+the pull request and pushed to GOV.UK PaaS with a unique URL so it can be shared and peer reviewed. The URL is posted in a
+comment on the pull request.
+
+Any change to the branch is automatically pushed to the review app after a few minutes.
+
+When the pull request is closed or merged, the review app is deleted.
 
 ## GOV.UK PaaS set-up
 The application is called `dfe-technical-guidance` and is supported by the [Staticfile buildpack][] . It is deployed in the space
@@ -87,6 +99,10 @@ The application is called `dfe-technical-guidance` and is supported by the [Stat
 The custom domain, SSL certificate and CDN are provided by the `technical-guidance` [cdn-route][] service.
 
 The deploy workflow connects to paas using service account technical-architecture-paas@digital.education.gov.uk (a Google group).
+
+The review apps are deployed to the `technical-architecture-dev` space and their name is suffixed by the PR number. There is no
+cdn-route service, we simply use the default `.london.cloudapps.digital` domain.
+
 ## Licence
 
 The documentation is [© Crown copyright][copyright] and available under the terms
@@ -100,3 +116,5 @@ of the [Open Government 3.0][ogl] licence.
 [GOV.UK PaaS]: https://www.cloud.service.gov.uk/
 [Staticfile buildpack]: https://docs.cloudfoundry.org/buildpacks/staticfile/index.html
 [cdn-route]: https://docs.cloud.service.gov.uk/deploying_services/use_a_custom_domain/#managing-custom-domains-using-the-cdn-route-service
+[govuk-tech-docs gem]: https://github.com/alphagov/tech-docs-gem
+[middleman]: https://middlemanapp.com/

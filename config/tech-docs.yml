@@ -1,5 +1,5 @@
 # Host to use for canonical URL generation (without trailing slash)
-host: https://dfe-digital.github.io/technical-guidance
+host: https://technical-guidance.education.gov.uk
 
 # Header-related options
 show_govuk_logo: false
@@ -21,15 +21,15 @@ enable_search: true
 ga_tracking_id:
 
 # Enable multipage navigation in the sidebar
-multipage_nav: false
+multipage_nav: true
 
 # Enable collapsible navigation in the sidebar
-collapsible_nav: false
+collapsible_nav: true
 
 # Table of contents depth – how many levels to include in the table of contents.
 # If your ToC is too long, reduce this number and we'll only show higher-level
 # headings.
-max_toc_heading_level: 3
+max_toc_heading_level: 1
 
 # Prevent robots from indexing (e.g. whilst in development)
 prevent_indexing: true
@@ -39,12 +39,3 @@ github_repo: DFE-Digital/technical-guidance
 github_branch: master
 
 redirects:
-  /principles/coding-principles: /documentation/principles/coding-principles.html
-  /principles/frontend-development-principles: /documentation/principles/frontend-development-principles.html
-  /standards/licencing-software-or-code: /documentation/standards/licencing-software-or-code.html
-  /standards/naming-things: /documentation/standards/naming-things.html
-  /standards/storing-source-code: /documentation/standards/storing-source-code.html
-  /standards/using-3rd-party-open-source-products: /documentation/standards/using-3rd-party-open-source-products.html
-  /guides/api-guidance: /documentation/guides/api-guidance.html
-  /guides/default-technology-stack: /documentation/guides/default-technology-stack.html
-  /guides/govuk-paas: /documentation/guides/govuk-paas.html

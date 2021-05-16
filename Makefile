@@ -3,4 +3,7 @@ server:
 
 .PHONY: build
 build:
-	bundle exec middleman build --verbose
+	rm -rf build && bundle exec middleman build --verbose
+
+check-links:
+	bundle exec ruby -rhtml-proofer -e "HTMLProofer.check_directory('./build').run"

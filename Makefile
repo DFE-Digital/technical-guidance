@@ -1,5 +1,5 @@
 server:
-	bundle exec middleman server
+	bundle exec middleman server --verbose
 
 .PHONY: build
 build:

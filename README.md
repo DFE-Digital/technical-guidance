@@ -28,17 +28,11 @@ This will install all required dependencies, including the [govuk-tech-docs gem]
 
 ## Making documentation changes
 
-To make changes edit the source files in the `source` folder.
-
-Although a single page of HTML is generated the markdown is spread across
-multiple files to make it easier to manage. They can be found in
-`source/documentation`.
-
-Make sure to make changes in a branch, and issue a pull request when you want them to be reviewed and published.
+To make changes edit the source files in the `source` folder. See "Adding a new guidance" page for details.
 
 ## Previewing
 
-Whilst writing documentation we can run a middleman server to preview how the
+Whilst writing documentation, run a middleman server to preview how the
 published version will look in the browser. After saving a change the preview in
 the browser will automatically refresh.
 
@@ -74,9 +68,18 @@ make build
 This will create a `build` subfolder in the application folder which contains
 the HTML and asset files ready to be published.
 
+## Check links
+
+To check all hypertext links inside the generated documentation are valid, build first, then run:
+
+```
+make check-links
+```
+
 ## Publishing changes
 
-Every change should be reviewed in a pull request, no matter how minor, and we've enabled [branch protection][] to enforce this.
+Make sure to make changes in a branch. Every change should be reviewed in a pull request, no matter how minor, and we've enabled
+[branch protection][] to enforce this.
 
 Once the pull request is merged, the deploy Github action workflow runs the build and pushes the static site to GOV.UK PaaS.
 
@@ -105,8 +108,7 @@ cdn-route service, we simply use the default `.london.cloudapps.digital` domain.
 
 ## Licence
 
-The documentation is [© Crown copyright][copyright] and available under the terms
-of the [Open Government 3.0][ogl] licence.
+The documentation is [© Crown copyright][copyright] and available under the terms of the [Open Government 3.0][ogl] licence.
 
 [rvm]: https://www.ruby-lang.org/en/documentation/installation/#managers
 [bundler]: http://bundler.io/

@@ -2,6 +2,8 @@
 title: GOV.UK Platform as a Service
 last_reviewed_on: 2021-04-28
 review_in: 3 months
+old_paths:
+- /documentation/guides/govuk-paas.html
 ---
 
 # <%= current_page.data.title %>
@@ -13,11 +15,11 @@ and available for government departments to deploy applications and backend serv
 Many DfE production applications run on GOV.UK PaaS like [Teaching vacancies](https://teaching-vacancies.service.gov.uk/),
 [Get into teaching](https://getintoteaching.education.gov.uk/) or [Get help with tech](https://get-help-with-tech.education.gov.uk/).
 
-You can request access to a sandbox space to explore GOV.UK PaaS for free. See [Onboarding](#onboarding).
+You can request access to a sandbox space to explore GOV.UK PaaS for free. See [Exploring GOV.UK PaaS](#exploring-gov-uk-paas).
 
 ## Suitability
 
-[Azure CIP](/documentation/guides/default-technology-stack.html#azure) is the traditional platform for hosting services in DfE. When does it make sense to use GOV.UK PaaS?
+[Azure CIP](/guides/default-technology-stack/#azure) is the traditional platform for hosting services in DfE. When does it make sense to use GOV.UK PaaS?
 
 ### Standard web applications
 
@@ -86,12 +88,12 @@ approach as specified in the Technology Code of Practice.
 ### Suitability Matrix
 
 To review the comparison of features and capabilities of both Azure platforms and Gov UK PaaS, see the
-[Suitability Matrix](/documentation/guides/govuk-paas-suitability.html).
+[Suitability Matrix](/guides/govuk-paas/govuk-paas-suitability.html).
 
 ### Customer Journey Map
 
 To review the Customer Journey Map which highlights the high-level key stages of discovery, review, approval and deployment etc, see the
-[customer journey map](/documentation/guides/govuk-paas-customer-journey.html).
+[customer journey map](/guides/govuk-paas/govuk-paas-customer-journey.html).
 
 ## Links
 * [Home page](https://www.cloud.service.gov.uk/)
@@ -103,7 +105,7 @@ To review the Customer Journey Map which highlights the high-level key stages of
 To separate users, applications, services and ultimately costs, GOV.UK PaaS provides
 [organisations and spaces](https://docs.cloud.service.gov.uk/orgs_spaces_users.html#managing-organisations-spaces-and-users).
 
-<%= image_tag 'orgs_and_spaces.svg' %>
+<%= image_tag('orgs_and_spaces.svg', alt: 'Org and spaces in DfE') %>
 
 ### Organisations
 DfE manages a GOV.UK PaaS organisation called `dfe`.

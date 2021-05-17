@@ -2,6 +2,8 @@
 title: Coding Principles
 last_reviewed_on: 2020-12-21
 review_in: 3 months
+old_paths:
+- /documentation/principles/coding-principles.html
 ---
 
 # <%= current_page.data.title %>
@@ -56,8 +58,7 @@ Names convey meaning - well-named functions & variables can remove the need for 
 Avoid meaningless names like ‘obj’ / ‘result’ / ‘foo’.
 Use single-letter variables only where the letter represents a well-known mathematical property (e.g. e = mc^2), or where their meaning is otherwise clear.
 
-
-See [Naming things]({{ 'standards/naming-things' | relative_url  }})
+See [Naming things](/standards/naming-things/)
 
 ### 8. Composition over inheritance
 It’s tempting to build an inheritance tree of objects extending others and redefining methods where needed - but that often just creates tech debt for the future. Choose ‘has-a’ relationships over ‘is-a’ - e.g. a Car has-a Motor, rather than Car is-a MotorVehicle

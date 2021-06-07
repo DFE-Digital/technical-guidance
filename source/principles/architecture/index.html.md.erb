@@ -1,0 +1,55 @@
+---
+title: Technical Architecture Principles
+last_reviewed_on: 2021-06-07
+review_in: 6 months
+weight: 10
+---
+
+# <%= current_page.data.title %>
+
+## Context
+A set of architecture principles for user-centred, iteratively delivered and continuously improved digital services at the Department for Education.
+
+These principles might not always be equally important for every service. It is the role of the architect to apply the principles that make sense for their situation and to draw insight from the others where appropriate.
+
+## Start small and focus on user needs
+Focus on understanding the user needs your service needs to meet and how it will do that. See if you have different sets of users with different needs. Consider whether you can do this using existing tools to keep your technology simple. Document your choices and why they were made so everyone can learn from your journey.
+
+Don’t start with the solution.
+
+> Example: [Get into Teaching](https://getintoteaching.education.gov.uk/) had to begin private Beta user research during the first month of the national lockdown. In order to achieve this they chose a thin slice of their service to deploy and build further based on the guidance of user feedback.
+
+## The unit of delivery is the team
+When we work in disciplinary silos we can easily reinforce our biases and we cause friction with complex hand-offs. Make space for the team to do the discovery and participate in it fully. Prefer people over processes: seek active participation from everyone with a stake in the project.
+
+> Example: the [Teaching vacancies](https://teaching-vacancies.service.gov.uk/) team includes business analysts, user researchers, designers, developers, infrastructure specialists, etc all working together towards the same goal
+
+## Use the web and open standards
+The web is the most successful technology platform we have, building from simple protocols to support incredible large-scale applications. It’s our starting point for the vast majority of what we do. That leads us to federated and distributed approaches, and architectures that make use of resources across the network rather than tightly-integrated technology stacks.
+
+> Example: [Teacher training API](https://api.publish-teacher-training-courses.service.gov.uk/#about) is a standalone public facing service managing its own data and offering an authenticated REST API for consumers to access it securely over the internet
+
+## Platforms, standards and re-use emerge
+Design for user needs identified by research, not for generic reuse - that is premature optimisation. Look sideways to see opportunities for reuse, or promote reuse by putting a service wrap over ground-up components and platforms. Socialise ideas, standards and principles. Rather than attempt to re-invent the wheel from scratch, invest time in researching standards in the space you’re operating in. Other people (frequently with more resources and brainpower) may have solved the problem already. Use SaaS, especially where it already exists in the department.
+
+> Example: [Get School Experience](https://schoolexperience.education.gov.uk/) needed to link historical requests with new requests but did not want to provide user accounts, so they identified a technique for matching records used by the analysts and created a UI pattern to get the user to match the records. This technique was followed by Get into Teaching to match existing case records and has since been consistently copied by Claim additional payments for Teaching and Continuing Professional Development to enable matching against their own records and the DQT.
+
+## Stand on the shoulders of giants
+Our efforts should be put where we really add value. Focus on what differentiates your service from others, these are strategic  and make use of existing technologies where it facilitates your specific needs.  Focusing on what makes your service different is a strategic advantage, and using existing services.
+
+Do away with the “undifferentiated heavy lifting” of managing infrastructure, i.e. provisioning and maintaining compute and other resources. Prevent vendor-lock in and unnecessary spending by researching and using open source software by default.
+Focus on activities that directly shape the service for your users rather than layers hidden in the infrastructure.
+
+> Example: Use [GOV.UK PaaS](/guides/govuk-paas/) instead of managing networks and virtual machines
+
+> Example: A consistent requirement of operational services was to log, monitor and alert on the status of the systems underpinning it, as services began to align consistently with their implementations a decision was taken to use external SaaS services that provide the same functionality as the existing implementations therefore reducing the time to add these capabilities to services but still keep them diverse enough to handle multiple independent needs.
+
+## Embrace change and plan for it
+Assume emerging needs and evolution. Software is never finished but different elements evolve at different paces. Allow for this in your planning and your management, providing clear interfaces between components and making sure each of them can be changed at the appropriate pace. Design your service with a long term support model in mind, have the capabilities in place to reduce the cost of change and meet the desired rate of change, with value for money and economies of scale in mind.
+
+> Example: [Teacher services](https://dfedigital.blog.gov.uk/2019/02/08/service-ownership/) has multiple long-lived multidisciplinary service teams who can implement a service and keep improving it based on user needs. This approach is more flexible than buying from a consultancy and having no capability to evolve the service.
+
+## Release early, release often
+Get your service out to users as early as you can, release changes as often as necessary and use tight feedback loops to test assumptions, learn and iterate. Your service does not deliver or add value until it is in the hands of users.
+
+> Example: [Register Trainee Teachers](https://www.register-trainee-teachers.education.gov.uk/) uses Continuous Integration (CI) to ensure that a release is built on every change, and Continuous Delivery (CD) to automatically deploy new releases.

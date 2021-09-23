@@ -1,7 +1,7 @@
 ---
 title: Getting started
-last_reviewed_on: 2021-05-17
-review_in: 3 months
+last_reviewed_on: 2021-09-21
+review_in: 6 months
 ---
 
 # <%= current_page.data.title %>
@@ -150,3 +150,14 @@ The Terraform Cloud Foundry provider also supports Docker.
 
 **Important:** If you use Docker Hub as Docker registry, make sure to set up authentication as unauthenticated pulls are significantly
 [rate limited](https://docs.docker.com/docker-hub/download-rate-limit/).
+
+### Monitoring
+The admin portal provides the status of applications and service. It also shows metrics graphs for services.
+
+Deploy [cf-monitoring](https://github.com/DFE-Digital/cf-monitoring/) to provide detailed metrics, alerting and dashboards for your applications and services.
+This includes a billing dashboards showing daily usage so you can finely control the costs.
+
+### Centralised logging
+Recent application logs are available via the `cf` command line. For permanent storage, filtering, advanced queries, log based dashboards and alerting,
+we recommend using [Logit.io](https://logit.io/) which is a cost effective SaaS ELK platform widely used in Government.
+See the [Paas documentation](https://docs.cloud.service.gov.uk/monitoring_apps.html#set-up-the-logit-log-management-service).

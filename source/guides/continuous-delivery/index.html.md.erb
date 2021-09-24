@@ -1,0 +1,76 @@
+---
+title: Continuous delivery
+weight: 10
+last_reviewed_on: 2021-09-07
+review_in: 1 year
+---
+
+# <%= current_page.data.title %>
+
+We want to safely deliver new features for our services in the most efficient manner. Each service deployment strategy should meet these requirements:
+
+### Control
+Innovation requires change but it carries risk. In order to reduce risk, change must be peer reviewed, approved and tracked end to end.
+
+Traditionally with ITIL normal and emergency change types, multiple levels of manual approvals are required. But this approach may delay the change, so small changes are typically bundled
+together to save time. And a bigger change increases the risk level. Also, many approvers may not reduce the risk as most stakeholders don't understand the low level details.
+
+It is possible to lower or remove the risk level by making the change as small as possible, letting experts review the details carefully and approve the change for deployment. Control is then applied by strong automated testing. This makes
+it a routine change, as in ITIL standard change type. The delivery process is approved instead of each individual change.
+
+In DfE, each new feature is implemented as a pull request, whether in [Github](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) or [Azure devops](https://docs.microsoft.com/en-us/azure/devops/repos/git/pull-requests). This allows the code to be peer reviewed, improved and approved before it can be deployed to production.
+
+### Automation
+Deployment is a repeatable task and as such it can be 100% automated. This frees up time for developers to spend their time creating features, bringing value to the business.
+
+Continuous delivery ensures a build is always ready to deploy and may include manual approval and opportunity for manual testing. Continuous deployment takes this one step further as testing and deployment to live are automated as well. This brings even more benefits.
+
+Deployments are fully automated using automated pipelines like [Azure devops pipelines](https://azure.microsoft.com/en-gb/services/devops/pipelines/) or [Github actions](https://docs.github.com/en/free-pro-team@latest/actions). When a pull request is merged, it triggers build, tests and deployment to different environments, up to the live environment if possible, without any human intervention.
+
+### Visibility
+The process may be automated but the business still needs to review new features so they can approve the change or ask for adjustments.
+
+We also want visibility of the deployment process itself so we know:
+
+* which version is being deployed onto which stage at any time
+* if the deployment was successful
+* if the deployment failed and why
+
+The Azure devops and Github actions pipeline dashboards shows the current status of the pipeline execution. Notifications are sent to development teams via Slack, Email or Microsoft teams.
+
+### Reliability
+The live application or website should always be up and running and should never show errors to the users. Since we want the deployment process to be automated, we must add controls to give us confidence that nothing will break. They should be implemented at different stages in the pipeline: before, during and even after deployment. The earlier the better. **Continuous integration** ensures any code change goes through a comprehensive set of automated tests:
+
+1. **Unit and linting tests** are usually run by the developers manually and by the automated workflow when they push a branch. They allow testing a new feature in isolation, but also in integration with other features or different dataset.
+1. **Security tests** check there are no known vulnerabilities in the produced code or image
+1. **Smoke tests**, **integration tests**, **acceptance tests** validate the application in a production-like environment to iron out issues with the environment, data or dependencies. A staging or pre-production environment with the same configuration as production may be used. The data may refreshed daily with sanitised production data.
+1. When a new version of the code is deployed to production, there should be **zero downtime** and it should be transparent to end users. Blue-green, rolling or canary deployments may be used. We typically use the blue-green deployment on GOV.UK PaaS and deployment slot swap on Azure.
+1. **Monitoring** should run continuously to check the production application health. [StatusCake](https://www.statuscake.com/) or [Azure ping tests](https://docs.microsoft.com/en-us/azure/azure-monitor/app/monitor-web-app-availability) are used for simple and fast pings. Smoke tests may also validate the business logic, as implemented in Teaching vacancies via Github actions.
+
+### Repeatability
+The artifact created in the workflow should be deployed to a test environment and tested. Ideally the *exact same* artifact is deployed to the production environment. For example a docker image is built once, stored in a registry and the same image is deployed to all the environments.
+
+This helps troubleshooting in case of an issue, as we would know it's not due to the build process. Also, the same artifact can be deployed to a test environment to try to reproduce the issue.
+
+All Teacher services applications are packaged using Docker, one image version for each application release. Images are stored in [Github container registry](https://github.com/orgs/DFE-Digital/packages) or [DockerHub](https://hub.docker.com/u/dfedigital). [Azure container registry](https://azure.microsoft.com/en-us/services/container-registry/) may be used as well.
+
+### Velocity
+The real test for a new feature is when it's in the hand of real users. It should take the minimum amount of time to be deployed to production. This shortens the feedback loop so the business can see the change and ask for adjustments quickly if necessary.
+
+Developers look after the deployment to make sure a new feature is delivered to production successfully. Reducing the deployment time means they spend less time looking at it and it reduces their cognitive load.
+
+If the time to release is slow, then developers may be tempted to batch several features into one big change, which increases the risk of failure and makes rollbacks harder. If it's fast, we can push lots of small changes, which decreases the risk and helps the business to iterate quickly.
+
+For example in [Register trainee teachers](https://github.com/DFE-Digital/register-trainee-teachers/actions/workflows/build.yml) the end to end deployment to all environments takes around 10 min. It is quick to make new releases to make adjustments. Also, since it's fully automated, developers don't have to look after the deployment and they are not slowed down in their work.
+
+### Self-service
+The development team should feel empowered to propose, test or deploy changes. Dependencies on external stakeholders should be minimal, for example asking for permission to deploy.
+
+Dependencies _within_ the team should be avoided as much as possible. If a resource is shared, like a database or a test environment, developers have to wait for the resource to be free before being able to test. Instead, it is possible to create individual test environments for each developer, or each feature being developed. This allows testing in isolation and developers don't have to wait for a shared resource or environment to be available.
+
+For example a dedicated _review app_ may automatically be created and populated with test data when a developer creates a pull request. It allows them to test the new feature in isolation and show it to the business for validation, independently of any other work going on in the team. Once the application is validated, the pull request can be approved, merged and deployed via the pipeline. The temporary environment is automatically deleted.
+
+### Independent database schema changes
+Sometimes a new feature may require a database schema change. In order to keep deployments zero downtime, the schema change should be done outside of any code change, making sure the change is compatible with the live application and that we are able to roll back independently.
+
+For example, in [Apply for teacher training](https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/.github/PULL_REQUEST_TEMPLATE.md) the pull request template mandates separating code change from database migration.

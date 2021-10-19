@@ -6,22 +6,22 @@ review_in: 3 months
 
 # Technical Documentation
 
-Your team may wish to create a technical documentation micro-site in order to provide a public documentation hub consistent with GOV.UK's design. This can contain any content you desire, but typically would include:
+Your team may wish to create a technical documentation micro-site in order to provide a public documentation hub consistent with GOV.UK's design. This can contain any content required, but typically would include:
 
 * How to access support
 * Architecture documentation 
 * Onboarding guides
-* COP documentation
+* A site for Community-of-Practise documentation
 
-There is a [Middleman template](https://github.com/alphagov/tech-docs-template) which enables this. You can find many examples of it's usage [here](https://github.com/alphagov/tech-docs-gem/network/dependents).
+There is a [Middleman template](https://github.com/alphagov/tech-docs-template) which enables this. You can find examples of it's usage [here](https://github.com/alphagov/tech-docs-gem/network/dependents).
 
-This page does not cover general tech site setup; that is covered [here](https://tdt-documentation.london.cloudapps.digital/).
+This page does not cover general technical documentation site setup; for that use [this site](https://tdt-documentation.london.cloudapps.digital/). Once that is running - come back here to continue adding C4 diagrams.
 
 ## C4 Diagrams for authoring architecture diagrams from code
 
-The C4 model is one option used within the DfE for visualising architectural design (another is PlantUML). An advantage of the C4 model is that multiple different levels of abstraction ('zoom levels') can be generated from one file.
+The C4 model is a diagrams-as-code option used within the DfE for visualising architectural design (another is PlantUML). An advantage of the C4 model is that multiple different levels of abstraction ('zoom levels') can be generated from one file.
 
-In summary, the levels are as follows each taking a more concrete and less abstract view of the system as you go down the list:
+In summary, the levels are as follows, with each taking a more concrete and less abstract view of the system as we go down the list:
 
 * Context - consisting of the system landscape and context diagrams, this level focuses on the interactions between high level systems, users, organisations and personas. It is suitable for a non-technical audience.
 * Containers - shows the interactions between containers (databases, web apps, file system, etc). Intended for technical people inside and outside of the development team; including software architects, developers and operations/support staff.

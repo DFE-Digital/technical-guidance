@@ -1,12 +1,12 @@
 ---
-title: Technical Documentation
+title: Adding C4 Technical Documentation
 last_reviewed_on: 2020-10-15
 review_in: 3 months
 ---
 
-# Technical Documentation
+# Technical Documentation Sites
 
-Your team may wish to create a technical documentation micro-site in order to provide a public documentation reference point consistent with GOV.UK's Design System. This can contain any content required, but examples include:
+Your team may wish to create a technical documentation website in order to provide a public documentation reference point consistent with GOV.UK's Design System. This can contain any content required, but examples include:
 
 * How to access support
 * Architecture documentation 
@@ -64,25 +64,25 @@ Next we must setup the GitHub Actions to publish:
 
 4. Modify your GitHub Actions file to include the following step *before* the middleman build is invoked, and *after* checkout:
 
-```yml
-- name: Upload and publish C4 diagrams
-  run: | 
-    mkdir ./screenshots 
-    chmod -R 777 ./screenshots
-    docker run --rm -v $(pwd):/usr/local/structurizr structurizr/cli push -id ${{ secrets.STRUCTURIZR_WORKSPACE_ID }} -key ${{ secrets.STRUCTURIZR_API_KEY }} -secret ${{ secrets.STRUCTURIZR_API_SECRET }} -workspace ./source-c4-diagrams/workspace.dsl
-    docker run --shm-size 1G --rm -v $(pwd)/source-c4-diagrams/export-private-cloud-diagrams.js:/app/index.js -v $(pwd)/screenshots:/screenshots alekzonder/puppeteer:latest node index.js "https://structurizr.com" "${{ secrets.STRUCTURIZR_USERNAME }}" '${{ secrets.STRUCTURIZR_PASSWORD }}' png ${{ secrets.STRUCTURIZR_WORKSPACE_ID }}
-    cp ./screenshots/structurizr-${{ secrets.STRUCTURIZR_WORKSPACE_ID }}-SystemLandscape.png ./source/architecture/context/images/SystemLandscape.png
-    cp ./screenshots/structurizr-${{ secrets.STRUCTURIZR_WORKSPACE_ID }}-AcademyTransfersSystem-SystemContext.png ./source/architecture/context/images/SystemContext.png
-    cp ./screenshots/structurizr-${{ secrets.STRUCTURIZR_WORKSPACE_ID }}-AcademyTransfersSystem-Container.png ./source/architecture/containers/images/Containers.png
-    cp ./screenshots/structurizr-${{ secrets.STRUCTURIZR_WORKSPACE_ID }}-AmazonWebServicesDeployment.png ./source/architecture/deployment/images/Deployment-Live.png
-```
+    ```yml
+    - name: Upload and publish C4 diagrams
+      run: | 
+        mkdir ./screenshots 
+        chmod -R 777 ./screenshots
+        docker run --rm -v $(pwd):/usr/local/structurizr structurizr/cli push -id ${{ secrets.STRUCTURIZR_WORKSPACE_ID }} -key ${{ secrets.STRUCTURIZR_API_KEY }} -secret ${{ secrets.STRUCTURIZR_API_SECRET }} -workspace ./source-c4-diagrams/workspace.dsl
+        docker run --shm-size 1G --rm -v $(pwd)/source-c4-diagrams/export-private-cloud-diagrams.js:/app/index.js -v $(pwd)/screenshots:/screenshots alekzonder/puppeteer:latest node index.js "https://structurizr.com" "${{ secrets.STRUCTURIZR_USERNAME }}" '${{ secrets.STRUCTURIZR_PASSWORD }}' png ${{ secrets.STRUCTURIZR_WORKSPACE_ID }}
+        cp ./screenshots/structurizr-${{ secrets.STRUCTURIZR_WORKSPACE_ID }}-SystemLandscape.png ./source/architecture/context/images/SystemLandscape.png
+        cp ./screenshots/structurizr-${{ secrets.STRUCTURIZR_WORKSPACE_ID }}-AcademyTransfersSystem-SystemContext.png ./source/architecture/context/images/SystemContext.png
+        cp ./screenshots/structurizr-${{ secrets.STRUCTURIZR_WORKSPACE_ID }}-AcademyTransfersSystem-Container.png ./source/architecture/containers/images/Containers.png
+        cp ./screenshots/structurizr-${{ secrets.STRUCTURIZR_WORKSPACE_ID }}-AmazonWebServicesDeployment.png ./source/architecture/deployment/images/Deployment-Live.png
+    ```
 
-Step-by-step, this script:
+    Step-by-step, this script:
 
-Creates a directory for the diagrams to land in (`screenshots`), then utilizes the `structurizr/cli` image to upload the `./source-c4-diagrams/workspace.dsl` file in to the previously created workspace identified by ID `STRUCTURIZR_WORKSPACE_ID`. 
+    Creates a directory for the diagrams to land in (`screenshots`), then utilizes the `structurizr/cli` image to upload the `./source-c4-diagrams/workspace.dsl` file in to the previously created workspace identified by ID `STRUCTURIZR_WORKSPACE_ID`. 
 
-A puppeteer automation script is used to automate a headless browser to log in to the cloud service and export the diagrams.
+    A puppeteer automation script is used to automate a headless browser to log in to the cloud service and export the diagrams.
 
-Finally, the exported files are copied in to their correct positions in the check-out repository file system - ready for the Middleman build process. 
+    Finally, the exported files are copied in to their correct positions in the check-out repository file system - ready for the Middleman build process. 
 
 4. Commit, push and then run a build. Make a note of the generated file names (workspace ID will be redacted with asterix) and make any nessicary amends to the GitHub Actions `cp` lines to copy the files defined in your C4 workspace to the correct place in the tech docs directory structure you have defined for your site.

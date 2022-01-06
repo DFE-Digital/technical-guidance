@@ -1,0 +1,122 @@
+---
+title: Azure CIP
+last_reviewed_on: 2022-01-6
+review_in: 6 months
+---
+
+# <%= current_page.data.title %>
+
+<%= partial('partials/page_toc') %>
+
+It provides preconfigured [Azure](https://azure.microsoft.com/) subscriptions including security guardrails.
+
+It provides access to most Azure resources including app services, container instances, virtual networks, managed databases, front door, key vault, storage accounts, etc.
+
+It can be used for any workload, especially ones which don’t fit on [GOV.UK PaaS](<%= data.site.gov_uk_paas%>). It can also be used alongside GOV.UK PaaS to complement it. For example: to store secrets, terraform state, backups, etc.
+
+Portal: [https://portal.azure.com/](https://portal.azure.com/)
+
+## Documentation
+* [CIP platform docs](https://docs.platform.education.gov.uk/index.html)
+
+## Onboarding users
+Use this [service portal form](https://dfe.service-now.com.mcas.ms/serviceportal/?id=sc_cat_item&sys_id=51b0b9c5db1ff7809402e1aa4b96197d&referrer=recent_items) to create the onboarding request:
+
+1. From _Request type_ dropdown, select: _Access to CIP Azure Portal/DevOps_
+1. From _Add/Change/Remove_ dropdown, select: _Add_
+1. Enter new users' email addresses
+
+If access to the service portal is not possible, ask the helpdesk (See [Support](/infrastructure/support/#helpdesk)) to "Invite --username-- to the CIP AAD. FAO of the Infrastructure Operations Team"
+
+Ask in #cloud-platform on Slack if more help is required.
+
+The new user will receive an invitation by email. Then the service managers can add them to the service Active Directory groups of the subscriptions: Managers and Delivery team.
+
+To access Azure Devops, the new user must access [Azure DevOps](https://dev.azure.com/dfe-ssp/). This will register them in the system then the service owner can add them to the project.
+
+## Onboarding a service
+Use this [service portal form](https://dfe.service-now.com.mcas.ms/serviceportal/?id=sc_cat_item&sys_id=51b0b9c5db1ff7809402e1aa4b96197d&referrer=recent_items) to create the onboarding request and choose _Request type: On-Boarding request_. It should be filled in by a senior civil servant (G7 or above). This includes an onboarding form to attach. Finance must be agreed beforehand.
+
+You will be given:
+
+* 2 default subscriptions: dev and test
+* 3 Active directory groups: Reader (read only), Delivery team (developers) and Managers (can approve PIM requests). The original requestor will be owner of these groups.
+* PIM (Privileged Identity Management) set up: members of the Delivery team can elevate their access themselves in staging, and request approval from a Manager in production.
+* A new project in Azure Devops dfe-ssp organisation and corresponding service connections to the subscriptions
+
+The production subscription can be requested via the same [service portal form](https://dfe.service-now.com.mcas.ms/serviceportal/?id=sc_cat_item&sys_id=51b0b9c5db1ff7809402e1aa4b96197d&referrer=recent_items).
+Choose _Request type: Request production subscription_.
+
+## Azure Devops
+This is the default platform for automation and continuous integration in DfE: [see](/infrastructure/automation/azure-devops/).
+
+When a service is onboarded to CIP, a Azure devops project is automatically provided, including service connectin to the CIP subscription.
+
+## Azure Development
+Deployments should always be done via infrastructure as code. We recommend using [Terraform](/infrastructure/dev-tools/#terraform) or [ARM templates](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview).
+
+## Access from/to Internet
+Static public IPs are not permitted by default in CIP. Instead, Azure provides unique domain names but the IP may change.
+
+Should you require a static IP, it is possible to request an [Internet Access Service](https://docs.platform.education.gov.uk/docs/articles/resource-management/platform-firewalls/internet-access-service.html?q=internet). It provides routing from/to the internet via a static IP and a firewall. URLs accessed via the firewall must be whitelisted.
+
+Contact #cloud-platform to set it up.
+
+## Service principal
+To be able to access Azure from an external system like GOV.UK PaaS, a service account is required. It is called a
+[service principal](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals) in Azure.
+
+### Create service principal
+- Create a new app registration in Azure Active Directory named like `s146d01-keyvault-readonlyaccess`
+- Add owners to the app registration. This will be users responsible for the service principal and its secrets
+- [Create access keys](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-app?tabs=dotnet#create-a-client-secret) with
+**1 year expiration**. This is mandated by CIP.
+- **_This is the only time you will see the key_**, so take this opportunity to COPY and PASTE it into the Key Vault now, in a secret named `SP-Readonly-Credentials` for instance
+
+### Add permissions
+Add the service principal to groups or access policies to give it access to particular resources.
+
+To assign it a role, request [CIP](/infrastructure/support/#infrastructure-operations) to add them. You may need approval from Security, ie the allocated ISO.
+
+### Use the service principal in external systems
+You will need:
+
+- `clientId`: From App registration overview, get `Application (client) ID`
+- `clientSecret`: Access key generated above, retrieve it from keyvault secret SPReadonly
+- `subscriptionId`: Get the subscription id at the subscription level
+- `tenantId`: From App registration overview, get `Directory (tenant) ID`
+
+#### Github actions
+Create a json like the one generated in this the [login action documentation](https://github.com/marketplace/actions/azure-login#configure-a-service-principal-with-a-secret).
+
+```json
+{
+    "clientId": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+    "clientSecret": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+    "subscriptionId": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+    "tenantId": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+}
+```
+
+Store it as a Github secret (eg: `AZURE_CREDENTIALS`) and use it with the Azure login action or provide it to Terraform.
+
+```yaml
+- uses: Azure/login@v1
+  with:
+    creds: ${{ secrets.AZURE_CREDENTIALS }}
+```
+
+#### Terraform
+Use the [service principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret) credentials above
+to configure the [provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs#argument-reference).
+
+The above json may be reused by passing it to a terraform variable then the [jsondecode](https://www.terraform.io/docs/language/functions/jsondecode.html) function can be used to extract the values.
+
+### Access key expiration
+The Operations team will alert you to the prospect of these secrets expiring, but will not update the credentials. If GitHub actions are used for example and the Github secret is not updated, then there is a risk of the CI/CD pipelines failing.
+
+See above to recreate the access keys and make sure to update them in key vault and in the systems using them.
+
+For more control and there is a [github_action](https://dfe-digital.github.io/github-actions/CheckServicePrincipal/) developed to enable periodic checks.
+
+For the Github action to work, the API Permission **Microsoft Graph Directory.Read.All** needs to be granted in App Registrations. Request the [CIP team](/infrastructure/support/#cip-engineering) to add the permissions.

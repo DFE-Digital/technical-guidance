@@ -1,0 +1,37 @@
+---
+title: Production
+weight: 30
+last_reviewed_on: 2022-01-6
+review_in: 6 months
+---
+
+# <%= current_page.data.title %>
+
+## Service accounts
+Automation requires creating a PaaS service account, which is a user account with its own email address, but not related to a human user.
+
+### Shared email
+The first step is to create a shared email account. See [Service accounts](/infrastructure/security/service-accounts/).
+
+### Create the GOV.UK PaaS user
+Follow the standard process to [request a new user](/infrastructure/hosting/govuk-paas/overview/#create-user) using and the details of the group you created above.
+
+It is recommended to keep a copy of the password in your production [Azure key vault](/infrastructure/security/managing-secrets/).
+
+[Add the user to the spaces](/infrastructure/hosting/govuk-paas/overview/#user-permissions) with the right role.
+
+## Temporary privileged access
+To allow rapid response to incidents, privilege escalation is done by the space managers. It is currently a manual process and they are responsible to
+revoke the privilege when it is not needed anymore. It is possible to
+[run a script](https://github.com/DFE-Digital/bat-infrastructure/blob/main/scripts/check-users-in-space-developer-role.ps1) regularly to confirm we
+only see the expected space users.
+
+## Revoke privileged access automatically
+Privileged should not be permanent. You can run a script to remove user access on a daily basis.
+
+For example:
+
+- [Script](https://github.com/DFE-Digital/bat-infrastructure/blob/main/scripts/check-users-in-space-developer-role.ps1)
+- [Workflow](https://github.com/DFE-Digital/bat-infrastructure/blob/main/.github/workflows/check-users-in-space-developer-role.yml)
+
+This requires a service account with `SpaceManager` role to be able to unset user roles.

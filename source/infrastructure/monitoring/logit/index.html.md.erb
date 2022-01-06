@@ -1,0 +1,112 @@
+---
+title: Logit.io
+hide_in_navigation: true
+link_in_toc: true
+last_reviewed_on: 2022-01-6
+review_in: 6 months
+---
+[Back to Monitoring](/infrastructure/monitoring/)
+
+#  <%= current_page.data.title %>
+
+
+The Logit platform delivers  a fully customised log and metrics solution based on Elasticsearch, Logstash and Kibana which is scalable, secure and compliant. It is the recommended method of cloud hosted logging when using [GOV.UK PaaS](<%= data.site.gov_uk_paas %>).
+
+### Access
+Request a new account from [Digital tools](<%= data.site.digital_tools %>). Depending on your team you may request access to one or more stacks.
+
+### New Stack
+To create a new a new stack you need to raise a request with [Digital tools](<%= data.site.digital_tools %>), providing them with the directorate, service name and finance approval from the service owner.
+
+You will need to know the approximate amount of data and retention period to estimate the cost. This can be gathered from [Logit.io](http://logit.io/)
+
+### Send logs from GOV.UK PaaS
+* Configure the Logstash filters using [PaaS official doc](https://docs.cloud.service.gov.uk/monitoring_apps.html#configure-logstash-filters)
+or [DfE improved version](https://github.com/DFE-Digital/bat-platform-building-blocks/blob/master/logstash-filters/govuk-paas.rb)
+* Get the value for your `TCP-SSL` host and port from Logstash Inputs under the settings menu for your logit stack
+* Configure PaaS using the [command line](https://docs.cloud.service.gov.uk/monitoring_apps.html#configure-app) or terraform:
+
+  ```hcl
+  resource cloudfoundry_user_provided_service log-service {
+    name = "my-app-log-service"
+    space = data.cloudfoundry_space.id
+    syslog_drain_url = "syslog-tls://${var.logit_host}:${var.logit_port}"
+  }
+  ```
+* Configure the application to send logs as json to STDOUT (Standard out)
+
+### Send logs from Azure
+A number of sources are available. See [documentation](https://logit.io/sources/search).
+
+### Ruby on rails
+* If GOV.UK PaaS is not used and STDOUT can't be used, use the [logstash-logger](https://github.com/dwbutler/logstash-logger) gem
+* Use [semantic logger](https://logger.rocketjob.io/) to format logs as json and add rails fields automatically
+* Example configuration:
+
+*config/initializers/semantic_logger.rb*
+
+```ruby
+Rails.application.configure do
+  config.semantic_logger.application = "" # This is added by logstash from the PaaS tags
+  config.log_tags = [:request_id]         # Prepend all log lines with the following tags
+end
+
+SemanticLogger.add_appender(io: STDOUT, level: Rails.application.config.log_level, formatter: Rails.application.config.log_format)
+Rails.application.config.logger.info('Application logging to STDOUT')
+```
+
+*config/environments/production.rb*
+
+```ruby
+config.log_level = :info                                # Or :warn, or :error
+config.log_format = :json                               # For parsing in Logit
+config.rails_semantic_logger.add_file_appender = false  # Don't log to file
+config.active_record.logger = nil                       # Don't log SQL
+```
+
+*config/environments/development.rb*
+
+```ruby
+config.log_level = :debug                       # Or :info
+config.log_format = :color                      # Console colorised non-json output
+config.semantic_logger.backtrace_level = :debug # Show file and line number (expensive: not for production)
+```
+
+You can override the above configuration for each environments but it is important to set the log format too `:json` when sending to logstash because the filters expect the logs to be in json format.
+
+**Important**: Uninstall the logstash gem and related code configuration when using semantic logger
+
+### Slack Alerts
+Alerts in logit.io can be [configured](https://help.logit.io/en/articles/3624510-an-introduction-to-alerting) to be sent to various applications, in this case we want to send our Errors to Slack.io
+
+#### Configure Slack
+You will need to have administrator access to a Slack workspace to create an Incoming Webhook or ask [Digital tools](<%= data.site.digital_tools %>) to provide you one.
+
+In the Apps area of your workspace, you will need to add the Incoming Webhook App. Configure it to use the channel you require, and capture the web hook it provides, as shown in the example below:
+
+#### Create an Alert
+A word of caution: as this can cause a swarm of Slack messages, it is recommended to try first in a test Slack account
+
+Return to logit.io and in the Settings/Alerts menu, you will be able to create a new Alert or amend an existing alert. Example:
+
+```yaml
+name: Test App Errors
+type: any
+index: logstash-*
+filter:
+- query:
+    query_string:
+      query: "syslog_severity:error"
+
+realert: ## Snooze alerts of same type for 10 minutes
+  minutes: 10
+
+generate_kibana_link: true
+
+# (Required)
+alert: # The alert used when a match is found
+- "slack"
+
+slack_webhook_url: # Live alerts channel
+- https://hooks.slack.com/services/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
+```

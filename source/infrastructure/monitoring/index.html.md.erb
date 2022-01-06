@@ -1,0 +1,109 @@
+---
+title: Monitoring
+weight: 50
+last_reviewed_on: 2022-01-6
+review_in: 6 months
+---
+
+#  <%= current_page.data.title %>
+
+Monitoring is a critical part of any infrastructure set-up to get insights about the health of the system. It actually serves different purposes and is implemented using different tools.
+
+<%= partial('partials/page_toc') %>
+
+## Alert when there is an outage
+We may not be accessing the site constantly so we need a tool to check the site’s health and tell us as soon as possible if it is down and hopefully before the majority of users.
+
+### Tools
+
+* [Azure availability tests](https://docs.microsoft.com/en-us/azure/azure-monitor/app/monitor-web-app-availability)
+* [StatusCake](statuscake/)
+
+## Alert when the service is degraded
+The site may be up and running, but it may be running slowly. Or some of the features may not be working as expected, for example user login. This may be because of dependencies out of our control, for example the Google API is inaccessible. We want to know where the issues are so we can focus our troubleshooting and implement a workaround.
+
+### Tools
+* [StatusCake](statuscake/)
+* Azure Monitoring
+* Custom healthchecks
+* Custom smoke tests
+* [Sentry](sentry/)
+
+## Alert before a potential outage
+Sometimes there is a problem building up gradually that will eventually bring the site down. For example if an application has a memory leak, it will consume more and more memory until it fills up the available memory entirely. The app will cease to function.
+
+This can be prevented by adding a threshold based monitor, which will alert us if memory usage is above 80% for example. This will give us the opportunity to fix the issue before any users are impacted.
+
+### Tools
+* Azure Monitoring
+* AWS Cloudwatch
+* [Prometheus](prometheus/) with Alertmanager
+
+## Help troubleshooting during/after an outage
+If something is wrong, we need data to investigate. This data may be essential:
+
+* during the outage to pinpoint the issue and implement a workaround.
+* after the outage, to gather more data, investigate in detail and create a comprehensive post-mortem analysis.
+
+### Tools
+* [Logit.io](logit/)
+* Azure Monitoring
+* AWS Cloudwatch
+* [Prometheus](prometheus/) with influxDB
+* [Sentry](sentry/)
+* [Skylight](https://www.skylight.io/)
+* [StatusCake](statuscake/)
+
+## Show past, current and future usage
+The service is alive: it runs in the cloud and serves users. We may have questions such as:
+
+* How many users are using the system right now?
+* How do today’s metrics compare to last week?
+* How much memory are we consuming and can we downsize to save money?
+* If CPU usage goes up slightly every week, when should we expect to have to scale up?
+
+The data should be available to answer these questions and it should be possible to visualise it in reports, graphs and dashboards.
+
+### Tools
+* [Logit.io](logit/)
+* Azure Monitoring
+* Azure Log Analysis
+* AWS Cloudwatch
+* [Prometheus](prometheus/) with influxDB and Grafana
+* [Skylight](https://www.skylight.io/)
+
+## Alert when there is a failure in the deployment pipeline
+There may be failures in the system with no user impact. For example a failure in the deployment pipeline would not impact users but would impact the developers. The pipeline checks for bugs, security, accessibility, performance and we want to know before the new release goes live.
+
+### Tools
+* [Azure devops](/infrastructure/automation/azure-devops/)
+* [Github actions](/infrastructure/automation/github-actions/)
+
+## Alerting
+When the monitoring system detects an issue, it should notify us. The monitoring software may integrate with the notification system directly or it may be configured to use a separate system for notifications.
+
+### Target group
+It may target different groups depending on the issue. For example if there is a user impact, the Product Manager should be included. If there is a potential memory leak, maybe just developers.
+
+If there is an incident out of hours, we may use specific tooling which can manage a rota and alert the right person.
+
+### Asynchronous communication
+The notification is posted somewhere to a large group and we hope someone will read it.
+
+### Tools
+* Email
+* Slack
+* SMS
+* Github comment
+* Dashboard
+
+### Synchronous communication
+To make sure someone gets the alert, specific engineers can be notified directly, usually by the out of hours support software. It may use mobile app notifications, SMS, phone call and repeat until the engineer acknowledges the incident. If they don’t reply, a backup engineer may be called out, or the software may escalate to the manager.
+
+#### Tools
+* Pagerduty
+* Victorops
+
+## See also
+
+<%= partial('partials/children_toc') %>

@@ -1,8 +1,8 @@
 ---
 title: Adding a new guidance
 weight: 10
-last_reviewed_on: 2020-07-01
-review_in: 1 year
+last_reviewed_on: 2022-01-06
+review_in: 6 months
 ---
 
 # <%= current_page.data.title %>
@@ -44,5 +44,37 @@ Then make a pull request and inform maintainers in the `#architecture` Slack cha
 
 Secondary pages related to a guidance may be created in the same directory as `<title>.html.md.erb`. To hide them from the sidebar navigation, add
 field `hide_in_navigation: true` to the page header.
+
+## Common data
+
+To avoid repeating content and simplify maintaining, common data can be centralised in `site.json`. For example:
+
+```
+"digital_tools": "/infrastructure/support/#digital-tools"
+```
+
+Can be referred to as:
+
+```
+[Digital tools](<%%= data.site.digital_tools %>)
+```
+
+Which will be rendered as: [Digital tools](<%= data.site.digital_tools %>)
+
+## Child pages table of content
+A table of content for pages in subdirectories may be rendered automatically using:
+
+```
+<%%= partial('partials/children_toc') %>
+```
+
+## Page table of content
+A table of content for `##` Markdown sections (or `<h2>` in html) on the same page may be rendered automatically using:
+
+```
+<%%= partial('partials/page_toc') %>
+```
+
+## Review
 
 The guidance must be reviewed and updated before the expiration date.

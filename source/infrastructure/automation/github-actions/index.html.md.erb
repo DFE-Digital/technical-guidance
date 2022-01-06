@@ -1,0 +1,71 @@
+---
+title: Github actions
+last_reviewed_on: 2022-01-6
+review_in: 6 months
+---
+
+# <%= current_page.data.title %>
+
+## Environment variables
+
+Variables can be declared at the workflow level, or job and step level. Avoid declaring secrets at a global level if it can be done at more local level.
+Environment variables are available as:
+
+* Workflow variable: `${{ env.MY_VAR }}`
+* Shell variable inside run: `run: echo ”$MY_VAR”`
+
+Use the second form in run when possible but be careful as the variable won’t be expanded.
+
+
+```
+env:
+  TEST_DIR: $HOME/app/tests         # Contains a variable which should be expanded
+...
+    steps:
+    - name: Check test directory
+      run: |
+        echo "$TEST_DIR"            # $HOME is not expanded
+        echo "${{ env.TEST_DIR }}"  # $HOME is expanded
+```
+
+## ACT
+
+[ACT](https://github.com/nektos/act) is a useful tool allowing you to run GitHub Actions from your command line, prior to having to check them into GitHub and run them on the server.
+
+### Installation
+To install follow the [instructions](https://github.com/nektos/act#installation).
+
+### Tips
+#### Secrets
+To use secrets you will need to use the Shell export command and create environment variables for example:
+
+```
+export GOVUKPAAS_USERNAME=<GOVUKPAAS_USERNAME>
+export GOVUKPAAS_PASSWORD=<GOVUKPAAS_PASSWORD>
+```
+
+Then you are able to run the act command line; from the root of the cloned repository:
+
+```
+act -s GOVUKPAAS_USERNAME -s GOVUKPAAS_PASSWORD
+```
+
+#### Commit SHA
+If your action refers to the commit SHA, you will need need to supply this as an environment variable. It should be
+added to a env file. Example with `test.env`:
+
+```
+GITHUB_SHA=ad46c15da83d85b9f97d7bbcbac6f2fc3e24efa7
+```
+
+Then run the act command:
+
+````
+act --env-file test.env -s GOVUKPAAS_PASSWORD ...
+```
+
+## Dependabot
+GitHub actions are generally supplied by the Marketplace and can occasionallly become out of date. To help prevent this you can use the GitHub [Dependabot](https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/enabling-and-disabling-dependabot-version-updates#enabling-github-dependabot-version-updates) tool.
+
+Follow the [documentation](https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/keeping-your-actions-up-to-date-with-dependabot)
+to configure it for GitHub actions.

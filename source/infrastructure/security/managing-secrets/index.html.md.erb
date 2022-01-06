@@ -1,0 +1,118 @@
+---
+title: Managing secrets
+last_reviewed_on: 2022-01-6
+review_in: 6 months
+---
+
+# <%= current_page.data.title %>
+
+<%= partial('partials/page_toc') %>
+
+Azure key vault offers a secure and convenient way to store secrets required for application environments and infrastructure configuration.
+
+## Key vault
+Create a resource group following the standard naming convention like `s146d01-rg` where `s146` is the project id, `d` is the development subscription
+and `01` is an identifier. This can be automated using [Powershell](https://github.com/DFE-Digital/qualified-teachers-api/blob/main/azure/Set-ResourceGroup.ps1)
+and [ARM template](https://github.com/DFE-Digital/qualified-teachers-api/blob/main/azure/azuredeploy.json).
+
+The resource group must have the mandatory tags associated with your subscription.
+
+Create a key vault in this resource group and name it for example `s146d01-shared-kv`in region *West Europe* with *Standard pricing tier*.
+Leave Networking defaults (public endpoint).
+
+Repeat for each subscription (development, test, production).
+
+## Developer Access
+You could grant access in the [Access Policies](https://docs.microsoft.com/en-us/azure/key-vault/general/assign-access-policy?tabs=azure-portal) section
+to yourself and other members of the team who you will allow to access the vault. Remember to grant minimum permissions, if they don’t need to edit then don’t grant them write.
+
+**A better solution** is to use a specific user role, which can be elevated via PIM to give access to secrets. This pattern is detailed on the [CIP documentation](https://docs.platform.education.gov.uk/docs/blogs/platform-engineering/key-vault-rbac.html)
+and the implementation is explained below.
+
+## Service Principal
+To be able to retrieve the secrets from an external system like GOV.UK PaaS, you need an Azure Service Principal, which takes the form of an app registration in Azure AD.
+
+See instructions [here](/infrastructure/hosting/azure-cip/#service-principal).
+
+## Request roles
+You will need to raise a Service request to request roles for both the service principal and for the users to be able to manage the secrets.
+The sample request may be used for all the subscriptions or one at a time.
+
+### Sample Request
+Create a request in Service Now: Request something, Non-Standard, Any Other Request,
+Select an appropriate Category: Non Standard, Business Service: Shared IT Core services, Service Offering: CIP Platform
+
+```
+Configure PIM access to key vault following the pattern in https://docs.platform.education.gov.uk/docs/blogs/platform-engineering/key-vault-rbac.html :
+
+- Please create a new role with the name `s146-getintoteachingwebsite-Contributor and key vault editor` with the following roles:
+    - `Contributor`
+    - `Key Vaults Certificates Officer`
+    - `Key Vault Crypto Officer`
+    - `Key Vaults Secrets Officer`
+- Configure PIM for the `s146-getintoteachingwebsite-Contributor-Delivery Team` user group to access this role
+
+- Change `s146d01-shared-kv` keyvault permission model to "Azure role-based access control"
+- Change `s146t01-shared-kv` keyvault permission model to "Azure role-based access control"
+- Change `s146p01-shared-kv` keyvault permission model to "Azure role-based access control"
+
+- Please give `Key Vault Reader` and `Key Vault Secrets` roles to service principal `s146d01-keyvault-readonlyaccess` at subscription level in `s146-getintoteachingwebsite-development`.
+- Please give `Key Vault Reader` and `Key Vault Secrets` roles to service principal `s146t01-keyvault-readonlyaccess` at subscription level in `s146-getintoteachingwebsite-test`.
+- Please give `Key Vault Reader` and `Key Vault Secrets` roles to service principal `s146p01-keyvault-readonlyaccess` at subscription level in `s146-getintoteachingwebsite-production`.
+```
+
+## Access secrets from GitHub actions
+Login using the [service principal](/infrastructure/hosting/azure-cip/#github-actions) in the workflow.
+
+The secrets can then be retrieved using the [Azure/get-keyvault-secrets](https://github.com/marketplace/actions/azure-key-vault-get-secrets) action.
+
+## Access secrets from Terraform
+Login using the [service principal](/infrastructure/hosting/azure-cip/#github-actions) in Terraform.
+
+The secrets can then be retrieved using the [azurerm_key_vault data source](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault).
+
+## Store multiple values per secret
+
+The name of a secret must be hard coded in the systems retrieving it. When using infrastructure as code, this name may be present in multiple files which creates a burden to rename or add more secrets.
+
+An alternative is to store a file containing multiple secrets as key-value pairs, for example with `yaml`. The secrets can be added, removed or updated in the file without changing anything in the code.
+There are a number of ways to edit or read the secrets.
+
+### Edit using Azure cli
+Create a yaml local file and upload it:
+
+```shell
+az keyvault secret set  --vault-name sXXXd01-kv --name TTA-KEYS --file local_file.yml
+```
+_Make sure to delete the local file after use._
+
+### Read using Azure cli
+Print the file content:
+
+```shell
+az keyvault secret show  --vault-name sXXXd01-kv --name TTA-KEYS
+```
+_Make sure to clear the command line after use._
+
+Download to a local file:
+
+```shell
+az keyvault secret download  --vault-name sXXXd01-kv --name TTA-KEYS --file local_file.yml
+```
+_Make sure to delete the local file after use._
+
+### Read using Github actions
+Use the [keyvault-yaml-secret action](https://github.com/DFE-Digital/github-actions/tree/master/keyvault-yaml-secret) to retrieve a secret from the yaml file.
+
+### Read using terraform
+Use the [yamldecode](https://www.terraform.io/docs/language/functions/yamldecode.html) function to parse the yaml file and access individual values:
+
+```hcl
+infra_secrets = yamldecode(data.azurerm_key_vault_secret.infra_secrets.value)
+paas_password = infra_secrets["paas_password"]
+```
+
+### Read and write using the fetch_config.rb script
+[fetch_config.rb](https://github.com/DFE-Digital/bat-platform-building-blocks/tree/master/scripts/fetch_config) is a convenient ruby script to read and write securely to and from Azure key vault and transform into multiple formats.
+
+It is routinely used by developers. See `print-app-secrets` and `edit-app-secrets` in this [Makefile](https://github.com/DFE-Digital/publish-teacher-training/blob/master/Makefile) for example.

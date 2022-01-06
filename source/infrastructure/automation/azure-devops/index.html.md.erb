@@ -1,0 +1,19 @@
+---
+title: Azure devops
+last_reviewed_on: 2022-01-6
+review_in: 6 months
+---
+
+# <%= current_page.data.title %>
+
+[Azure DevOps](https://azure.microsoft.com/en-us/services/devops/) provides version control, reporting, requirements management, project management, automated builds, testing and release management capabilities. In DfE it is mainly used to run pipelines and it makes sense to use it for CIP deployments as it’s tightly integrated to Azure.
+
+Portal: [Azure Devops](https://dev.azure.com/dfe-ssp/)
+
+When a service is onboarded to [CIP](/infrastructure/hosting/azure-cip/), a Azure devops project is automatically provided, including service connectin to the CIP subscription.
+
+## Release pipeline deprecation
+The manually created release pipelines are deprecated. Any new pipeline should be created as code in yaml and stored in a git repository.
+
+## Extensions
+New Devops extensions  may be requested. They must be approved by Security before inclusion. Ask in `#cloud-platform` Slack channel for details.

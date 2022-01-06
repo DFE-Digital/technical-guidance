@@ -38,4 +38,7 @@ show_contribution_banner: true
 github_repo: DFE-Digital/technical-guidance
 github_branch: master
 
+owner_slack_workspace: ukgovernmentdfe
+default_owner_slack: '#tech-community'
+
 redirects:

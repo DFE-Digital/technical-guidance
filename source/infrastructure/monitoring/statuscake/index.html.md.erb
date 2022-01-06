@@ -1,0 +1,79 @@
+---
+title: StatusCake
+hide_in_navigation: true
+link_in_toc: true
+last_reviewed_on: 2022-01-6
+review_in: 6 months
+---
+[Back to Monitoring](/infrastructure/monitoring/)
+
+#  <%= current_page.data.title %>
+
+Statuscake is a cloud based tool used to constantly monitor the availability of websites and alert when they are not present.
+
+### Access to the DfE account
+Use the [StatusCake form](https://dfe.service-now.com.mcas.ms/serviceportal/?id=sc_cat_item&sys_id=e7a004df1b399c502fe864606e4bcb21),
+choose *Request account access* and enter your email address. This will give you access to the DFEStatusCake subaccount and you will be able to see
+all checks in DfE, modify contact groups and integrations. Checks can't be created manually, it is only allowed via an API key.
+
+### Request API key
+Each service or service area (shared key) can request an API key to create the checks via automation. Use the [StatusCake form](https://dfe.service-now.com.mcas.ms/serviceportal/?id=sc_cat_item&sys_id=e7a004df1b399c502fe864606e4bcb21),
+choose *Request API key*. Enter the team's email address and the name of the service or service area.
+
+### Contact Group
+Create a contact group for each team manually using the statuscake GUI.
+
+### Alerts
+It is possible to have a number of emails and mobile numbers for alerts when a site is unavailble.
+
+### Integration
+It is possible for a Slack message to be raised. You will need a Slack Webhook, which can be provided on request by [Digital tools](<%= data.site.digital_tools %>).
+
+### Delivery
+It is recommended to use Terraform:
+
+*tfvars* file
+
+```hcl
+alerts = { # Several different checks per environment can be configured
+  GiT_App_Production_Healthcheck = {
+    website_name  = "Get Into Teaching Website (Production)"                    # Name of the service and environment
+    website_url   = "https://getintoteaching.education.gov.uk/healthcheck.json" # Simple healtheck page with no dependency
+    test_type     = "HTTP"
+    check_rate    = 30                                                          # Set to minimum
+    contact_group = ["Get-Into-Teaching"]
+    trigger_rate  = 0                                                           # Set to 0 to alert immediately
+    confirmations = 1                                                           # Set to 1 or more to eliminate false alarms
+    node_locations = [ "UKINT", "UK1", "MAN1", "MAN5", "DUB2"],                 # Limit the number of check locations
+  }
+}
+```
+
+```hcl
+provider "statuscake" {
+  username = var.sc-username
+  apikey   = var.sc-password
+}
+
+terraform {
+  required_version = ">= 0.13.4"
+  required_providers {
+    statuscake = {
+      source  = "StatusCakeDev/statuscake"
+      version = "1.0.1"
+    }
+  }
+
+resource "statuscake_test" "alert" {
+  for_each = var.alerts
+
+  website_name   = each.value.website_name
+  website_url    = each.value.website_url
+  test_type      = each.value.test_type
+  check_rate     = each.value.check_rate
+  contact_group  = each.value.contact_group
+  trigger_rate   = each.value.trigger_rate
+  confirmations  = each.value.confirmations
+  node_locations = each.value.node_locations
+}
+```

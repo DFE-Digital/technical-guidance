@@ -1,0 +1,210 @@
+---
+title: Disaster recovery
+weight: 40
+last_reviewed_on: 2022-01-6
+review_in: 6 months
+---
+
+# <%= current_page.data.title %>
+
+<%= partial('partials/page_toc') %>
+
+This document is intended to list technical risks to our digital services and the mitigations we have in place.
+
+## Application bug
+A software or configuration defect gets deployed and it’s impacting users
+
+|||
+|-|-|
+|Impact|Loss of some functionality in a service|
+|Prevention|Code review. Implement sufficient unit tests and integration tests in production like environments.|
+|Detection|It may be reported by a failing smoke test before release ideally, by error tracking software like [Sentry](httos://sentry.io/) or in the worst-case scenario, a user contacting support after release|
+|Remediation|The quickest action is to roll back the problematic change or roll forward with a fix|
+
+## Application crash
+The application may crash because of a bug, memory leak, high utilisation…
+
+|||
+|-|-|
+|Impact|It may or may not impact end users as a service may deploy multiple application instances.|
+|Prevention|Crashes may happen because of high memory, CPU or disk usage. These metrics should be monitored and notify in advance to avoid the crash entirely.|
+|Detection|Endpoint monitoring like `StatusCake` would notify of a total outage impacting users, if the whole application crashes. An application _instance_ crash may be reported by monitoring.<br/>In the case of GOV.UK PaaS, the prometheus metric `crash` increases if an instance crashes.|
+|Remediation|The quickest action is to roll back the problematic change or roll forward with a fix. Ideally the platform detects a failing application and restarts it.<br/>For example GOV.UK PaaS detects the failure by running frequent healthchecks. Then it deploys a new container and kills the failed one.<br/>If there is no such feature, the application may be restarted manually. If the restart doesn't work, the application and infrastructure must be investigated manually.|
+
+## Data corruption
+The data in the database is corrupted because of a bug, human error, malicious activity… and cannot be recovered.
+
+|||
+|-|-|
+|Impact|Some data may be lost, updated with incorrect value or may be presented to the wrong users.|
+|Prevention|Crashes may happen because of high memory, CPU or disk usage. These metrics should be monitored and notify in advance to avoid the crash entirely.|
+|Detection|Smoke tests may detect corruptions in some critical data.|
+|Remediation|Access to the service should be stopped immediately.<br/>The data may be fixed manually if the change is simple. If the change is complex or if we don't know the extent of the issue, it may be necessary to recover the database from a backup whether daily, hourly or point-in-time using transaction logs.<br/>GOV.UK PaaS keeps backups of the database and transaction logs. We can recreate the database with daily or point-in-time (1s resolution) backup.|
+
+
+## Loss of database instance
+It is possible to lose the database instance and the associated backups. For example, if a database service is deleted from GOV.UK PaaS, in case of human or automation error, the whole instance is deleted, including its backups.
+
+|||
+|-|-|
+|Impact|Users can't read or write any data. All data is lost.|
+|Prevention|To protect against human errors, users should only be allowed to access production when they need to.<br/>To protect against automation errors, changes should be thoroughly reviewed, in pull requests or review apps.<br/>Keep a daily backup of the production databases on a secure place like Azure storage. Production backups should only be accessible by authorized users.|
+|Detection|Endpoint monitoring may point to a healthcheck page checking the connection to the databse. Or smoke tests running in production may detect it.|
+|Remediation|Restore database from external daily or most recent backup|
+
+## Loss of Azure/AWS availability zone
+We deploy to PaaS London region which has 3 separate availability zone. It may happen that one of them is unavailable: either network, compute or storage services are affected.
+
+|||
+|-|-|
+|Impact|Applications may be slow or unavailable|
+|Prevention|Applications should be built with failure in mind: deploy multiple application instances and deploy databases in cluster mode. Spread them across multiple AZs for high availability.<br/>GOV.UK PaaS is PaaS is spread across 3 AZs. Scale applications to more than 1 instance and choose `HA` database plans.|
+|Detection|Endpoint monitoring checking for uptime and response time|
+|Remediation|If not handled automatically by the platform, redeploy applications and fail over clusters|
+
+## Loss of Azure/AWS region
+In some rare cases, an entire region might become unavailable.
+
+|||
+|-|-|
+|Impact|Applications may be unavailable|
+|Prevention|For critical applications, it is possible to deploy to 2 different regions, synchronise the data, configure a DNS based failover or GSLB. We don’t usually protect against this risk as it is not worth the complexity of the required set-up.|
+|Detection|Endpoint monitoring checking for uptime|
+|Remediation|Start services in backup region, trigger DNS failover|
+
+## GOV.UK PaaS unavailable
+When our services are on GOV.UK PaaS, any problem with platform may impact us. See [GOV.UK PaaS Support](<%= data.site.gov_uk_paas%>overview/#support).
+
+|||
+|-|-|
+|Impact|Services may be slow or unavailable. Or the service may be available but operations and deployments are broken.|
+|Prevention|For critical applications, it is possible to deploy to 2 different regions (London and Ireland), synchronise the data, configure a DNS based failover or GSLB. We don’t usually protect against this risk as it is not worth the complexity of the required set-up.|
+|Detection|Endpoint monitoring checking for uptime|
+|Remediation|Start services in backup region, trigger DNS failover|
+
+## Azure issues impacting GOV.UK PaaS
+We often rely on Azure for:
+
+- Terraform state in Azure storage
+- Deploment and application secrets in Azure keyvault
+- Daily production database backups in Azure storage
+
+|||
+|-|-|
+|Impact|This would not impact the running applications but would prevent us from deploying new versions and backing up the database.|
+|Prevention|Enable soft delete on Key vaults. Secrets are versioned.<br/>Enable container soft delete<br/>Enable versioning for blobs|
+|Detection|The pipelines or deployments may fail|
+|Remediation|Key vaults with soft delete are recoverable. Secrets are versioned and recoverable in case of corruption or deletion<br/>Azure storage accounts can be recovered for 14 days if they were deleted by mistake<br/>Storage container with soft delete are recoverable<br/>Versioned files in storage blobs are recoverable in case of corruption or deletion|
+
+## Denial of service
+An attacker may send a high number of requests to overload the service and make it unavailable.
+
+|||
+|-|-|
+|Impact|The service is unavailable or slow for users|
+|Prevention|Every property in Azure is protected by [Azure's infrastructure DDoS (Basic) Protection](https://docs.microsoft.com/en-us/azure/ddos-protection/ddos-protection-overview).<br/>All apps on GOV.UK PaaS using a [custom domain](https://docs.cloud.service.gov.uk/deploying_services/use_a_custom_domain/) are protected by [AWS Shield Standard](https://aws.amazon.com/shield/features/)<br/>Depending on the criticality of the service, it is possible to use Azure DDoS Protection Standard instead.|
+|Detection|Endpoint monitoring checking for uptime and response time|
+|Remediation|Protection measures are triggered automatically. It is also possible to analyse the traffic pattern and change the application accordingly.|
+
+## Unauthorised access
+A malicious actor steals credentials or an ex employee still has working credentials and gains privileged access to the live environment.
+
+|||
+|-|-|
+|Impact|They may break the app, read or change confidential data|
+|Prevention|Separate production environment and tighten security. Non production environments should only hold test or anonymised data.<br/>Revoke access every day or use [Azure PIM](https://docs.microsoft.com/en-us/azure/active-directory/privileged-identity-management/pim-configure) to give users temporary access. Make sure the offboarding process is followed. Use single-sign-on and 2FA when possible.<br/>Do not give databases a public IP.|
+|Detection|Azure audit logs, GOV.UK PaaS audit log|
+|Remediation|Revoke access of the suspicious user, investigate their actions<br/>Rotate secrets they may know and possibly restore the database to a known good state.|
+
+## Disclosure of secrets
+Different kind of sensitive information may be posted online accidentally by a developer. On a website like [pastebin](https://pastebin.com/) or committed to Github public repository. Examples:
+
+- _Deployment secrets_ like GOV.UK PaaS credentials, AWS API key
+- _Application secrets_ like Google API key
+- _Application data_ like a database dump
+
+
+|||
+|-|-|
+|Impact|A malicious actor may gain access to the system, break the app, read or change confidential data, deploy extra applications.|
+|Prevention|Secrets should be stored in a secure location like Azure keyvault ([see Managing secrets](/infrastructure/security/managing-secrets/)), Azure devops variables or Github secrets. They should not be stored in a local file. If necessary temporarily, make sure to exclude it with `.gitignore`.<br/>Use Terraform [remote state backend](https://www.terraform.io/docs/language/state/remote.html) in a secure Azure storage account and not local files.<br/>Do not expose databases on the internet and refrain from downloading production dumps. Store database backups in a secure storage account and use ony anonymised data for non production environments.<br/>Install [git-secrets](https://github.com/awslabs/git-secrets) locally. Configure [GitGuardian](https://www.gitguardian.com/) on the repository.|
+|Detection|Block by git-secrets or notification from GitGuardian. Alert on overspending.|
+|Remediation|Remove the secrets from the public place, rotate all the exposed secrets, investigate if they were used.<br/>In the case of Github, remove from the repository and its history, make a request to GitHub to remove any pull-request or branch that include it, as those can exist beyond the life of the repo.|
+
+## SSL certificate expiry
+Each service must have a valid SSL certificate otherwise clients cannot connect. Certificates have an expiry date and are not valid after the date.
+
+|||
+|-|-|
+|Impact|Users can't access the website. Or they may ignore browser warnings and could then be tricked into a malicious website.|
+|Prevention|Set up auto renewal of certificates stored in [Azure key vault](https://docs.microsoft.com/en-us/azure/key-vault/certificates/tutorial-rotate-certificates). Services on PaaS are configured with a custom domain which generates a certificate and renews it automatically. If not auto renewed, set up monitoring of expiry date. Certficates created on DfE's Globalsign are monitored by Operations and owners receive notifications.|
+|Detection|Email from Operations or notification from monitoring|
+|Remediation|If not auto renewed, issue a new Globalsign certificate and install it on the website|
+
+## Traffic spike
+A sudden spike in user traffic due to an announcement, a product launch or a coincidence may overload the system.
+
+|||
+|-|-|
+|Impact|The system is slow or unresponsive|
+|Prevention|Set up response time monitoring.<br/>Run load testing to determine bottlenecks and know how to scale up.<br/>Use CDN for web page caching and internal caching like Redis or Memcached. On GOV.UK PaaS, serve web assets (javascript, CSS...) without [forwarding any header](https://docs.cloud.service.gov.uk/deploying_services/use_a_custom_domain/#forwarding-headers) to optimise caching.|
+|Detection|Alert from response time monitoring, high CPU or memory usage, instances crashing|
+|Remediation|Scale applications and services horizontally and vertically<br/>Disable expensive features|
+
+## DfE Sign-In failure
+[DfE Sign-in](https://services.signin.education.gov.uk/) is a single-sign-on solutions for many website.
+
+|||
+|-|-|
+|Impact|Users cannot connect to the website|
+|Prevention|Implement login workaround via magic link or username/password|
+|Detection|Smoke test failure. DfE Sign-in [status page](https://status.signin.education.gov.uk/)|
+|Remediation|Activate the login workaround|
+
+## Github
+[Github](https://github.com/) is our code repository, continuous integration system ([Github actions](https://github.com/features/actions)) and Docker registry ([GHCR](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)).
+
+|||
+|-|-|
+|Impact|Users are not impacted, but we would not be able to deploy via automation|
+|Prevention|Plan to be able to deploy manually. Have DockerHub or Azure container registry ready as backup registry.|
+|Detection|Github [status page](https://www.githubstatus.com/). Updates are posted to the #govuk-paas Slack channel.<br/>Notification of pipeline failures|
+|Remediation|Build and deploy manually|
+
+## DockerHub
+[DockerHub](https://hub.docker.com/) is a docker container registry. New application version images are built, pushed to DockerHub then used for deployment.
+
+If DockerHub is down it won’t impact the running service, but we won’t be able to deploy new versions, for example for bugfixes or reverting to older versions.
+
+|||
+|-|-|
+|Impact|Users are not impacted, but we would not be able to deploy via automation|
+|Prevention|Have Github container registry or Azure container registry ready as backup registry.|
+|Detection|DockerHub [status page](https://status.docker.com/)<br/>Notification of pipeline failures|
+|Remediation|Build and deploy manually|
+
+## Monitoring and logging failure
+We rely on services like [Logit.io](https://logit.io/), [StatusCake](https://www.statuscake.com/), [Prometheus ecosystem](https://github.com/DFE-Digital/cf-monitoring/), [Skylight](https://www.skylight.io/), [Sentry](https://sentry.io/)
+
+|||
+|-|-|
+|Impact|Users are not impacted, but we would lose visibility of our systems|
+|Prevention||
+|Detection||
+|Remediation|Check manually|
+
+## GOV.UK Notify
+GOV.UK Notify is used to communicate with our users via emails, texts and letters.
+
+|||
+|-|-|
+|Impact|We can't send communications to our users<br/>Asynchronous sending jobs may queue until it's available again|
+|Prevention||
+|Detection|GOV.UK Notify [status page](https://status.notifications.service.gov.uk/)|
+|Remediation||
+
+## Google BigQuery
+TBD
+
+## Google API
+TBD

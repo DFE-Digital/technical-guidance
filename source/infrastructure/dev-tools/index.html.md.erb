@@ -1,0 +1,93 @@
+---
+title: Developer tools
+last_reviewed_on: 2022-01-05
+review_in: 3 months
+weight: 10
+---
+
+# <%= current_page.data.title %>
+
+<%= partial('partials/page_toc') %>
+
+Installation of each product should be carried out following the distributors current guidance, depending on your operating system.
+
+## Azure CLI
+The Azure Command-Line Interface (CLI) is a cross-platform command-line tool to connect to Azure and execute administrative commands on Azure resources. It allows the execution of commands through a terminal using interactive command-line prompts or a script.
+
+[How to Install the Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
+
+## Cloud Foundry CLI
+Cloud Foundry is an open source cloud computing platform. It is the platform the [UK Gov PaaS](https://www.cloud.service.gov.uk/) is delivered on.
+
+[GOV.UK PaaS Getting Started (Cloud Foundry)](https://www.cloud.service.gov.uk/)
+
+## GIT
+Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency.
+
+[Installing Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+
+## Terraform
+
+[Terraform](https://www.terraform.io/) is an infrastructure as code (IaC) tool that allows you to build, change, and version infrastructure safely and efficiently.
+
+### Installation
+Follow these [instructions](https://learn.hashicorp.com/tutorials/terraform/install-cli).
+
+### Versions
+When installing Terraform locally it is important to make sure you have a version that matches the Github version.
+
+- Pin the version in a GitHub Actions workflow:
+
+    ```yaml
+    - name: Pin Terraform version
+        uses: hashicorp/setup-terraform@v1
+        with:
+        terraform_version: 0.13.1
+    ```
+- Pin the version in Terraform code (e.g. versions.tf):
+
+    ```hcl
+    terraform {
+        required_version = ">= 0.13.1"
+    }
+    ```
+
+### Install a matching version locally
+
+To allow you to manage multiple versions locally, it is suggested to use [tfenv](https://github.com/tfutils/tfenv):
+
+- Install: `brew install tfenv`
+- List remote available versions: `tfenv list-remote`
+- Install a specific version: `tfenv install 0.13.1`
+- List all versions which are installed locally: `tfenv list`
+- Use a specific version: `tfenv use 0.13.1`
+
+### State
+Terraform keeps a register of all the resources it has created in a long json file called the _state file_. This allows keeping them under control to validate configuration, update or remove them. To work in a team and in automation, terraform provides [remote storage](https://www.terraform.io/language/state/remote) so the state can be shared.
+We recommend storing it as a [Blob Container within the Blob Storage Account](https://www.terraform.io/language/settings/backends/azurerm)
+
+Since the state is critical, we strongly recommend using [versioning](https://docs.microsoft.com/en-us/azure/storage/blobs/versioning-overview). This allows restoring the state in case it’s deleted or restoring a previous version in case it’s corrupted or updated by mistake (new terraform version for instance).
+[Soft delete for blobs](https://docs.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview) and [soft delete for containers](https://docs.microsoft.com/en-us/azure/storage/blobs/soft-delete-container-overview) are important too.
+
+## Ruby
+
+### Using RVM
+
+1. install homebrew, this will ask to install the xcode command line tools if you dont have it already
+Run `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"`
+2. install gpg2
+Run `brew install gpg2`
+3. import the RVM keys *do not use these keys* get them from the official website (https://rvm.io/rvm/security) as they change often
+Run `gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB`
+4. trust the first key
+Run `echo 409B6B1796C275462A1703113804BB82D39DC0E3:6: | gpg2 --import-ownertrust # mpapis@gmail.com`
+5. install rvm
+Run `\curl -sSL https://get.rvm.io | bash -s stable`
+6. enable rvm (replace <your-user-name>)
+Run `source /Users/<your-user-name>/.rvm/scripts/rvm`
+7. install ruby 2.7.4
+Run `rvm install ruby 2.7.4`
+8. switch your system to use ruby 2.7.4`
+Run `rvm use 2.7.4`
+9. install yarn
+Run `brew install yarn`

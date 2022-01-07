@@ -91,3 +91,29 @@ Run `rvm install ruby 2.7.4`
 Run `rvm use 2.7.4`
 9. install yarn
 Run `brew install yarn`
+
+## Asdf
+
+### Introduction
+
+[Asdf](https://asdf-vm.com) is a version manager used for managing software you install on your computer, it’s a command line interface
+tool that handles installing multiple versions of software packages, allowing you to switch between those versions at runtime.
+Ruby and Terraform are examples of software which can be managed using `asdf`. As the `.tool-versions` file is committed to the
+repository, it ensures consistency among developers.
+
+
+Each software package is managed by a plugin, an official list of plugins can be found [here](https://github.com/asdf-vm/asdf-plugins).
+
+### Installation
+
+The required versions of project dependencies are defined in the `.tool-versions` file of the repository and these can be automatically installed using
+`asdf`. Their installation instructions can be found [here](https://asdf-vm.com/guide/getting-started.html#_1-install-dependencies).
+
+### Commands
+
+- Install a plugin: `asdf plugin add <plugin_name>`
+- List installed plugins: `asdf plugin list`
+- List installed versions of a plugin: `asdf list <plugin_name>`
+- List all possible versions of a plugin: `asdf list <plugin_name> all`
+- Install specific version of a plugin: `asdf install <plugin_name> <plugin_version>`
+- Update the `.tool-versions` file with a new plugin version: `asdf local <plugin_name> <plugin_version>`

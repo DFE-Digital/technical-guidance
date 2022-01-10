@@ -13,7 +13,8 @@ out more generic principles for technical folk at the department.
 All of the code that we produce is classified at OFFICIAL and is paid for by the taxpayer. We have a duty to make that 
 code open, to encourage reuse, and in doing so reduce waste. That's why we use GitHub to store our code, unless there's 
 a security or policy reason to keep our work secret. Even the spooky folks at the Government Communications Headquarters
-(GCHQ) have published a number of [open-source repos](https://github.com/gchq).
+(GCHQ) have published a number of [open-source repos](https://github.com/gchq). [We've written guidance on how to use our 
+preferred tool, GitHub](../../standards/storing-source-code/index.html.md.erb)
 
 ## Continuous integration
 We believe code is made better when it's frequently integrated into the work of the rest of our teams. This manifests 

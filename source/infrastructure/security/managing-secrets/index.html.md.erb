@@ -102,7 +102,7 @@ az keyvault secret download  --vault-name sXXXd01-kv --name TTA-KEYS --file loca
 _Make sure to delete the local file after use._
 
 ### Read using Github actions
-Use the [keyvault-yaml-secret action](https://github.com/DFE-Digital/github-actions/tree/master/keyvault-yaml-secret) to retrieve a secret from the yaml file.
+Use the [keyvault-yaml-secret action](https://github.com/DFE-Digital/keyvault-yaml-secret) to retrieve a secret from the yaml file.
 
 ### Read using terraform
 Use the [yamldecode](https://www.terraform.io/docs/language/functions/yamldecode.html) function to parse the yaml file and access individual values:

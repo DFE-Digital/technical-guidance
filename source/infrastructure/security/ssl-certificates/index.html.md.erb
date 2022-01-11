@@ -7,4 +7,137 @@ review_in: 6 months
 
 # <%= current_page.data.title %>
 
-See sidebar to navigate guides.
+We traditionnally request the certificates from the [Globalsign](https://www.globalsign.com/) DfE account.
+The certificate can be created manually or generated and renewed automatically via Azure key vault, but it requires a Globalsign administrator account. Both automatic and manual options are presented here.
+
+This documentation doesn't apply to [GOV.UK PaaS](<%= data.site.gov_uk_paas %>) as SSL certificates are generated and renewed automatically for each [custom domain](https://docs.cloud.service.gov.uk/deploying_services/use_a_custom_domain/).
+
+## Globalsign account
+Use the [External Digital Certificates form](https://dfe.service-now.com.us.cas.ms/serviceportal?id=sc_cat_item&sys_id=8fe3fae3dbd77f809402e1aa4b9619d0) on the service portal and choose: _Request type: Request an account_
+
+## Generate manually
+### Create CSR and private key
+Here is the [Globalsign guidance](https://support.globalsign.com/customer/en/portal/articles/1229769-certificate-signing-request-csr---overview) about Certificate Signing Request (CSR).
+
+Using openssl:
+
+```
+openssl req -nodes -out CSR.csr -new -newkey rsa:2048 -keyout privatekey.key
+```
+
+Use similar details as:
+
+```
+Country Name (2 letter code) []:GB
+State or Province Name (full name) []:Greater Manchester
+Locality Name (eg, city) []:Manchester
+Organization Name (eg, company) []:Department for Education
+Organizational Unit Name (eg, section) []:
+Common Name (eg, fully qualified host name) []:development.additional-teaching-payment.education.gov.uk (don’t use a wildcard if possible, use multiple SANs instead)
+Email Address []:capt-dev@digital.education.gov.uk (use a team email)
+```
+
+Keep the private key safe, for example in a production [key vault](http://localhost:4567/infrastructure/security/managing-secrets/).
+### SAN: additional domain names
+One certificate can cover mutiple domains in addition to the CN above by using Subject Alternate Names (SAN). This cannot be done interactively.
+
+Prepare an openssl config file, such as this _san.cnf_:
+
+```
+[ req ]
+default_bits        = 2048
+distinguished_name  = req_distinguished_name
+req_extensions      = req_ext
+[ req_distinguished_name ]
+countryName         = GB
+stateOrProvinceName = Greater Manchester
+localityName        = Manchester
+organizationName    = Department of Education
+commonName          = additional-teaching-payment.education.gov.uk
+[ req_ext ]
+subjectAltName      = @alt_names
+[alt_names]
+DNS.1               = www.additional-teaching-payment.education.gov.uk
+DNS.2               = staging.additional-teaching-payment.education.gov.uk
+```
+
+Then run:
+
+```
+openssl req -out sslcert.csr -newkey rsa:2048 -nodes -keyout private.key -config san.cnf
+```
+
+And confirm the answers interactively.
+
+### Request new certificate in Globalsign
+- Open [Globalsign](https://gcc.globalsign.com/au/signon/gacp/usernamePasswordLogin.do)
+- Select _Managed SSL_
+- Choose _Order Certificate_ from either _Department for Education_ or _Education & Skills Funding Agency_
+- Paste the CSR created above
+- Check this CSR, Continue
+- Products: OrganizationSSL
+- SSL Certificate Type: Single Domain Certificate
+- Point of contact must have a team email email address, not an individual
+- Tick box _Is this the Point of Contact for communications?_
+- Continue until `Complete`
+
+The _Platform support_ team will receive the request, validate and you will receive an email with the certificate in PEM (.cer) format.
+
+### Convert to pfx format
+
+It may be required to convert to pfx format, especially in Azure. It replaces pem certificate+private key with pfx certificate+password.
+
+Using openssl:
+
+```
+openssl pkcs12 -export -out cert.pfx -inkey privatekey.key -in cert.cer
+```
+
+## Automatic via key vault
+
+[Azure key vault](https://docs.microsoft.com/en-us/azure/key-vault/certificates/tutorial-rotate-certificates) can generate, renew and store the certificate automatically.
+
+A Globasign administrator account is required and must be approved on case by case basis. It can be requested via the
+[Non-standard / Any Other Request](https://dfe.service-now.com.mcas.ms/serviceportal?id=sc_cat_item&sys_id=3ab186f8db2c2b403b929334ca961998&sysparm_category=19d07bc3dbff17003b929334ca9619bd)
+service portal form. The business service is _Shared IT core services_ and the offering is _SSL Certificate Authority Systems (external)_.
+
+- Configure the Globalsign Certificate Authority (CA) in key vault using the Globalsign admin account. The contact details should be for a team, not an individual.
+- Create a certificate
+  - Method: Generate
+  - Name: Unique name (usually the subdomain)
+  - Type of CA: integrated
+  - CA: the CA created above
+  - Subject (example):
+
+  ```
+C=GB, ST=Greater Manchester, L=Manchester, O=Department for Education, CN=claim-additional-teaching-payment.service.gov.uk
+  ```
+  - DNS Names: list of additional domain names (SANs) to be covered by this certificate
+  - Validity: 12 months
+  - Content type: PKCS #12
+  - Lifetime action type: Automatically renew at a given number of days before expiry
+  - Number of days: 30
+- Click Create
+- Click Certificate Operation and wait for result
+
+## Renewals
+
+The certificates are monitored and owners are notified via email before expiry by either GlobalSign or the [Platform support team](#support).
+
+## Check certificate
+
+In order to view certificate expiry details such as expiry date, etc., you can run the following command to download the certificate currently being used on a website. In this example, we are focusing on _https://find-postgraduate-teacher-training.education.gov_.uk :
+
+```
+echo -n | openssl s_client -connect find-postgraduate-teacher-training.education.gov.uk:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > certoutput.cert
+```
+
+Once downloaded, you can run:
+
+```
+openssl x509 -in certoutput.cert -text
+```
+
+## Support
+Any questions may be directed to the _Platform support_ team via the [Non-standard / Any Other Request](https://dfe.service-now.com.mcas.ms/serviceportal?id=sc_cat_item&sys_id=3ab186f8db2c2b403b929334ca961998&sysparm_category=19d07bc3dbff17003b929334ca9619bd)
+service portal form. The business service is _Shared IT core services_ and the offering is _SSL Certificate Authority Systems (external)_.

@@ -76,6 +76,81 @@ You can override the above configuration for each environments but it is importa
 
 **Important**: Uninstall the logstash gem and related code configuration when using semantic logger
 
+### ASP.NET Core
+* Use [Serilog](https://serilog.net/) and format logs as JSON
+* Install the following packages:
+  * Serilog.AspNetCore
+  * Serilog.Formatting.Compact
+  * Serilog.Settings.Configuration
+* Example configuration:
+
+*Program.cs*
+
+```cs
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((ctx, config) => config.ReadFrom.Configuration(ctx.Configuration));
+```
+
+*appsettings.json*
+
+```json
+{
+  "Serilog": {
+    "MinimumLevel": {
+      "Default": "Information",
+      "Override": {
+        "Microsoft.AspNetCore": "Warning"
+      }
+    },
+    "WriteTo": [
+      {
+        "Name": "Console"
+      }
+    ],
+    "Enrich": [ "FromLogContext" ]
+  }
+}
+```
+
+*appsettings.Development.json*
+
+```json
+{
+  "DetailedErrors": true,
+  "Serilog": {
+    "MinimumLevel": {
+      "Default": "Information",
+      "Override": {
+        "Microsoft.AspNetCore": "Warning"
+      }
+    },
+    "WriteTo": [
+      {
+        "Name": "Console"
+      }
+    ]
+  }
+}
+```
+
+*appsettings.Production.json*
+
+```json
+{
+  "Serilog": {
+    "WriteTo": [
+      {
+        "Name": "Console",
+        "Args": {
+          "formatter": "Serilog.Formatting.Compact.CompactJsonFormatter, Serilog.Formatting.Compact"
+        }
+      }
+    ]
+  }
+}
+```
+
 ### Slack Alerts
 Alerts in logit.io can be [configured](https://help.logit.io/en/articles/3624510-an-introduction-to-alerting) to be sent to various applications, in this case we want to send our Errors to Slack.io
 

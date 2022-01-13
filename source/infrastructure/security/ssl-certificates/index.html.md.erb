@@ -8,7 +8,7 @@ review_in: 6 months
 # <%= current_page.data.title %>
 
 We traditionnally request the certificates from the [Globalsign](https://www.globalsign.com/) DfE account.
-The certificate can be created manually or generated and renewed automatically via Azure key vault, but it requires a Globalsign administrator account. Both automatic and manual options are presented here.
+The certificate can be created manually or generated and renewed automatically via Azure Key Vault. Both automatic and manual options are presented here.
 
 Certificates generated in Globalsign are paid for centrally by the [Platform support team](#support).
 
@@ -101,7 +101,7 @@ openssl pkcs12 -export -out cert.pfx -inkey privatekey.key -in cert.cer
 
 [Azure key vault](https://docs.microsoft.com/en-us/azure/key-vault/certificates/tutorial-rotate-certificates) can generate, renew and store the certificate automatically.
 
-A Globasign administrator account is required and must be approved on case by case basis. It can be requested via the
+A special GlobalSign Key Vault account is required and must be approved on case by case basis. It can be requested via the
 [Non-standard / Any Other Request](https://dfe.service-now.com.mcas.ms/serviceportal?id=sc_cat_item&sys_id=3ab186f8db2c2b403b929334ca961998&sysparm_category=19d07bc3dbff17003b929334ca9619bd)
 service portal form. The business service is _Shared IT core services_ and the offering is _SSL Certificate Authority Systems (external)_.
 

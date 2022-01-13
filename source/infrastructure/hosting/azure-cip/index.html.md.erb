@@ -34,6 +34,36 @@ The new user will receive an invitation by email. Then the service managers can 
 
 To access Azure Devops, the new user must access the [Azure DevOps CIP instance](https://dev.azure.com/dfe-ssp/). This will register them in the system then the service owner can add them to the project.
 
+## Privileged Identity Management (PIM) Requests
+
+[Privileged Identity Management (PIM)](https://docs.microsoft.com/en-us/azure/active-directory/privileged-identity-management/pim-configure) is a service in Azure Active Directory (Azure AD) that enables you to manage, control, and monitor access to important resources at DfE such as access to staging and production environments.
+
+To request access to your eligible assignments, follow the steps below:
+
+* Navigate to the [Azure Portal](https://portal.azure.com/) and login using the email you registered with your [CIP account](/infrastructure/hosting/azure-cip/#onboarding-users)
+
+* Click on `Directories + subscriptions`, this is the icon to the left of the notification bell icon in the blue navigation bar
+
+* Ensure you are in the `DfE Platform Identity` directory, if you are not, switch to it. You may be prompted to verify your identity with 2FA
+
+* Search for `PIM` in the search bar at the top of the page and select `Azure AD privileged Identity Management`
+
+* Click on `My roles` on the left hand side of the page, under `Tasks`
+
+* Click on `Azure resources` under `Activate`
+
+* You may have to lengthen the resource section in order to see the full resource name, including the environment
+
+* Click `Activate` under `Action` for the relevant resource
+
+* Select a duration (maximum 8 hours), enter a reason for the request and click `Activate`
+
+* The test subscription, which usually includes the staging and preprod environments is self approving and you should see your request approved shortly
+
+* An email will be sent to the administrators for the production subscription, they will then be able to approve or deny the request. There can sometimes be a delay with this email,
+however an administrator can navigate to PIM using the search box (as documented above), then click `Approve requests` and `Azure resources`. The administrator should then see the request
+
+
 ## Onboarding a service
 Use this [service portal form](https://dfe.service-now.com.mcas.ms/serviceportal/?id=sc_cat_item&sys_id=51b0b9c5db1ff7809402e1aa4b96197d&referrer=recent_items) to create the onboarding request and choose _Request type: On-Boarding request_. It should be filled in by a senior civil servant (G7 or above). This includes an onboarding form to attach. Finance must be agreed beforehand.
 

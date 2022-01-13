@@ -37,10 +37,9 @@ The data in the database is corrupted because of a bug, human error, malicious a
 |||
 |-|-|
 |Impact|Some data may be lost, updated with incorrect value or may be presented to the wrong users.|
-|Prevention|Crashes may happen because of high memory, CPU or disk usage. These metrics should be monitored and notify in advance to avoid the crash entirely.|
+|Prevention|GOV.UK PaaS keeps backups of the database and transaction logs. We can recreate the database with daily or point-in-time (1s resolution) backup|
 |Detection|Smoke tests may detect corruptions in some critical data.|
-|Remediation|Access to the service should be stopped immediately.<br/>The data may be fixed manually if the change is simple. If the change is complex or if we don't know the extent of the issue, it may be necessary to recover the database from a backup whether daily, hourly or point-in-time using transaction logs.<br/>GOV.UK PaaS keeps backups of the database and transaction logs. We can recreate the database with daily or point-in-time (1s resolution) backup.|
-
+|Remediation|Access to the service should be stopped immediately.<br/>The data may be fixed manually if the change is simple. If the change is complex or if we don't know the extent of the issue, it may be necessary to recover the database from a backup whether daily, hourly or point-in-time using transaction logs.<br/>[Restore database](https://docs.cloud.service.gov.uk/deploying_services/postgresql/#postgresql-service-backup) with latest snapshot or point in time|
 
 ## Loss of database instance
 It is possible to lose the database instance and the associated backups. For example, if a database service is deleted from GOV.UK PaaS, in case of human or automation error, the whole instance is deleted, including its backups.
@@ -48,7 +47,7 @@ It is possible to lose the database instance and the associated backups. For exa
 |||
 |-|-|
 |Impact|Users can't read or write any data. All data is lost.|
-|Prevention|To protect against human errors, users should only be allowed to access production when they need to.<br/>To protect against automation errors, changes should be thoroughly reviewed, in pull requests or review apps.<br/>Keep a daily backup of the production databases on a secure place like Azure storage. Production backups should only be accessible by authorized users.|
+|Prevention|To protect against human errors, users should only be allowed to access production when they need to.<br/>To protect against automation errors, changes should be thoroughly reviewed, in pull requests or review apps.<br/>Keep a daily backup of the production databases on a secure place like an [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview). Production backups should only be accessible by authorized users.|
 |Detection|Endpoint monitoring may point to a healthcheck page checking the connection to the databse. Or smoke tests running in production may detect it.|
 |Remediation|Restore database from external daily or most recent backup|
 

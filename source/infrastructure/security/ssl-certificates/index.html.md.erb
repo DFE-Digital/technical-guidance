@@ -10,6 +10,8 @@ review_in: 6 months
 We traditionnally request the certificates from the [Globalsign](https://www.globalsign.com/) DfE account.
 The certificate can be created manually or generated and renewed automatically via Azure key vault, but it requires a Globalsign administrator account. Both automatic and manual options are presented here.
 
+Certificates generated in Globalsign are paid for centrally by the [Platform support team](#support).
+
 This documentation doesn't apply to [GOV.UK PaaS](<%= data.site.gov_uk_paas %>) as SSL certificates are generated and renewed automatically for each [custom domain](https://docs.cloud.service.gov.uk/deploying_services/use_a_custom_domain/).
 
 ## Globalsign account
@@ -38,10 +40,12 @@ Email Address []:capt-dev@digital.education.gov.uk (use a team email)
 ```
 
 Keep the private key safe, for example in a production [key vault](http://localhost:4567/infrastructure/security/managing-secrets/).
-### SAN: additional domain names
-One certificate can cover mutiple domains in addition to the CN above by using Subject Alternate Names (SAN). This cannot be done interactively.
 
-Prepare an openssl config file, such as this _san.cnf_:
+### SAN: additional domain names
+One certificate can cover mutiple domains in addition to the CN above by using Subject Alternate Names (SAN). **SANs are half the price of a full
+certificate so they should be used whenever and wherever possible.**
+
+This cannot be done interactively. Prepare an openssl config file, such as this _san.cnf_:
 
 ```
 [ req ]
@@ -109,9 +113,10 @@ service portal form. The business service is _Shared IT core services_ and the o
   - CA: the CA created above
   - Subject (example):
 
-  ```
-C=GB, ST=Greater Manchester, L=Manchester, O=Department for Education, CN=claim-additional-teaching-payment.service.gov.uk
-  ```
+    ```
+    C=GB, ST=Greater Manchester, L=Manchester, O=Department for Education, CN=claim-additional-teaching-payment.service.gov.uk
+    ```
+
   - DNS Names: list of additional domain names (SANs) to be covered by this certificate
   - Validity: 12 months
   - Content type: PKCS #12

@@ -10,7 +10,7 @@ review_in: 6 months
 We traditionnally request the certificates from the [Globalsign](https://www.globalsign.com/) DfE account.
 The certificate can be created manually or generated and renewed automatically via Azure Key Vault. Both automatic and manual options are presented here.
 
-Certificates generated in Globalsign are paid for centrally by the [Platform support team](#support).
+Certificates generated in Globalsign are paid for centrally by the [Platform support team](/infrastructure/support/#platform-support).
 
 This documentation doesn't apply to [GOV.UK PaaS](<%= data.site.gov_uk_paas %>) as SSL certificates are generated and renewed automatically for each [custom domain](https://docs.cloud.service.gov.uk/deploying_services/use_a_custom_domain/).
 
@@ -85,7 +85,7 @@ And confirm the answers interactively.
 - Tick box _Is this the Point of Contact for communications?_
 - Continue until `Complete`
 
-The _Platform support_ team will receive the request, validate and you will receive an email with the certificate in PEM (.cer) format.
+The [Platform support team](/infrastructure/support/#platform-support) will receive the request, validate and you will receive an email with the certificate in PEM (.cer) format.
 
 ### Convert to pfx format
 
@@ -127,7 +127,7 @@ service portal form. The business service is _Shared IT core services_ and the o
 
 ## Renewals
 
-The certificates are monitored and owners are notified via email before expiry by either GlobalSign or the [Platform support team](#support).
+The certificates are monitored and owners are notified via email before expiry by either GlobalSign or the [Platform support team](/infrastructure/support/#platform-support).
 
 ## Check certificate
 
@@ -142,7 +142,3 @@ Once downloaded, you can run:
 ```
 openssl x509 -in certoutput.cert -text
 ```
-
-## Support
-Any questions may be directed to the _Platform support_ team via the [Non-standard / Any Other Request](https://dfe.service-now.com.mcas.ms/serviceportal?id=sc_cat_item&sys_id=3ab186f8db2c2b403b929334ca961998&sysparm_category=19d07bc3dbff17003b929334ca9619bd)
-service portal form. The business service is _Shared IT core services_ and the offering is _SSL Certificate Authority Systems (external)_.

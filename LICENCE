@@ -29,4 +29,7 @@ License.
 The DfE Technical Guidance site is based on [GDS's The GDS Way](https://github.com/alphagov/gds-way),
 Copyright (c) 2017 Crown Copyright (Government Digital Service).
 GDS's The GDS Way is distributed under the terms of the [Open
-Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)
+Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
+
+It is also based on the [MoJ's technical guidance](https://github.com/ministryofjustice/technical-guidance/),
+distributed under the terms of the MIT License.

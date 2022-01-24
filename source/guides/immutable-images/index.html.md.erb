@@ -1,0 +1,36 @@
+---
+title: Immutably testing and deploying images
+last_reviewed_on: 2022-02-24
+review_in: 3 months
+---
+
+# <%= current_page.data.title %>
+
+Immutability of images is a vital principle that enables us to ensure the artefacts we're deploying are the same as the
+ones we're testing. But how do we actually do this? Here's a guide.
+
+## User needs
+
+This guidance should help you build, checkout, test, and deploy the same artefact every time.
+
+## Principles
+
+To achieve immutability, we must:
+
+- avoid using the `:latest` tag
+
+## Tools
+
+We'll use `git` to achieve this, regardless of our CI/CD pipeline
+
+## Guide
+
+1. Build the artefact and tag it with that commit's SHA-1. You don't have to use the whole
+   thing: `git rev-parse --short HEAD` will be unique enough for our purposes.
+2. Push the built artefact to a container registry
+Assuming you're using a pull request workflow, you'll want some tests to run at this point. So:
+3. Have your tests pull the artefact. As you're still on the same branch, it should be as simple as `docker pull ${container-registry}/user/project:${git rev-parse --short HEAD}`. Assuming your tests pass, you'll merge that branch. The instinct is now to build the `HEAD` of the `main` branch. Not so quick! Remember, we're deploying an immutable artefact. That means we can't rebuild it - if we do, it won't be the same artefact. Instead, we need to pull the artefact that we already built and that has passed all of our tests. So we need the SHA-1 of the merged commit.
+
+4. We can find this with `git rev-parse --short HEAD^2`. This gives us the second parent of the `HEAD` commit, which is the last commit of the branch that was merged - and therefore the tag for the previously built artefact.
+
+By following this guidance, you'll never push a `:latest` tag, and will therefore always know which commit has caused an issue and when you can safely roll back to (or which commit you need to revert!)

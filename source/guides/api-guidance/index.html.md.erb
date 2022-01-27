@@ -109,6 +109,15 @@ An OpenAPI definition can then be used by documentation generation tools to disp
 
 Make sure that your API is secure. GDS provides specific guidelines in [API technical and data standards](https://www.gov.uk/guidance/gds-api-technical-and-data-standards#when-to-authenticate-your-api). As well as this general guide, we have provided specific guidance here on securing your DfE API in the [DfE Developer Hub documentation](https://dfe-developerhub.education.gov.uk/documentation/authorisation)
 
+##JSON Security
+
+GDS API standards recommend that [JSON is used](https://www.gov.uk/guidance/gds-api-technical-and-data-standards#use-json), APIs need to be designed so that JSON Objects are submitted rather than individual elements or arrays, JSON data needs to be parsed securely
+* JSON must be well-formed as defined by RFC 4627(http://www.ietf.org/rfc/rfc4627.txt) 
+* Ensure that JSON document structure is valid and matches that expected, for example using a JSONSchema, an OpenAPI specification or deserialising to a Data Transfer Object.
+* Ensure that JSON data elements are valid strong types where possible such as int or [date](https://www.gov.uk/government/publications/open-standards-for-government/date-times-and-time-stamps-standard) 
+* Ensure that JSON data elements that are strings are limited in entry options using a list or REGEX, ensure that your REGEX is well designed so that strings being parsed cannot compromise downstream systems.
+* Where binary objects are embedded in JSON it is unlikely that the above validation steps will be sufficient and virus scanning of the embedded element or the entire JSON file should be considered
+
 ## Understand your data
 
 If your API is providing access to DfE data then ensure it is done so securely and it is data that can be shared (you should contact the DfE SIRO office to check). Never expose sensitive data unless you have implemented the necessary authentication and that the data owner is fully aware and has approved its publication.

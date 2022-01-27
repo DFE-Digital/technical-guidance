@@ -1,6 +1,6 @@
 ---
 title: Adding C4 Diagrams to Technical Documentation
-last_reviewed_on: 2021-10-20
+last_reviewed_on: 2022-01-27
 review_in: 3 months
 weight: 50
 ---
@@ -10,7 +10,7 @@ weight: 50
 Your team may wish to create a technical documentation website in order to provide a public documentation reference point consistent with GOV.UK's Design System. This can contain any content required, examples include:
 
 * How to access support
-* Architecture documentation 
+* Architecture documentation
 * Onboarding guides
 * A site for Community-of-Practise documentation
 
@@ -35,11 +35,11 @@ For further guidance on the C4 model, visit [here](https://c4model.com/).
 
 ## Adding C4 generation to the Tech Docs template
 
-**Prerequisites:** you have some C4 diagrams-as-code ready to publish, and your technical documentation site is already using GitHub Actions to publish to GOV.UK PaaS. 
+**Prerequisites:** you have some C4 diagrams-as-code ready to publish, and your technical documentation site is already using GitHub Actions to publish to GOV.UK PaaS.
 
 The [structurizr.com](https://structurizr.com/) website provides a SaaS offering to generate diagrams from this code. There is a Free Tier Cloud offering available which allows for one workspace to be created ([feature comparison](https://structurizr.com/products)).
 
-The approach will be to store the C4 code within the repository of the technical documentation site, and to modify GitHub Actions steps to automate the diagram export (render) to PNG from [structurizr.com](https://structurizr.com/). 
+The approach will be to store the C4 code within the repository of the technical documentation site, and to modify GitHub Actions steps to automate the diagram export (render) to PNG from [structurizr.com](https://structurizr.com/).
 
 ### Generating the diagrams
 
@@ -61,14 +61,14 @@ All the workspace-related settings (workspace ID, API key and API secret) can be
 
 Next we must setup the GitHub Actions to publish:
 
-3. Copy the automation script from [here](https://github.com/DFE-Digital/academy-transfers-technical-documentation/blob/master/source-c4-diagrams/export-private-cloud-diagrams.js) to `<repository-root>/source-c4-diagrams/export-private-cloud-diagrams.js`. 
+3. Copy the [automation script](https://github.com/DFE-Digital/academy-transfers-technical-documentation/blob/master/source-c4-diagrams/export-private-cloud-diagrams.js) to `<repository-root>/source-c4-diagrams/export-private-cloud-diagrams.js`.
 
 4. Modify your GitHub Actions file to include the following step *before* the middleman build is invoked, and *after* checkout:
 
     ```yml
     - name: Upload and publish C4 diagrams
-      run: | 
-        mkdir ./screenshots 
+      run: |
+        mkdir ./screenshots
         chmod -R 777 ./screenshots
         docker run --rm -v $(pwd):/usr/local/structurizr structurizr/cli push -id ${{ secrets.STRUCTURIZR_WORKSPACE_ID }} -key ${{ secrets.STRUCTURIZR_API_KEY }} -secret ${{ secrets.STRUCTURIZR_API_SECRET }} -workspace ./source-c4-diagrams/workspace.dsl
         docker run --shm-size 1G --rm -v $(pwd)/source-c4-diagrams/export-private-cloud-diagrams.js:/app/index.js -v $(pwd)/screenshots:/screenshots alekzonder/puppeteer:latest node index.js "https://structurizr.com" "${{ secrets.STRUCTURIZR_USERNAME }}" '${{ secrets.STRUCTURIZR_PASSWORD }}' png ${{ secrets.STRUCTURIZR_WORKSPACE_ID }}
@@ -80,10 +80,10 @@ Next we must setup the GitHub Actions to publish:
 
     Step-by-step, this script:
 
-    Creates a directory for the diagrams to land in (`screenshots`), then utilizes the `structurizr/cli` image to upload the `./source-c4-diagrams/workspace.dsl` file in to the previously created workspace identified by ID `STRUCTURIZR_WORKSPACE_ID`. 
+    Creates a directory for the diagrams to land in (`screenshots`), then utilizes the `structurizr/cli` image to upload the `./source-c4-diagrams/workspace.dsl` file in to the previously created workspace identified by ID `STRUCTURIZR_WORKSPACE_ID`.
 
     A puppeteer automation script is used to automate a headless browser to log in to the cloud service and export the diagrams.
 
-    Finally, the exported files are copied in to their correct positions in the check-out repository file system - ready for the Middleman build process. 
+    Finally, the exported files are copied in to their correct positions in the check-out repository file system - ready for the Middleman build process.
 
-4. Commit, push and then run a build. Make a note of the generated file names (workspace ID will be redacted with asterix) and make any nessicary amends to the GitHub Actions `cp` lines to copy the files defined in your C4 workspace to the correct place in the tech docs directory structure you have defined for your site.
+4. Commit, push and then run a build. Make a note of the generated file names (workspace ID will be redacted with asterix) and make any necessary amends to the GitHub Actions `cp` lines to copy the files defined in your C4 workspace to the correct place in the tech docs directory structure you have defined for your site.

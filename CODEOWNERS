@@ -1,0 +1,5 @@
+# This file details the owners of this repo
+# This team is automatically requested to review new PRs
+# More info: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+# There is also a flag in the GitHub interface to only allow approvals by this team
+* @DFE-Digital/dfe-lead-devs

@@ -1,6 +1,6 @@
 ---
 title: Coding Principles
-last_reviewed_on: 2020-12-21
+last_reviewed_on: 2022-01-27
 review_in: 3 months
 weight: 20
 old_paths:
@@ -28,7 +28,7 @@ Choose clarity over cleverness - avoid monkey-patching and meta-programming unle
 Don’t Repeat Yourself - The ‘[Rule of Three](https://en.wikipedia.org/wiki/Rule_of_three_(computer_programming))’ is a good approach to managing duplication. Less code is usually better - but not at the expense of clarity
 
 ### 2. Optimize for change
-Don’t try to solve every conceivable problem up-front, instead focus on making your code easy to change when needed
+Don’t try to solve every conceivable problem up-front, instead focus on making your code easy to change when needed.
 Don’t prematurely optimize - choose clarity over performance, unless there is a serious performance issue that needs to be addressed.
 
 ### 3. Early optimisation is overkill
@@ -44,18 +44,18 @@ Every HTTP call could error or hang - handle failures appropriately and fail fas
 ### 5. Show, don't tell
 If you have to explain how your code works, then your code is not clear enough.
 Comments are for explaining <strong>why</strong> something is needed, not how it works.
-Commit messages should follow [GDS guidance](https://github.com/alphagov/styleguides/blob/master/git.md)
-No-one cares how clever you are - it’s far more important to work well with your team
-APIs are interfaces too - Like any other interface, APIs need designing and iterating for usability
-Don’t pollute the global namespace
+Commit messages should follow [GDS guidance](https://github.com/alphagov/styleguides/blob/master/git.md).
+No-one cares how clever you are - it’s far more important to work well with your team.
+APIs are interfaces too - Like any other interface, APIs need designing and iterating for usability.
+Don’t pollute the global namespace.
 
 ### 6. Think smaller
-Stick to the Single Responsibility Principle - keep view templates, controllers and model classes as simple as possible. Keep methods short. (Concepts and patterns which may help with this: Null Object pattern, Facade pattern, Form Objects, Sandi Metz’s “[Rules for Developers](https://robots.thoughtbot.com/sandi-metz-rules-for-developers)”)
+Stick to the Single Responsibility Principle - keep view templates, controllers and model classes as simple as possible. Keep methods short. (Concepts and patterns which may help with this: Null Object pattern, Facade pattern, Form Objects, Sandi Metz’s “[Rules for Developers](https://robots.thoughtbot.com/sandi-metz-rules-for-developers)”).
 A solution composed of many small simple things is usually better than one big complex thing.
 
 ### 7. Names have power. Use them wisely.
-Don’t be cute or jokey when naming things
-Names convey meaning - well-named functions & variables can remove the need for a comment
+Don’t be cute or jokey when naming things.
+Names convey meaning - well-named functions & variables can remove the need for a comment.
 Avoid meaningless names like ‘obj’ / ‘result’ / ‘foo’.
 Use single-letter variables only where the letter represents a well-known mathematical property (e.g. e = mc^2), or where their meaning is otherwise clear.
 

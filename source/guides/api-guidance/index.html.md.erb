@@ -111,11 +111,18 @@ Make sure that your API is secure. GDS provides specific guidelines in [API tech
 
 ##JSON Security
 
-GDS API standards recommend that [JSON is used](https://www.gov.uk/guidance/gds-api-technical-and-data-standards#use-json), APIs need to be designed so that JSON Objects are submitted rather than individual elements or arrays, JSON data needs to be parsed securely
+GDS API standards recommend that 
+
+* [JSON is used](https://www.gov.uk/guidance/gds-api-technical-and-data-standards#use-json)
+* APIs need to be designed so that JSON Objects are submitted rather than individual elements or arrays
+* JSON data needs to be parsed securely
+
+We recommend
+    
 * JSON must be well-formed as defined by RFC 4627(http://www.ietf.org/rfc/rfc4627.txt) 
 * Ensure that JSON document structure is valid and matches that expected, for example using a JSONSchema, an OpenAPI specification or deserialising to a Data Transfer Object.
 * Ensure that JSON data elements are valid strong types where possible such as int or [date](https://www.gov.uk/government/publications/open-standards-for-government/date-times-and-time-stamps-standard) 
-* Ensure that JSON data elements that are strings are limited in entry options using a list or REGEX, ensure that your REGEX is well designed so that strings being parsed cannot compromise downstream systems.
+* Ensure that JSON data elements that are strings are limited in entry options using a list or Regular Expressions, ensure that your Regular Expressions are well designed so that strings being parsed cannot compromise downstream systems.
 * Where binary objects are embedded in JSON it is unlikely that the above validation steps will be sufficient and virus scanning of the embedded element or the entire JSON file should be considered
 
 ## Understand your data

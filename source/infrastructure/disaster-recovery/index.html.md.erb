@@ -18,7 +18,7 @@ A software or configuration defect gets deployed and it’s impacting users
 |-|-|
 |Impact|Loss of some functionality in a service|
 |Prevention|Code review. Implement sufficient unit tests and integration tests in production like environments.|
-|Detection|It may be reported by a failing smoke test before release ideally, by error tracking software like [Sentry](httos://sentry.io/) or in the worst-case scenario, a user contacting support after release|
+|Detection|It may be reported by a failing smoke test before release ideally, by error tracking software like [Sentry](https://sentry.io/) or in the worst-case scenario, a user contacting support after release|
 |Remediation|The quickest action is to roll back the problematic change or roll forward with a fix|
 
 ## Application crash
@@ -157,17 +157,17 @@ A sudden spike in user traffic due to an announcement, a product launch or a coi
 |-|-|
 |Impact|Users cannot connect to the website|
 |Prevention|Implement login workaround via magic link or username/password|
-|Detection|Smoke test failure. DfE Sign-in [status page](https://status.signin.education.gov.uk/)|
+|Detection|Smoke test failure. [DfE Sign-in status page](https://status.signin.education.gov.uk/)|
 |Remediation|Activate the login workaround|
 
 ## Github
-[Github](https://github.com/) is our code repository, continuous integration system ([Github actions](https://github.com/features/actions)) and Docker registry ([GHCR](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)).
+[Github](https://github.com/) is our code repository, continuous integration system ([Github actions](/infrastructure/automation/github-actions/)) and Docker registry ([GHCR](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)).
 
 |||
 |-|-|
 |Impact|Users are not impacted, but we would not be able to deploy via automation|
 |Prevention|Plan to be able to deploy manually. Have DockerHub or Azure container registry ready as backup registry.|
-|Detection|Github [status page](https://www.githubstatus.com/). Updates are posted to the #govuk-paas Slack channel.<br/>Notification of pipeline failures|
+|Detection|[Github status page](https://www.githubstatus.com/). Updates are posted to the #govuk-paas Slack channel.<br/>Notification of pipeline failures|
 |Remediation|Build and deploy manually|
 
 ## DockerHub
@@ -179,7 +179,7 @@ If DockerHub is down it won’t impact the running service, but we won’t be ab
 |-|-|
 |Impact|Users are not impacted, but we would not be able to deploy via automation|
 |Prevention|Have Github container registry or Azure container registry ready as backup registry.|
-|Detection|DockerHub [status page](https://status.docker.com/)<br/>Notification of pipeline failures|
+|Detection|[DockerHub status page](https://status.docker.com/)<br/>Notification of pipeline failures|
 |Remediation|Build and deploy manually|
 
 ## Monitoring and logging failure
@@ -199,7 +199,7 @@ GOV.UK Notify is used to communicate with our users via emails, texts and letter
 |-|-|
 |Impact|We can't send communications to our users<br/>Asynchronous sending jobs may queue until it's available again|
 |Prevention||
-|Detection|GOV.UK Notify [status page](https://status.notifications.service.gov.uk/)|
+|Detection|[GOV.UK Notify status page](https://status.notifications.service.gov.uk/)|
 |Remediation||
 
 ## Google BigQuery

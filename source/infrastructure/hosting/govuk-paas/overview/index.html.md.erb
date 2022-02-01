@@ -19,7 +19,7 @@ For an overview of GOV.UK PaaS and how it is used in Government, head over to th
 
 ## Suitability
 
-[Azure CIP](/guides/default-technology-stack/#azure) is the traditional platform for hosting services in DfE. When does it make sense to use GOV.UK PaaS?
+[Azure CIP](/infrastructure/hosting/azure-cip/) is the traditional platform for hosting services in DfE. When does it make sense to use GOV.UK PaaS?
 
 ### Standard web applications
 
@@ -96,8 +96,9 @@ To review the Customer Journey Map which highlights the high-level key stages of
 [customer journey map](govuk-paas-customer-journey.html).
 
 ## Organisations and spaces
-To separate users, applications, services and ultimately costs, GOV.UK PaaS provides
-[organisations and spaces](https://docs.cloud.service.gov.uk/orgs_spaces_users.html#managing-organisations-spaces-and-users).
+To separate users, applications, services and ultimately costs, GOV.UK PaaS provides organisations and spaces. See the
+[GOV.UK PaaS documentation](https://docs.cloud.service.gov.uk/orgs_spaces_users.html#managing-organisations-spaces-and-users) and
+[Cloud foundry documentation](https://docs.cloudfoundry.org/concepts/orgs-and-spaces.html).
 
 <%= image_tag('orgs_and_spaces.svg', alt: 'Org and spaces in DfE') %>
 
@@ -173,7 +174,7 @@ Once you have an account on GOV.UK PaaS, you can follow this video for a quick w
 * Push a simple application
 * Read the logs
 
-<iframe title="Getting started with GOV.UK PaaS" width="560" height="315" src="https://www.youtube.com/embed/i7kBe5S8jdQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe title="Getting started with GOV.UK PaaS" width="560" height="315" src="https://www.youtube.com/embed/i7kBe5S8jdQ?cc_load_policy=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Onboarding a service
 If you are planning to use GOV.UK PaaS in production, you will need one or more spaces (See [Organisations and spaces](/infrastructure/hosting/govuk-paas/overview/#organisations-and-spaces)),
@@ -206,7 +207,7 @@ The [service portal form](https://dfe.service-now.com.mcas.ms/serviceportal/?id=
 * From the _Request type_ dropdown, select _User maintenance_
 * Select _Assign role to existing user_
 
-## Support
+## Platform support
 
 For technical issues or guidance, the [Infrastructure operations team](/infrastructure/support/#infrastructure-operations) and the community of DfE users can help you. Reach out on `#govuk-paas` channel in the [DfE Slack](https://ukgovernmentdfe.slack.com/).
 

@@ -119,9 +119,10 @@ GDS API standards recommend that
 
 We recommend
     
-* JSON must be well-formed as defined by RFC 4627(http://www.ietf.org/rfc/rfc4627.txt) 
+* JSON must be well-formed as defined by [RFC 4627](http://www.ietf.org/rfc/rfc4627.txt) 
 * Ensure that JSON document structure is valid and matches that expected, for example using a JSONSchema, an OpenAPI specification or deserialising to a Data Transfer Object.
-* Ensure that JSON data elements are valid strong types where possible such as int or [date](https://www.gov.uk/government/publications/open-standards-for-government/date-times-and-time-stamps-standard) 
+* Use language standard JSON parsers that are well supported
+* Ensure that JSON data elements are valid strong types where possible such as int or [date](https://www.gov.uk/government/publications/open-standards-for-government/date-times-and-time-stamps-standard) and use specific version of these if possible such as [ISO 8601:2004](https://www.iso.org/standard/40874.html) or unsigned 32 bit intergers
 * Ensure that JSON data elements that are strings are limited in entry options using a list or Regular Expressions, ensure that your Regular Expressions are well designed so that strings being parsed cannot compromise downstream systems.
 * Where binary objects are embedded in JSON it is unlikely that the above validation steps will be sufficient and virus scanning of the embedded element or the entire JSON file should be considered
 

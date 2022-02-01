@@ -9,7 +9,7 @@ service_link: /
 # Links to show on right-hand-side of header
 header_links:
   Documentation: /
-  GitHub: https://github.com/DFE-Digital/technical-guidance
+  Source: https://github.com/DFE-Digital/technical-guidance
 
 footer_links:
   Accessibility: /accessibility.html

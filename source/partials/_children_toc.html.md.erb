@@ -7,13 +7,5 @@
         <li><%= page.data.summary %> </li>
      <% end %>
   <% end %>
-  <ul>
-  <% sorted_children = page.children.sort_by { |a| [(a.data.weight ||0), (a.data.title ||0)] } %>
-  <% sorted_children.each do |subpage| %>
-      <% if ! subpage.url.include? "png" %>
-          <li><%= link_to subpage.data.title, subpage.url %> <%= subpage.data.summary %> </li>
-      <% end %>
-  <% end %>
-  </ul>
 <% end %>
 </ul>

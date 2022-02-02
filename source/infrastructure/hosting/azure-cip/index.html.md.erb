@@ -16,7 +16,7 @@ It can be used for any workload, especially ones which don’t fit on [GOV.UK Pa
 
 Portal: [https://portal.azure.com/](https://portal.azure.com/)
 
-## Documentation
+## Platform documentation
 * [CIP platform docs](https://docs.platform.education.gov.uk/index.html)
 
 ## Onboarding users
@@ -32,7 +32,7 @@ Ask in #cloud-platform on Slack if more help is required.
 
 The new user will receive an invitation by email. Then the service managers can add them to the service Active Directory groups of the subscriptions: Managers and Delivery team.
 
-To access Azure Devops, the new user must access [Azure DevOps](https://dev.azure.com/dfe-ssp/). This will register them in the system then the service owner can add them to the project.
+To access Azure Devops, the new user must access the [Azure DevOps CIP instance](https://dev.azure.com/dfe-ssp/). This will register them in the system then the service owner can add them to the project.
 
 ## Onboarding a service
 Use this [service portal form](https://dfe.service-now.com.mcas.ms/serviceportal/?id=sc_cat_item&sys_id=51b0b9c5db1ff7809402e1aa4b96197d&referrer=recent_items) to create the onboarding request and choose _Request type: On-Boarding request_. It should be filled in by a senior civil servant (G7 or above). This includes an onboarding form to attach. Finance must be agreed beforehand.
@@ -64,7 +64,7 @@ Contact #cloud-platform to set it up.
 
 ## Service principal
 To be able to access Azure from an external system like GOV.UK PaaS, a service account is required. It is called a
-[service principal](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals) in Azure.
+service principal in Azure. See the [Azure documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals).
 
 ### Create service principal
 - Create a new app registration in Azure Active Directory named like `s146d01-keyvault-readonlyaccess`

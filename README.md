@@ -87,8 +87,8 @@ Once the pull request is merged, the deploy Github action workflow runs the buil
 
 ## Accessibility testing
 
-Install [AXE Chrome extension](https://chrome.google.com/webstore/detail/axe-devtools-web-accessib/lhdoppojpmngadmnindnejefpokejbdd) and analyse
-the pages using the Chrome developer tools.
+Install AXE [Chrome extension](https://chrome.google.com/webstore/detail/axe-devtools-web-accessib/lhdoppojpmngadmnindnejefpokejbdd)
+or [Firefox extension](https://addons.mozilla.org/en-GB/firefox/addon/axe-devtools/) and analyse the pages using the developer tools.
 
 Issues with the [tech-docs-gem](https://github.com/alphagov/tech-docs-gem) and [govuk-frontend](https://github.com/alphagov/govuk-frontend) should be
 reported on the respective repository.

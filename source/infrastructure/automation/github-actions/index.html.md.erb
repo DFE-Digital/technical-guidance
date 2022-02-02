@@ -6,6 +6,8 @@ review_in: 6 months
 
 # <%= current_page.data.title %>
 
+_Github actions_ is a powerful workflow system entirely defined in code. See the [original documentation](https://github.com/features/actions).
+
 ## Environment variables
 
 Variables can be declared at the workflow level, or job and step level. Avoid declaring secrets at a global level if it can be done at more local level.
@@ -67,5 +69,5 @@ act --env-file test.env -s GOVUKPAAS_PASSWORD ...
 ## Dependabot
 GitHub actions are generally supplied by the Marketplace and can occasionallly become out of date. To help prevent this you can use the GitHub [Dependabot](https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/enabling-and-disabling-dependabot-version-updates#enabling-github-dependabot-version-updates) tool.
 
-Follow the [documentation](https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/keeping-your-actions-up-to-date-with-dependabot)
+Follow the [Dependabot documentation](https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/keeping-your-actions-up-to-date-with-dependabot)
 to configure it for GitHub actions.

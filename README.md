@@ -70,11 +70,13 @@ the HTML and asset files ready to be published.
 
 ## Check links
 
-To check all hypertext links inside the generated documentation are valid, build first, then run:
+To check all hypertext links inside the generated documentation are valid run:
 
 ```
 make check-links
 ```
+
+It will build the site and check all the links. It takes a few minutes.
 
 ## Publishing changes
 

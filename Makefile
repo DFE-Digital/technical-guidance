@@ -5,5 +5,5 @@ server:
 build:
 	rm -rf build && bundle exec middleman build --verbose
 
-check-links:
-	bundle exec ruby -rhtml-proofer -e "HTMLProofer.check_directory('./build').run"
+check-links: build
+	bundle exec ruby -rhtml-proofer -e "HTMLProofer.check_directory('./build',{:hydra => { :max_concurrency => 1 }}).run"

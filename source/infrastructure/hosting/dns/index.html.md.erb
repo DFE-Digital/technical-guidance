@@ -1,6 +1,6 @@
 ---
 title: DNS
-last_reviewed_on: 2022-01-6
+last_reviewed_on: 2022-03-22
 review_in: 6 months
 ---
 
@@ -8,11 +8,11 @@ review_in: 6 months
 
 <%= partial('partials/page_toc') %>
 
-Domain names are normally maintained by the Tech Group Infrastructure team. They own a number of AWS route53 zones, including:
+Domain names are normally maintained by the [Infrastructure Operations](/infrastructure/support/#infrastructure-operations) team. They own a number of AWS route53 zones, including:
 
 * education.gov.uk and *.education.gov.uk: default zones for DfE domains
 
-* *.service.gov.uk for public beta and live services linked from gov.uk. Example: [find-postgraduate-teacher-training.service.gov.uk](https://www.find-postgraduate-teacher-training.service.gov.uk/) or [apply-for-teacher-training.service.gov.uk](https://www.apply-for-teacher-training.service.gov.uk/)
+* *.service.gov.uk for [public beta and live services](#official-service.gov.uk-domains) linked from gov.uk. Example: [find-postgraduate-teacher-training.service.gov.uk](https://www.find-postgraduate-teacher-training.service.gov.uk/) or [apply-for-teacher-training.service.gov.uk](https://www.apply-for-teacher-training.service.gov.uk/)
 
 ## Service Now
 
@@ -23,9 +23,7 @@ Changes are requested via the [Service portal](<%= data.site.service_portal %>).
 * Any other request
 * Category: Non-standard
 * Business service: Shared IT core services
-* Service offering: DfE Infrastructure
-
-The Infrastructure team can also be contacted via email at: infrastructure.Operations@education.gov.uk
+* Service offering: Amazon Web Services
 
 *For live services, the changes may have to go through CAB if there is a risk of disruption*
 
@@ -51,37 +49,33 @@ Please create the following record in DNS zone education.gov.uk:
 _87fa63d9b0fbe.education.gov.uk IN TXT _87fa63d9b0fbe.education.gov.uk
 ```
 
-Optionally ask to set the TTL on the record. The default is 300s (5 min).
+Optionally ask to set the TTL on the record. The default is 300s (5 min). Be careful with long TTL as mistakes may create longer outages.
 
 ### Request zone
-```Please create a new DNS zone called service123.service.gov.uk```
-
+```
+Please create a new DNS zone called service123.service.gov.uk
+```
 
 ## Official service.gov.uk domains
 
 During alpha and private beta phases, services usually run under the education.gov.uk domain. When a service passes the [public beta assessment](https://www.gov.uk/service-manual/agile-delivery/how-the-live-phase-works), it should get an official service.gov.uk domain and a start page.
 
-## service.gov.uk domain
 As [documented](https://www.gov.uk/service-manual/technology/get-a-domain-name), we need to:
 
 * Create a new DNS zone `<service>.service.gov.uk`. Example: [apply-for-teacher-training.service.gov.uk](http://www.apply-for-teacher-training.service.gov.uk/)
-* Take note of the name servers.
+* Take note of the name servers. Example:
 
-Example:
-
-```
-% dig +short ns apply-for-teacher-training.service.gov.uk
-ns-1034.awsdns-01.org.
-ns-1700.awsdns-20.co.uk.
-ns-736.awsdns-28.net.
-ns-485.awsdns-60.com.
-```
-
-* Create a ticket with GDS by emailing <hostmaster@digital.cabinet-office.gov.uk>. Mention the desired zone name and the name servers.
-
+  ```
+  % dig +short ns apply-for-teacher-training.service.gov.uk
+  ns-1034.awsdns-01.org.
+  ns-1700.awsdns-20.co.uk.
+  ns-736.awsdns-28.net.
+  ns-485.awsdns-60.com.
+  ```
+* Send the request to GDS by emailing <govuk-enquiries@digital.cabinet-office.gov.uk> or <hostmaster@digital.cabinet-office.gov.uk>. Mention the desired zone name and the name servers.
 * GDS will then set up delegation from their zone `service.gov.uk`
-
-* Create the required subdomains <subdomain>.<service>.service.gov.uk. Example: [www.apply-for-teacher-training.service.gov.uk](http://www.apply-for-teacher-training.service.gov.uk/)
+* Create the required subdomains `<subdomain>.<service>.service.gov.uk`. Example: [www.apply-for-teacher-training.service.gov.uk](https://www.apply-for-teacher-training.service.gov.uk/)
+* Domains for test environments may also be created as subdomains. Example: [staging.apply-for-teacher-training.service.gov.uk](https://staging.apply-for-teacher-training.service.gov.uk)
 
 ## Start page
 

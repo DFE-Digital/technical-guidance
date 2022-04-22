@@ -42,9 +42,15 @@ So we need to go to our dashboard and using the ‘COG’ at the top of the dash
 
 ![Example of Dynamic Variables](dynamic_variables.png)
 
-The key value is label_value( space ), this returns all the labels named ‘space’ into the variable. [Documentation](https://docs.huihoo.com/grafana/2.6/datasources/prometheus/index.html)
+The key value is `label_value(space)`, this returns all the labels named ‘space’ into the variable. [Documentation](https://docs.huihoo.com/grafana/2.6/datasources/prometheus/index.html)
 
 You should notice when you have created your variable it gives an example of the data it has returned. If this looks good, you are ready to ADD the variable.
+
+Note that the queried label must be included in **all** the metrics. If not, the list may be empty. To workaround this issue, it is possible to query a particular metric which is guaranteed to return the label using the syntax `label_values(metric, label)`. Example:
+
+```
+label_values(memory_utilization, space)
+```
 
 ## Using Variable
 

@@ -109,15 +109,8 @@ Add the service principal to groups or access policies to give it access to part
 To assign it a role, request [CIP](/infrastructure/support/#infrastructure-operations) to add them. You may need approval from Security, ie the allocated ISO.
 
 ### Use the service principal in external systems
-You will need:
 
-- `clientId`: From App registration overview, get `Application (client) ID`
-- `clientSecret`: Access key generated above, retrieve it from keyvault secret SPReadonly
-- `subscriptionId`: Get the subscription id at the subscription level
-- `tenantId`: From App registration overview, get `Directory (tenant) ID`
-
-#### Github actions
-Create a json like the one generated in this the [login action documentation](https://github.com/marketplace/actions/azure-login#configure-a-service-principal-with-a-secret).
+You can use the [new_aad_app_secret](https://github.com/DFE-Digital/bat-infrastructure/blob/main/scripts/new_aad_app_secret.sh) script to generate the formatted json with the required information as per the example below.
 
 ```json
 {
@@ -128,13 +121,32 @@ Create a json like the one generated in this the [login action documentation](ht
 }
 ```
 
-Store it as a Github secret (eg: `AZURE_CREDENTIALS`) and use it with the Azure login action or provide it to Terraform.
+Before running the script:
+
+- Ensure you are logged in to the tenant containing the app registration and have selected the subscription which contains the resources that the app registration needs access to
+- Obtain the `Application (client) ID` of the app registration you want to add to the GitHub secret
+- A display name to help you identify this secret in the app registrations `Certificates & secrets` blade in the Azure Portal
+
+Run the script with `./new_aad_app_secret.sh <CLIENT_ID> <DISPLAY_NAME>`. It should then output the required information as formatted json. This can be pasted in as the value for the GitHub secret.
+
+The information it contains can also be manually obtained and produced:
+
+- `clientId`: From App registration overview, get `Application (client) ID`
+- `clientSecret`: Access key generated above, retrieve it from keyvault secret SPReadonly
+- `subscriptionId`: Get the subscription id at the subscription level
+- `tenantId`: From App registration overview, get `Directory (tenant) ID`
+
+#### Github actions
+
+The Github secret (eg: `AZURE_CREDENTIALS`) can be used it with the Azure login action or provided it to Terraform.
 
 ```yaml
 - uses: Azure/login@v1
   with:
     creds: ${{ secrets.AZURE_CREDENTIALS }}
 ```
+
+[Additional information](https://github.com/marketplace/actions/azure-login#configure-a-service-principal-with-a-secret)
 
 #### Terraform
 Use the [service principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret) credentials above

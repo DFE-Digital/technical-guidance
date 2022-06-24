@@ -17,3 +17,6 @@
 
 # Ignore built documentation
 /build
+
+# Ignore vscode files
+.vscode/

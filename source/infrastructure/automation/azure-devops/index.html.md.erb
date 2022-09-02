@@ -1,6 +1,6 @@
 ---
 title: Azure devops
-last_reviewed_on: 2022-01-6
+last_reviewed_on: 2022-09-01
 review_in: 6 months
 ---
 
@@ -8,12 +8,15 @@ review_in: 6 months
 
 Azure DevOps (see [Microsoft documentation](https://azure.microsoft.com/en-us/services/devops/)) provides version control, reporting, requirements management, project management, automated builds, testing and release management capabilities. In DfE it is mainly used to run pipelines and it makes sense to use it for CIP deployments as it’s tightly integrated to Azure.
 
-When a service is onboarded to [CIP](/infrastructure/hosting/azure-cip/), a Azure devops project is automatically provided, including service connectin to the CIP subscription.
+When a service is onboarded to [CIP](/infrastructure/hosting/azure-cip/), an Azure devops project is automatically provided, including service connection to the CIP subscription.
 
 See: [Azure Devops CIP portal](https://dev.azure.com/dfe-ssp/)
 
 ## Release pipeline deprecation
-The manually created release pipelines are deprecated. Any new pipeline should be created as code in yaml and stored in a git repository.
+The manually created release pipelines are deprecated. Any new pipeline should be created as code in `yaml` and stored in a git repository.
 
 ## Extensions
-New Devops extensions  may be requested. They must be approved by Security before inclusion. Ask in `#cloud-platform` Slack channel for details.
+New Devops extensions may be requested. They must be approved by Security before inclusion. Ask in `#cloud-platform` Slack channel for details.
+
+## Variable groups
+Variable groups is data specific to Azure devops. For portability it is recommended to store variables inside of the yaml pipelines and secrets in Azure keyvault.

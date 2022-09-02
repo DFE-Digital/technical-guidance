@@ -1,5 +1,6 @@
 {
   "digital_tools": "/infrastructure/support/#digital-tools-support",
   "gov_uk_paas": "/infrastructure/hosting/govuk-paas/",
-  "service_portal": "/infrastructure/support/#access-to-service-portal"
+  "service_portal": "/infrastructure/support/#access-to-service-portal",
+  "gov_uk_paas_decommission": "GOV.UK PaaS will be decommissioned at the end of 2023, no new service should be built using it. It is still available for running existing services and creating prototypes."
 }

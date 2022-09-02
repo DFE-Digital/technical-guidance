@@ -1,11 +1,13 @@
 ---
 title: Production
 weight: 30
-last_reviewed_on: 2022-01-6
-review_in: 6 months
+last_reviewed_on: 2022-09-01
+review_in: 12 months
 ---
 
 # <%= current_page.data.title %>
+
+<%= warning_text(data.site.gov_uk_paas_decommission) %>
 
 ## Service accounts
 Automation requires creating a PaaS service account, which is a user account with its own email address, but not related to a human user.

@@ -1,7 +1,7 @@
 ---
 title: Tooling
 weight: 20
-last_reviewed_on: 2022-01-6
+last_reviewed_on: 2022-09-5
 review_in: 12 months
 ---
 
@@ -14,7 +14,7 @@ review_in: 12 months
 ## cf cli
 
 The default tool to deploy to GOV.UK PaaS is the [cf command line tool](https://docs.cloud.service.gov.uk/get_started.html#set-up-the-cloud-foundry-command-line).
-It is easy to use and any developer can use it to push applications and create services like postgres or redis.
+It is easy to use and any developer can use it to push applications and create services like PostgreSQL or Redis.
 
 When deploying with the cli, we recommend using [manifests](https://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html):
 
@@ -31,8 +31,8 @@ continuous delivery pipelines.
 * The declarative syntax avoids having to think about dependencies. Terraform will create the resources in the right order and destroy them in the
 right order when required. It also makes it idempotent so Terraform won’t recreate a resource already created.
 * This is particularly useful to create disposable environments for testing or review apps, and delete them when they are not required anymore.
-* The syntax is elegant, powerful and modular
-* It can read data from environment variables, AWS parameter store, Azure keyvault, yaml files, json files, etc.
+* The syntax is elegant, powerful and modular.
+* It can read data from environment variables, AWS Parameter Store, Azure Key Vault, YAML files, JSON files, etc.
 * It can create an environment made of very different technologies. For example, we create an environment with Azure, GOV.UK PaaS and Statuscake in a single Terraform run.
 
 ### Cloud Foundry provider
@@ -61,16 +61,16 @@ deployment strategy. It builds the new version alongside the live one, and it sw
 
 ### Caution
 
-* Terraform requires to store its state in a persistent storage. An IaaS solution may be used alongside GOV.UK PaaS, like an Azure Storage Account with
+* Terraform requires its state to be stored in persistent storage. An PaaS solution may be used alongside GOV.UK PaaS, like an Azure Storage account with
 blob versioning enabled. GOV.UK PaaS also provides an [Amazon S3 service](https://docs.cloud.service.gov.uk/deploying_services/s3/) but it currently doesn't
 offer versioning (it's on the [roadmap](https://github.com/alphagov/paas-roadmap/issues/64) though).
 * All the resources are under Terraform control, including databases. It is a good practice to back up critical databases externally as an additional
 protection. Terraform [prevent_destroy lifecycle](https://www.terraform.io/docs/language/meta-arguments/lifecycle.html#prevent_destroy) may help as well.
 * The provider has a few bugs. Here are suggested workarounds:
   * Docker image not updated: use [blue-green deployment](https://registry.terraform.io/providers/cloudfoundry-community/cloudfoundry/latest/docs/resources/app#blue-green)
-  * [Database connection issues during blue-green deployment](https://github.com/cloudfoundry-community/terraform-provider-cloudfoundry/issues/353): use
-[service key](https://registry.terraform.io/providers/cloudfoundry-community/cloudfoundry/latest/docs/resources/service_key) instead of
-[service binding](https://registry.terraform.io/providers/cloudfoundry-community/cloudfoundry/latest/docs/resources/app#service_binding)
+  * [Database connection issues during blue-green deployment](https://github.com/cloudfoundry-community/terraform-provider-cloudfoundry/issues/353):
+      * use [service key](https://registry.terraform.io/providers/cloudfoundry-community/cloudfoundry/latest/docs/resources/service_key) instead of [service binding](https://registry.terraform.io/providers/cloudfoundry-community/cloudfoundry/latest/docs/resources/app#service_binding)
+      * use version 0.15.4+ of the Cloud Foundry Terraform Provider
 
 ## Docker
 
@@ -80,31 +80,31 @@ DfE recommended way to deploy to GOV.UK PaaS, except for very simple application
 
 Another solution is to use Docker. Using `cf push --docker-image my-app` tells Cloud Foundry to:
 
-* Pull the my-app image from a docker registry (Docker Hub by default)
+* Pull the my-app image from a Docker Registry (Docker Hub by default)
 * Unpack the files
 * Run the application in Cloud Foundry container environment
 
 This approach has several advantages:
 
-* Avoid vendor lock-in: Docker is commonly used in other platform like Kubernetes, Azure app service, Azure container instances, AWS ECS, etc. Should
+* Avoid vendor lock-in: Docker is commonly used in other platforms like Kubernetes, Azure App Service, Azure Container Instances, AWS ECS, etc. Should
 we want to move away from GOV.UK PaaS, it’s possible.
 * Build only once: The Docker image is a build artifact identified by a specific tag (usually the commit id). It can be deployed consistently across
-different environments and it removes the dependency on artifats downloaded at build time from external systems.
+different environments and it removes the dependency on artifacts downloaded at build time from external systems.
 * Faster deployments: The deployment to each environment only takes a few seconds as the image is already built.
-* Faster build: Docker build cache can be leveraged to reduce built time massively.
+* Faster build: Docker build cache can be leveraged to reduce build time massively.
 
 The Terraform Cloud Foundry provider also supports Docker.
 
-**Important:** If you use Docker Hub as Docker registry, make sure to set up authentication as unauthenticated pulls are significantly
+**Important:** If you use Docker Hub as your Docker registry, make sure to set up authentication as unauthenticated pulls are significantly
 [rate limited](https://docs.docker.com/docker-hub/download-rate-limit/).
 
 ## Monitoring apps and services
-The admin portal provides the status of applications and service. It also shows metrics graphs for services.
+The admin portal provides the status of applications and service. It also shows metric graphs for services.
 
 Deploy [cf-monitoring](https://github.com/DFE-Digital/cf-monitoring/) to provide detailed metrics, alerting and dashboards for your applications and services.
-This includes a billing dashboards showing daily usage so you can finely control the costs.
+This includes a billing dashboard showing daily usage so you can finely control the costs.
 
 ## Centralised logging
 Recent application logs are available via the `cf` command line. For permanent storage, filtering, advanced queries, log based dashboards and alerting,
 we recommend using [Logit.io](https://logit.io/) which is a cost effective SaaS ELK platform widely used in Government.
-See the [Paas documentation](https://docs.cloud.service.gov.uk/monitoring_apps.html#set-up-the-logit-log-management-service).
+See the [GOV.UK PaaS documentation](https://docs.cloud.service.gov.uk/monitoring_apps.html#set-up-the-logit-log-management-service).

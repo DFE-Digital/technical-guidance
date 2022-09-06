@@ -2,8 +2,8 @@
 title: StatusCake
 hide_in_navigation: true
 link_in_toc: true
-last_reviewed_on: 2022-01-6
-review_in: 6 months
+last_reviewed_on: 2022-09-6
+review_in: 12 months
 ---
 [Back to Monitoring](/infrastructure/monitoring/)
 
@@ -30,50 +30,100 @@ It is possible to have a number of emails and mobile numbers for alerts when a s
 It is possible for a Slack message to be raised. You will need a Slack Webhook, which can be provided on request by [Digital tools](<%= data.site.digital_tools %>).
 
 ### Delivery
-It is recommended to use Terraform:
+It is recommended to use Terraform. Example configuration below.
 
 *tfvars* file
 
 ```hcl
-alerts = { # Several different checks per environment can be configured
-  GiT_App_Production_Healthcheck = {
-    website_name  = "Get Into Teaching Website (Production)"                    # Name of the service and environment
-    website_url   = "https://getintoteaching.education.gov.uk/healthcheck.json" # Simple healtheck page with no dependency
-    test_type     = "HTTP"
-    check_rate    = 30                                                          # Set to minimum
-    contact_group = ["Get-Into-Teaching"]
-    trigger_rate  = 0                                                           # Set to 0 to alert immediately
-    confirmations = 1                                                           # Set to 1 or more to eliminate false alarms
-    node_locations = [ "UKINT", "UK1", "MAN1", "MAN5", "DUB2"],                 # Limit the number of check locations
-  }
+"alerts": {                                     # Several different checks per environment can be configured
+  "publish": {
+    "website_name": "publish-teacher-training-prod",                                    # Name of the service and environment
+    "website_url": "https://www.publish-teacher-training-courses.service.gov.uk/ping",  # Simple healtheck page with no dependency
+    "check_rate": 60,
+    "contact_group":  [555000]
+  },
 }
 ```
 
+*tf* configuration
+
 ```hcl
 provider "statuscake" {
-  username = var.sc-username
-  apikey   = var.sc-password
+  api_token = local.infra_secrets.STATUSCAKE_PASSWORD
 }
 
 terraform {
-  required_version = ">= 0.13.4"
+  required_version = "1.2.3"
   required_providers {
     statuscake = {
       source  = "StatusCakeDev/statuscake"
-      version = "1.0.1"
+      version = "2.0.3"
     }
   }
 
-resource "statuscake_test" "alert" {
+variable alerts {
+  type = map
+  default = {}
+}
+
+resource "statuscake_uptime_check" "alert" {
   for_each = var.alerts
 
-  website_name   = each.value.website_name
-  website_url    = each.value.website_url
-  test_type      = each.value.test_type
-  check_rate     = each.value.check_rate
-  contact_group  = each.value.contact_group
-  trigger_rate   = each.value.trigger_rate
-  confirmations  = each.value.confirmations
-  node_locations = each.value.node_locations
+  name           = each.value.website_name
+  check_interval = each.value.check_rate
+  confirmation   = 2                            # Set to 2 to eliminate false alarms
+  trigger_rate   = 0                            # Set to 0 to alert immediately
+  regions        = ["london", "dublin"]         # Check locations
+  contact_groups = each.value.contact_group
+
+  http_check {
+    follow_redirects = true
+    timeout          = 40
+    request_method   = "HTTP"
+    status_codes = [
+      "204",
+      "205",
+      "206",
+      "303",
+      "400",
+      "401",
+      "403",
+      "404",
+      "405",
+      "406",
+      "408",
+      "410",
+      "413",
+      "444",
+      "429",
+      "494",
+      "495",
+      "496",
+      "499",
+      "500",
+      "501",
+      "502",
+      "503",
+      "504",
+      "505",
+      "506",
+      "507",
+      "508",
+      "509",
+      "510",
+      "511",
+      "521",
+      "522",
+      "523",
+      "524",
+      "520",
+      "598",
+      "599"
+    ]
+  }
+
+  monitored_resource {
+    address = each.value.website_url
+  }
 }
 ```

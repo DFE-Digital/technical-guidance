@@ -85,6 +85,9 @@ Make sure to make changes in a branch. Every change should be reviewed in a pull
 
 Once the pull request is merged, the deploy Github action workflow runs the build and pushes the static site to GOV.UK PaaS.
 
+You will need to be a member of the DFE-Digital organization to publish changes.  You may not have permission to push directly to the 
+repository, and should create a fork and make a pull request from there instead.
+
 [branch protection]: https://help.github.com/articles/about-protected-branches/
 
 ## Accessibility testing

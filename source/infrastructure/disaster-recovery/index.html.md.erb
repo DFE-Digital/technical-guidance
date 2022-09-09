@@ -1,7 +1,7 @@
 ---
 title: Disaster recovery
 weight: 40
-last_reviewed_on: 2022-01-6
+last_reviewed_on: 2022-09-12
 review_in: 6 months
 ---
 
@@ -28,7 +28,7 @@ The application may crash because of a bug, memory leak, high utilisation…
 |-|-|
 |Impact|It may or may not impact end users as a service may deploy multiple application instances.|
 |Prevention|Crashes may happen because of high memory, CPU or disk usage. These metrics should be monitored and notify in advance to avoid the crash entirely.|
-|Detection|Endpoint monitoring like `StatusCake` would notify of a total outage impacting users, if the whole application crashes. An application _instance_ crash may be reported by monitoring.<br/>In the case of GOV.UK PaaS, the prometheus metric `crash` increases if an instance crashes.|
+|Detection|Endpoint monitoring like `StatusCake` would notify of a total outage impacting users, if the whole application crashes. An application _instance_ crash may be reported by monitoring.<br/>In the case of GOV.UK PaaS, the Prometheus metric `crash` increases if an instance crashes.|
 |Remediation|The quickest action is to roll back the problematic change or roll forward with a fix. Ideally the platform detects a failing application and restarts it.<br/>For example GOV.UK PaaS detects the failure by running frequent healthchecks. Then it deploys a new container and kills the failed one.<br/>If there is no such feature, the application may be restarted manually. If the restart doesn't work, the application and infrastructure must be investigated manually.|
 
 ## Data corruption
@@ -52,7 +52,7 @@ It is possible to lose the database instance and the associated backups. For exa
 |Remediation|Restore database from external daily or most recent backup|
 
 ## Loss of Azure/AWS availability zone
-We deploy to PaaS London region which has 3 separate availability zone. It may happen that one of them is unavailable: either network, compute or storage services are affected.
+We deploy to PaaS London region which has 3 separate availability zones (AZ). It may happen that one of them is unavailable: either network, compute or storage services are affected.
 
 |||
 |-|-|
@@ -84,16 +84,16 @@ When our services are on GOV.UK PaaS, any problem with platform may impact us. S
 ## Azure issues impacting GOV.UK PaaS
 We often rely on Azure for:
 
-- Terraform state in Azure storage
-- Deploment and application secrets in Azure keyvault
-- Daily production database backups in Azure storage
+- Terraform state in Azure Storage
+- Infrastructure and application secrets in Azure Key Vault
+- Daily production database backups in Azure Storage
 
 |||
 |-|-|
 |Impact|This would not impact the running applications but would prevent us from deploying new versions and backing up the database.|
-|Prevention|Enable soft delete on Key vaults. Secrets are versioned.<br/>Enable container soft delete<br/>Enable versioning for blobs|
+|Prevention|Enable soft delete on Key Vaults. Secrets are versioned.<br/>Enable container soft delete<br/>Enable versioning for blobs|
 |Detection|The pipelines or deployments may fail|
-|Remediation|Key vaults with soft delete are recoverable. Secrets are versioned and recoverable in case of corruption or deletion<br/>Azure storage accounts can be recovered for 14 days if they were deleted by mistake<br/>Storage container with soft delete are recoverable<br/>Versioned files in storage blobs are recoverable in case of corruption or deletion|
+|Remediation|Key Vaults with soft delete are recoverable. Secrets are versioned and recoverable in case of corruption or deletion<br/>Azure Storage accounts can be recovered for 14 days if they were deleted by mistake<br/>Storage containers with soft delete are recoverable<br/>Versioned files in storage blobs are recoverable in case of corruption or deletion|
 
 ## Denial of service
 An attacker may send a high number of requests to overload the service and make it unavailable.
@@ -116,7 +116,7 @@ A malicious actor steals credentials or an ex employee still has working credent
 |Remediation|Revoke access of the suspicious user, investigate their actions<br/>Rotate secrets they may know and possibly restore the database to a known good state.|
 
 ## Disclosure of secrets
-Different kind of sensitive information may be posted online accidentally by a developer. On a website like [pastebin](https://pastebin.com/) or committed to Github public repository. Examples:
+Different kind of sensitive information may be posted online accidentally by a developer. On a website like [pastebin](https://pastebin.com/) or committed to a GitHub public repository. Examples:
 
 - _Deployment secrets_ like GOV.UK PaaS credentials, AWS API key
 - _Application secrets_ like Google API key
@@ -126,9 +126,9 @@ Different kind of sensitive information may be posted online accidentally by a d
 |||
 |-|-|
 |Impact|A malicious actor may gain access to the system, break the app, read or change confidential data, deploy extra applications.|
-|Prevention|Secrets should be stored in a secure location like Azure keyvault ([see Managing secrets](/infrastructure/security/managing-secrets/)), Azure devops variables or Github secrets. They should not be stored in a local file. If necessary temporarily, make sure to exclude it with `.gitignore`.<br/>Use Terraform [remote state backend](https://www.terraform.io/docs/language/state/remote.html) in a secure Azure storage account and not local files.<br/>Do not expose databases on the internet and refrain from downloading production dumps. Store database backups in a secure storage account and use ony anonymised data for non production environments.<br/>Install [git-secrets](https://github.com/awslabs/git-secrets) locally. Configure [GitGuardian](https://www.gitguardian.com/) on the repository.|
+|Prevention|Secrets should be stored in a secure location like Azure Key Vault ([see Managing secrets](/infrastructure/security/managing-secrets/)), Azure DevOps variables or GitHub secrets. They should not be stored in a local file. If necessary temporarily, make sure to exclude it with `.gitignore`.<br/>Use Terraform [remote state backend](https://www.terraform.io/docs/language/state/remote.html) in a secure Azure Storage account and not local files.<br/>Do not expose databases on the internet and refrain from downloading production dumps. Store database backups in a secure storage account and use ony anonymised data for non production environments.<br/>Install [git-secrets](https://github.com/awslabs/git-secrets) locally. Configure [GitGuardian](https://www.gitguardian.com/) on the repository.|
 |Detection|Block by git-secrets or notification from GitGuardian. Alert on overspending.|
-|Remediation|Remove the secrets from the public place, rotate all the exposed secrets, investigate if they were used.<br/>In the case of Github, remove from the repository and its history, make a request to GitHub to remove any pull-request or branch that include it, as those can exist beyond the life of the repo.|
+|Remediation|Remove the secrets from the public place, rotate all the exposed secrets, investigate if they were used.<br/>In the case of GitHub, remove from the repository and its history, make a request to GitHub to remove any pull-request or branch that include it, as those can exist beyond the life of the repo.|
 
 ## SSL certificate expiry
 Each service must have a valid SSL certificate otherwise clients cannot connect. Certificates have an expiry date and are not valid after the date.
@@ -136,9 +136,9 @@ Each service must have a valid SSL certificate otherwise clients cannot connect.
 |||
 |-|-|
 |Impact|Users can't access the website. Or they may ignore browser warnings and could then be tricked into a malicious website.|
-|Prevention|Set up auto renewal of certificates stored in [Azure key vault](https://docs.microsoft.com/en-us/azure/key-vault/certificates/tutorial-rotate-certificates). Services on PaaS are configured with a custom domain which generates a certificate and renews it automatically. If not auto renewed, set up monitoring of expiry date. Certficates created on DfE's Globalsign are monitored by Operations and owners receive notifications.|
+|Prevention|Set up auto renewal of certificates stored in [Azure Key Vault](https://docs.microsoft.com/en-us/azure/key-vault/certificates/tutorial-rotate-certificates). Services on PaaS are configured with a custom domain which generates a certificate and renews it automatically. If not auto renewed, set up monitoring of expiry date. Certficates created on DfE's Globalsign are monitored by Operations and owners receive notifications.|
 |Detection|Email from Operations or notification from monitoring|
-|Remediation|If not auto renewed, issue a new Globalsign certificate and install it on the website|
+|Remediation|If not auto renewed, issue a new DigiCert certificate and install it on the website|
 
 ## Traffic spike
 A sudden spike in user traffic due to an announcement, a product launch or a coincidence may overload the system.
@@ -160,14 +160,14 @@ A sudden spike in user traffic due to an announcement, a product launch or a coi
 |Detection|Smoke test failure. [DfE Sign-in status page](https://status.signin.education.gov.uk/)|
 |Remediation|Activate the login workaround|
 
-## Github
-[Github](https://github.com/) is our code repository, continuous integration system ([Github actions](/infrastructure/automation/github-actions/)) and Docker registry ([GHCR](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)).
+## GitHub
+[GitHub](https://github.com/) is our code repository, continuous integration system ([GitHub actions](/infrastructure/automation/github-actions/)) and Docker registry ([GHCR](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)).
 
 |||
 |-|-|
 |Impact|Users are not impacted, but we would not be able to deploy via automation|
 |Prevention|Plan to be able to deploy manually. Have DockerHub or Azure container registry ready as backup registry.|
-|Detection|[Github status page](https://www.githubstatus.com/). Updates are posted to the #govuk-paas Slack channel.<br/>Notification of pipeline failures|
+|Detection|[GitHub status page](https://www.githubstatus.com/). Updates are posted to the #govuk-paas Slack channel.<br/>Notification of pipeline failures|
 |Remediation|Build and deploy manually|
 
 ## DockerHub
@@ -178,7 +178,7 @@ If DockerHub is down it won’t impact the running service, but we won’t be ab
 |||
 |-|-|
 |Impact|Users are not impacted, but we would not be able to deploy via automation|
-|Prevention|Have Github container registry or Azure container registry ready as backup registry.|
+|Prevention|Have GitHub container registry or Azure container registry ready as backup registry.|
 |Detection|[DockerHub status page](https://status.docker.com/)<br/>Notification of pipeline failures|
 |Remediation|Build and deploy manually|
 

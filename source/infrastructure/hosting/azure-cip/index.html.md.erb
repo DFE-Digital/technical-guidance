@@ -1,6 +1,6 @@
 ---
 title: Azure CIP
-last_reviewed_on: 2022-01-6
+last_reviewed_on: 2022-09-9
 review_in: 6 months
 ---
 
@@ -10,9 +10,9 @@ review_in: 6 months
 
 It provides preconfigured [Azure](https://azure.microsoft.com/) subscriptions including security guardrails.
 
-It provides access to most Azure resources including app services, container instances, virtual networks, managed databases, front door, key vault, storage accounts, etc.
+It provides access to most Azure resources including App Services, Container Instances, Virtual Networks, managed databases, Front Door, Key Vault, storage accounts, etc.
 
-It can be used for any workload, especially ones which don’t fit on [GOV.UK PaaS](<%= data.site.gov_uk_paas%>). It can also be used alongside GOV.UK PaaS to complement it. For example: to store secrets, terraform state, backups, etc.
+It can be used for any workload, especially ones which don’t fit on [GOV.UK PaaS](<%= data.site.gov_uk_paas%>). It can also be used alongside GOV.UK PaaS to complement it. For example: to store secrets, Terraform state, backups, etc.
 
 Portal: [https://portal.azure.com/](https://portal.azure.com/)
 
@@ -30,9 +30,9 @@ If access to the service portal is not possible, ask the helpdesk (See [Support]
 
 Ask in #cloud-platform on Slack if more help is required.
 
-The new user will receive an invitation by email. Then the service managers can add them to the service Active Directory groups of the subscriptions: Managers and Delivery team.
+The new user will receive an invitation by email. Then the service managers can add them to the service Azure Active Directory groups of the subscriptions: Managers and Delivery team.
 
-To access Azure Devops, the new user must access the [Azure DevOps CIP instance](https://dev.azure.com/dfe-ssp/). This will register them in the system then the service owner can add them to the project.
+To access Azure DevOps, the new user must access the [Azure DevOps CIP instance](https://dev.azure.com/dfe-ssp/). This will register them in the system then the service owner can add them to the project.
 
 ## Privileged Identity Management (PIM) Requests
 
@@ -72,15 +72,15 @@ You will be given:
 * 2 default subscriptions: dev and test
 * 3 Active directory groups: Reader (read only), Delivery team (developers) and Managers (can approve PIM requests). The original requestor will be owner of these groups.
 * PIM (Privileged Identity Management) set up: members of the Delivery team can elevate their access themselves in staging, and request approval from a Manager in production.
-* A new project in Azure Devops dfe-ssp organisation and corresponding service connections to the subscriptions
+* A new project in Azure DevOps dfe-ssp organisation and corresponding service connections to the subscriptions
 
 The production subscription can be requested via the same [service portal form](https://dfe.service-now.com.mcas.ms/serviceportal/?id=sc_cat_item&sys_id=51b0b9c5db1ff7809402e1aa4b96197d&referrer=recent_items).
 Choose _Request type: Request production subscription_.
 
-## Azure Devops
+## Azure DevOps
 This is the default platform for automation and continuous integration in DfE: [see](/infrastructure/automation/azure-devops/).
 
-When a service is onboarded to CIP, a Azure devops project is automatically provided, including service connectin to the CIP subscription.
+When a service is onboarded to CIP, an Azure DevOps project is automatically provided, including service connection to the CIP subscription.
 
 ## Azure Development
 Deployments should always be done via infrastructure as code. We recommend using [Terraform](/infrastructure/dev-tools/#terraform) or [ARM templates](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview).
@@ -136,9 +136,9 @@ The information it contains can also be manually obtained and produced:
 - `subscriptionId`: Get the subscription id at the subscription level
 - `tenantId`: From App registration overview, get `Directory (tenant) ID`
 
-#### Github actions
+#### GitHub Actions
 
-The Github secret (eg: `AZURE_CREDENTIALS`) can be used it with the Azure login action or provided it to Terraform.
+The GitHub secret (eg: `AZURE_CREDENTIALS`) can be used it with the Azure login action or provided it to Terraform.
 
 ```yaml
 - uses: Azure/login@v1
@@ -155,10 +155,10 @@ to configure the [provider](https://registry.terraform.io/providers/hashicorp/az
 The above json may be reused by passing it to a terraform variable then the [jsondecode](https://www.terraform.io/docs/language/functions/jsondecode.html) function can be used to extract the values.
 
 ### Access key expiration
-The Operations team will alert you to the prospect of these secrets expiring, but will not update the credentials. If GitHub actions are used for example and the Github secret is not updated, then there is a risk of the CI/CD pipelines failing.
+The Operations team will alert you to the prospect of these secrets expiring, but will not update the credentials. If GitHub actions are used for example and the GitHub secret is not updated, then there is a risk of the CI/CD pipelines failing.
 
 See above to recreate the access keys and make sure to update them in key vault and in the systems using them.
 
 For more control and there is a [github_action](https://dfe-digital.github.io/github-actions/CheckServicePrincipal/) developed to enable periodic checks.
 
-For the Github action to work, the API Permission **Microsoft Graph Directory.Read.All** needs to be granted in App Registrations. Request the [CIP team](/infrastructure/support/#cip-engineering) to add the permissions.
+For the GitHub action to work, the API Permission **Microsoft Graph Directory.Read.All** needs to be granted in App Registrations. Request the [CIP team](/infrastructure/support/#cip-engineering) to add the permissions.

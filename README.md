@@ -85,6 +85,8 @@ Make sure to make changes in a branch. Every change should be reviewed in a pull
 
 Once the pull request is merged, the deploy Github action workflow runs the build and pushes the static site to GOV.UK PaaS.
 
+You may ask for write permission to push directly to the repository, or you can create a fork and make a pull request from there instead.
+
 [branch protection]: https://help.github.com/articles/about-protected-branches/
 
 ## Accessibility testing

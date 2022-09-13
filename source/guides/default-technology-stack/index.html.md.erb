@@ -1,6 +1,6 @@
 ---
-title: The DfE Digital Technology Stack
-last_reviewed_on: 2022-09-01
+title: The DfE Technology Stack
+last_reviewed_on: 2022-09-13
 review_in: 6 months
 weight: 20
 old_paths:
@@ -9,7 +9,7 @@ old_paths:
 
 # <%= current_page.data.title %>
 
-At DfE Digital, we believe that boring decisions are good decisions.  We therefore provide some default options for technology choices that are well supported within the community and well tested.
+At DfE, we believe that boring decisions are good decisions.  We therefore provide some default options for technology choices that are well supported within the community and well tested.
 
 These recommendations are purely that: recommendations. They are not standards that you must meet. There are often reasons for deviating from these recommendations, but as a team you should be prepared to justify why you made these decisions, and to trace that back to a user need that drives the decision.
 
@@ -34,7 +34,7 @@ Everyone is free to use the [GOV.UK Prototype Kit](https://govuk-prototype-kit.h
 ## Hosting Stack
 ### Azure
 
-DfE Digital uses Microsoft Azure as its primary hosting platform. New services should request an Azure account via the Cloud Infrastructure Platform (CIP) team.
+DfE uses Microsoft Azure as its primary hosting platform. New services should request an Azure account via the Cloud Infrastructure Platform (CIP) team.
 
 For more information about CIP and the onboarding process of services and users you can contact the team on:
 
@@ -57,7 +57,7 @@ For more details please refer to the [GOV.UK Platform as a Service](<%= data.sit
 
 ### Infrastructure as code
 
-DfE use [Terraform](https://www.terraform.io/) and [Azure Resource Manager (ARM)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authoring-templates) templates for automating and scripting Azure infrastructure creation and changes.
+DfE uses [Terraform](https://www.terraform.io/) and [Azure Resource Manager (ARM)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authoring-templates) templates for automating and scripting Azure infrastructure creation and changes.
 
 Some examples of Azure automation at scale that can be viewed and contributed to are:
 
@@ -71,7 +71,7 @@ For build and deployment pipelines, DfE use [Azure DevOps](/infrastructure/autom
 
 ### Containerisation
 
-DfE uses Docker to isolate and package up application dependencies from infrastructure and environment concerns. All repositories should be added to the [`dfedigital`](https://hub.docker.com/u/dfedigital) Docker Hub organisation (paying) or [Github container registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry) (free for open source).
+DfE uses Docker to isolate and package up application dependencies from infrastructure and environment concerns. All repositories should be added to the [dfedigital](https://hub.docker.com/u/dfedigital) Docker Hub organisation (paying) or [Github container registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry) (free for open source).
 
 When integrating Dockerhub in CI/CD it's best to use an appropriately named generic Dockerhub account (e.g. `your-project-name`) set up specifically for your project and documented in your team's runbook / opsmanual. This saves problems caused when users move on from a project.
 
@@ -79,7 +79,7 @@ Ask [Digital tools support](<%= data.site.digital_tools %>) to have members adde
 
 ## Logging, monitoring and alerting
 
-DfE use different tools:
+DfE uses different tools:
 - [Azure Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview) for logging and monitoring, with the ability to send custom telemetry.
 - [Sentry](https://sentry.io/welcome/) for error reporting
 - [Logit](https://logit.io/) for centralised logging, query and visualisation

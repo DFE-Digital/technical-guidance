@@ -7,10 +7,12 @@ review_in: 6 months
 
 # <%= current_page.data.title %>
 
-We traditionnally request the certificates from the [Globalsign](https://www.globalsign.com/) DfE account.
+We traditionally request certificates from one of our certified certificate authority’s (CA’s) [Globalsign](https://www.globalsign.com/) or [DigiCert](https://www.digicert.com/secure/). 
+This may alter between them depending on the procurement process (every 12 months) all users will be notified ahead of time should the supplier change.
+
 The certificate can be created manually or generated and renewed automatically via Azure Key Vault. Both automatic and manual options are presented here.
 
-Certificates generated in Globalsign are paid for centrally by the [Platform support team](/infrastructure/support/#platform-support).
+Certificates generated on the CA’s are paid for centrally by the [Platform support team](/infrastructure/support/#platform-support).
 
 This documentation doesn't apply to [GOV.UK PaaS](<%= data.site.gov_uk_paas %>) as SSL certificates are generated and renewed automatically for each [custom domain](https://docs.cloud.service.gov.uk/deploying_services/use_a_custom_domain/).
 

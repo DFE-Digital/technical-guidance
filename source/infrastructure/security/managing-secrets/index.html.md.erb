@@ -29,7 +29,7 @@ to yourself and other members of the team who you will allow to access the vault
 **A better solution** is to use a specific user role (using RBAC), which can be elevated via PIM to give access to secrets. This pattern is detailed on the [CIP documentation](https://docs.platform.education.gov.uk/docs/blogs/platform-engineering/key-vault-rbac.html)
 and the implementation is explained below.
 
-## Service Principal
+## Azure service Principal
 To be able to retrieve the secrets from an external system like GOV.UK PaaS, you need an Azure Service Principal, which takes the form of an app registration in Azure AD.
 
 See instructions [here](/infrastructure/hosting/azure-cip/#service-principal).

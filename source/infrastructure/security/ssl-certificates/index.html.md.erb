@@ -1,29 +1,30 @@
 ---
 title: SSL certificates
 weight: 50
-last_reviewed_on: 2022-01-6
+last_reviewed_on: 2022-10-24
 review_in: 6 months
 ---
 
 # <%= current_page.data.title %>
 
-We traditionally request certificates from one of our certified certificate authority’s (CA’s) [Globalsign](https://www.globalsign.com/) or [DigiCert](https://www.digicert.com/secure/) (currently our preferred provider).
-This may alter between them depending on the procurement process (every 12 months) all users will be notified ahead of time should the supplier change.
+<%= partial('partials/page_toc') %>
+
+We traditionally request certificates from one of our certified certificate authorities (CAs) [Globalsign](https://www.globalsign.com/) or [DigiCert](https://www.digicert.com/secure/) (currently our preferred provider).
+This may alter between them depending on the procurement process (every 12 months). All users will be notified ahead of time should the supplier change.
 
 The certificate can be created manually or generated and renewed automatically via Azure Key Vault. Both automatic and manual options are presented here.
 
 Certificates generated on the CAs are paid for centrally by the [Platform support team](/infrastructure/support/#platform-support).
 
 This documentation doesn't apply to [GOV.UK PaaS](<%= data.site.gov_uk_paas %>) as SSL certificates are generated and renewed automatically for each [custom domain](https://docs.cloud.service.gov.uk/deploying_services/use_a_custom_domain/).
+Similarly for Azure managed certificates in [App service](https://learn.microsoft.com/en-us/azure/app-service/configure-ssl-certificate?tabs=apex%2Cportal#create-a-free-managed-certificate) or [Front door](https://learn.microsoft.com/en-us/azure/frontdoor/standard-premium/how-to-configure-https-custom-domain#afd-managed-certificates-for-non-azure-pre-validated-domain).
 
-## Globalsign account
+## Create account
 Use the [External Digital Certificates form](https://dfe.service-now.com.us.cas.ms/serviceportal?id=sc_cat_item&sys_id=8fe3fae3dbd77f809402e1aa4b9619d0) on the service portal and choose: _Request type: Request an account_
 
 ## Generate manually
 ### Create CSR and private key
-Here is the [Globalsign guidance](https://support.globalsign.com/customer/en/portal/articles/1229769-certificate-signing-request-csr---overview) about Certificate Signing Request (CSR).
-
-Using openssl:
+Using [openssl](https://www.openssl.org/):
 
 ```
 openssl req -nodes -out CSR.csr -new -newkey rsa:2048 -keyout privatekey.key
@@ -47,7 +48,9 @@ Keep the private key safe, for example in a production [key vault](http://localh
 One certificate can cover mutiple domains in addition to the CN above by using Subject Alternate Names (SAN). **SANs are half the price of a full
 certificate so they should be used whenever and wherever possible.**
 
-This cannot be done interactively. Prepare an openssl config file, such as this _san.cnf_:
+Digicert allows adding SANs interactively during the request process.
+
+Or prepare an openssl config file, such as this _san.cnf_:
 
 ```
 [ req ]
@@ -74,6 +77,16 @@ openssl req -out sslcert.csr -newkey rsa:2048 -nodes -keyout private.key -config
 ```
 
 And confirm the answers interactively.
+
+### Request new certificate in DigiCert
+- [Login to Digicert](https://www.digicert.com/account/login.php) with your own account
+- Select `Request a certificate` then `Secure Site OV`
+- Paste the CSR
+- Choose coverage for 1 or 2 years
+- Add organization: Department For Education
+- Additional emails: your team email
+- Click `Submit request`
+
 
 ### Request new certificate in Globalsign
 - Open [Globalsign portal](https://gcc.globalsign.com/au/signon/gacp/usernamePasswordLogin.do)
@@ -103,11 +116,34 @@ openssl pkcs12 -export -out cert.pfx -inkey privatekey.key -in cert.cer
 
 [Azure key vault](https://docs.microsoft.com/en-us/azure/key-vault/certificates/tutorial-rotate-certificates) can generate, renew and store the certificate automatically.
 
-A special GlobalSign Key Vault account is required and must be approved on case by case basis. It can be requested via the
+### Key vault account
+A special "Key vault account" is required and must be approved on case by case basis. It can be requested via the
 [Non-standard / Any Other Request](https://dfe.service-now.com.mcas.ms/serviceportal?id=sc_cat_item&sys_id=3ab186f8db2c2b403b929334ca961998&sysparm_category=19d07bc3dbff17003b929334ca9619bd)
 service portal form. The business service is _Shared IT core services_ and the offering is _SSL Certificate Authority Systems (external)_.
 
-- Configure the Globalsign Certificate Authority (CA) in key vault using the Globalsign admin account. The contact details should be for a team, not an individual.
+### Digicert CA
+- If you don't have an API key, first login to Digicert with the Key vault account
+- Click on `API keys` then `Add API key`
+- Add a description
+- API key restrictions: orders
+- Click `Add API key` and keep note of the key. Ideally store it in a production Key vault secret.
+
+In Key vault, click on `Certificates`, then `Certificate Authorities`, then `+`:
+
+- Provider: Digicert
+- Account ID: Cert central account number 1446606
+- Account Password: API key as above
+- Organization ID: CertCentral Department For Education Organization ID: 877555
+
+### Globalsign CA
+In Key vault, click on `Certificates`, then `Certificate Authorities`, then `+`:
+
+- Provider: Globalsign
+- Account ID: Key vault account username
+- Account Password: Key vault account password
+- E-mail of Administrator: The contact details should be for a team, not an individual
+
+### Create certificate
 - Create a certificate
   - Method: Generate
   - Name: Unique name (usually the subdomain)
@@ -127,9 +163,16 @@ service portal form. The business service is _Shared IT core services_ and the o
 - Click Create
 - Click Certificate Operation and wait for result
 
+For Digicert, you must provide a team email as additional contact. This can only be done on the website:
+
+- Login as the Key Vault account
+- Click on Requests, click on the certificate, click on the order number
+- Under `Additional email recipients` click `Add email`
+- Enter the email and save
+
 ## Renewals
 
-The certificates are monitored and owners are notified via email before expiry by either GlobalSign or the [Platform support team](/infrastructure/support/#platform-support).
+The certificates are monitored and owners are notified via email before expiry by either the provider or the [Platform support team](/infrastructure/support/#platform-support). If Key vault automated renewal is configured, this can be ignored.
 
 ## Check certificate
 

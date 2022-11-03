@@ -1,6 +1,6 @@
 ---
 title: Azure CIP
-last_reviewed_on: 2022-09-9
+last_reviewed_on: 2022-10-03
 review_in: 6 months
 ---
 
@@ -97,8 +97,26 @@ To be able to access Azure from an external system like GOV.UK PaaS, a service a
 service principal in Azure. See the [Azure documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals).
 
 ### Create service principal
-- Create a new app registration in Azure Active Directory named like `s146d01-keyvault-readonlyaccess`
-- Add owners to the app registration. This will be users responsible for the service principal and its secrets
+- Submit a CIP Request on Service Now using your education.gov.uk identity.  The request type is `Any Other Request` and in `Any other request description` enter the following:
+
+```
+We have a new service called [service-name] that we are currently setting up for Teacher Services Digital team. This service will need service principals with Contributor access to [subscription-number] subscriptions so that it is in line with our deployment approach for new services.
+
+The Service Principals will all need the Directory.Read.All Microsoft Graph API Application permission, this will need to be approved by a Domain Admin.
+
+The Service Principals will all need the following Azure resource permissions:
+Service Principal Name: Azure Resource Permissions
+[dev-subscription-prefix]-[service-abbreviation]-contributor: Contributor, Key Vault Reader and Key Vault Secrets Officer roles on subscription [dev-subscription-name]
+[test-subscription-prefix]-[service-abbreviation]-contributor: Contributor, Key Vault Reader and Key Vault Secrets Officer roles on subscription [test-subscription-name]
+[prod-subscription-prefix]-[service-abbreviation]-contributor: Contributor, Key Vault Reader and Key Vault Secrets Officer roles on subscription [prod-subscription-name]
+
+They will be used to deploy Azure resources from GitHub repository DFE-Digital/[repo-name] owned by DFE-Digital.
+
+Please can you also add the following users as Owners on the Service Principals: [digital-accounts-for-infra-team-members]
+```
+
+Substitute anything in square brackets with values relevant to your request.
+
 - [Create access keys](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-app?tabs=dotnet#create-a-client-secret) with
 **1 year expiration**. This is mandated by CIP.
 - **_This is the only time you will see the key_**, so take this opportunity to COPY and PASTE it into the Key Vault now, in a secret named `SP-Readonly-Credentials` for instance

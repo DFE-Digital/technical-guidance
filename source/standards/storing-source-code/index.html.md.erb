@@ -6,33 +6,109 @@ old_paths:
 
 # <%= current_page.data.title %>
 
-All our source code is open by default, and stored on well-known,
-public code hosting services. At the DfE, we use GitHub.
 
-We follow the principles set out in the service manual for managing the
-code that we write:
 
-- [use version control](https://www.gov.uk/service-manual/technology/maintaining-version-control-in-coding)
-- [make source code open](https://www.gov.uk/service-manual/technology/making-source-code-open-and-reusable)
+## GOV.UK Service Manual
 
-You should keep secrets separate from source code, and keep them private.
+We follow principles set out within the [GOV.UK Service Manual](https://www.gov.uk/service-manual)
+for managing code we write.
 
-## GitHub
+### Sections of relevance:
 
-New repositories for products and services live in the
-[Department for Education Digital organisation](https://github.com/DfE-Digital)
-on GitHub. New repositories must be created within the [Department for Education Digital](https://github.com/DFE-Digital) organisation, whether they contain service production code or prototypes. Work created outside of the DfE Digital organisation should be transferred into the DfE Digital organisation at the earliest opportunity. [Guide to transferring a repository](https://help.github.com/en/articles/transferring-a-repository).
+- [Service Manual, Technology: Use version control](https://www.gov.uk/service-manual/technology/maintaining-version-control-in-coding)
+- [Service Manual, Technology: Make source code open](https://www.gov.uk/service-manual/technology/making-source-code-open-and-reusable)
+- [Service Manual, Technology: Securing your information](https://www.gov.uk/service-manual/technology/securing-your-information)
 
-You can use your personal GitHub account (but you should [add your DfE
-email address to your account](https://help.github.com/articles/adding-an-email-address-to-your-github-account/),
-and [use it for notifications](https://help.github.com/articles/managing-notification-emails-for-organizations/)).
-Ask your delivery manager to request you being added to the Github organisation.
+### Summary / Highlights:
 
-Another Github organisation account heavilly used by the DfE but not the default for DfE-Digital is ['SkillsFundingAgency'](https://github.com/SkillsFundingAgency/).
+- Changes to source code _must_ be tracked
+- Code we produce _should_ be made available via an internet source code repository
+- Published code _should_ be under an Open Source initiative compatible licence
+- Due-care _must_ be given to security considerations, including:
+  - Suitable protection of confidential information and secrets
+  - Departmental/governmental rules related to the use of cloud/3rd-party tooling
+  - Proper process and accountability/approvals for making code changes
 
-Repositories should be [clearly named](/standards/naming-things/),
-and have an [appropriate licence](/standards/licencing-software-or-code)
-and enough documentation that someone new can get started with the
-project.
+Additional detail and information is available via the links above.
 
-Private repositories are not a good way to protect secrets, and should only be used where access to the code might reveal draft policy decisions. Secrets should be managed at the platform level.
+
+## Types of source code
+
+- Infrastructure as code
+- Project
+
+## Git / GitHub
+
+At the Department for Education, we use git and the MIT Licence.
+
+While some projects remain on Azure DevOps
+
+and should be migrated across
+
+Specifically, we use GitHub for new and migrated work though projects remain on Azure DevOps.
+
+### GitHub Organisations
+
+Department for Education source code repositories on GitHub should be stored under an appropriate
+organisation, thus giving appropriate oversight and protections to these repositories.
+
+Specifically:
+- The [Department for Education Digital](https://github.com/DfE-Digital)
+  GitHub organisation is used for new and existing source code repositories
+  - This is applicable to production and prototype code
+- Work created outside the DfE Digital organisation should be transferred into
+  the DfE Digital organisation at the earliest opportunity.
+  - [GitHub: Guide to transferring a repository](https://help.github.com/en/articles/transferring-a-repository)
+- The [Skills Funding Agency](https://github.com/SkillsFundingAgency/)
+  GitHub organisation is also used by the DfE
+  - Not the default for DfE-Digital
+
+
+There is a small cost for accounts to be added to a GitHub organisation.
+Ask your delivery manager to request your account being added to these GitHub organisations.
+
+### Work vs Personal GitHub accounts
+
+You may use your personal GitHub account, but you should:
+
+- [GitHub: Add your DfE email address to your account](https://help.github.com/articles/adding-an-email-address-to-your-github-account/)
+- [GitHub: Use your secondary (DfE) email address for notifications](https://help.github.com/articles/managing-notification-emails-for-organizations/)
+
+
+### Repository Requirements
+
+Repositories should be:
+- [clearly named](/standards/naming-things/),
+- have an [appropriate licence](/standards/licencing-software-or-code)
+- have enough documentation that someone new can get started with the project
+
+
+## Data Protection Considerations - Git Repositories
+
+### Personal Data
+
+Storage of a git repository must be treated with due care and consideration.
+This applies whether it is within a central hosted environment or stored
+elsewhere such on a developer's computer.
+
+- Changes to source code, commits, are annotated with authorship details.
+  Typically, this is a name and an email address.
+- Where the commit is cryptographically-signed, the GPG key used will also have
+  personal information associated with it such as an email address.
+
+Additionally, note that git is _explicitly_ a _decentralised_ source versioning and control system.
+
+- It is, therefore, not possible to delete/change information within one copy of the
+  repository (e.g., GitHub) and force all other copies to be updated also
+- It is, therefore, extremely important to prevent non-public content from ever
+  being added to the git repository in the first place
+
+
+### Secrets
+
+You _must_ keep secrets separate from source code, and keep them private.
+
+Private repositories are a poor way to protect secrets, and may only be used
+where access to the code might reveal draft policy decisions.
+
+Secrets should be managed at the platform level.

@@ -145,18 +145,18 @@ Before running the script:
 - Obtain the `Application (client) ID` of the app registration you want to add to the GitHub secret
 - A display name to help you identify this secret in the app registrations `Certificates & secrets` blade in the Azure Portal
 
-Run the script with `./new_aad_app_secret.sh <CLIENT_ID> <DISPLAY_NAME>`. It should then output the required information as formatted json. This can be pasted in as the value for the GitHub secret.
+Run the script with `./new_aad_app_secret.sh <CLIENT_ID> "<DISPLAY_NAME>"`. Where the `CLIENT_ID` is the Application (client) ID from the app registration overview screen and `DISPLAY_NAME` could be "KV access". It should then output the required information as formatted JSON. This can be pasted in as the value for the GitHub secret.
 
-The information it contains can also be manually obtained and produced:
+The information it contains can also be manually obtained:
 
-- `clientId`: From App registration overview, get `Application (client) ID`
-- `clientSecret`: Access key generated above, retrieve it from keyvault secret SPReadonly
+- `clientId`: From App registration overview that we are creating the secret for, use the `Application (client) ID`
+- `clientSecret`: Access key generated above, retrieve it from the key vault secret (e.g. SPReadonlyCredentials) or update it if renewing the secret
 - `subscriptionId`: Get the subscription id at the subscription level
-- `tenantId`: From App registration overview, get `Directory (tenant) ID`
+- `tenantId`: From App registration overview, use `Directory (tenant) ID`
 
 #### GitHub Actions
 
-The GitHub secret (eg: `AZURE_CREDENTIALS`) can be used it with the Azure login action or provided it to Terraform.
+The GitHub secret (eg: `AZURE_CREDENTIALS`) can be used with the Azure login action or by providing it to Terraform.
 
 ```yaml
 - uses: Azure/login@v1
@@ -177,6 +177,6 @@ The Operations team will alert you to the prospect of these secrets expiring, bu
 
 See above to recreate the access keys and make sure to update them in key vault and in the systems using them.
 
-For more control and there is a [github_action](https://dfe-digital.github.io/github-actions/CheckServicePrincipal/) developed to enable periodic checks.
+For more control there is a [github_action](https://dfe-digital.github.io/github-actions/CheckServicePrincipal/) developed to enable periodic checks.
 
 For the GitHub action to work, the API Permission **Microsoft Graph Directory.Read.All** needs to be granted in App Registrations. Request the [CIP team](/infrastructure/support/#cip-engineering) to add the permissions.

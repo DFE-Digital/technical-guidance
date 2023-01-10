@@ -34,7 +34,7 @@ Additional detail and information is available via the links above.
 
 Source code is broader and wider than just business and presentation code.
 
-How source code is stored and structured will vary by project:
+How source code is stored and structured will vary by project, based on needs and historical convention:
 
 - A project may be composed of multiple services where each has its own repository
 - A monolith may have all source code for all purposes stored within the same source code repository
@@ -107,8 +107,14 @@ Specifically:
   GitHub organisation is also used by the DfE
   - Not the default for DfE-Digital
 
-There is a small cost for accounts to be added to a GitHub organisation.
-Ask your delivery manager to request your account being added to these GitHub organisations.
+If your account is added to a repository without the account being a member of the owning organisation,
+it will be counted and labelled as
+an ["outside collaborator"](https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/adding-outside-collaborators-to-repositories-in-your-organization).
+
+To join a GitHub organisation, follow the guidance and request forms available
+via [Digital Tools Support](<%= data.site.digital_tools %>).
+As there is a small cost implication for accounts to be added to a GitHub organisation,
+this should normally be done via / with support from your Delivery Manager.
 
 ### Work vs Personal GitHub accounts
 
@@ -133,10 +139,12 @@ Storage of a git repository must be treated with due care and consideration.
 This applies whether it is within a central hosted environment or stored
 elsewhere such on a developer's computer.
 
+Places where we may normally find personally-identifiable information:
+
 - Changes to source code, commits, are annotated with authorship details.
-  Typically, this is a name and an email address.
-- Where the commit is cryptographically-signed, the GPG key used will also have
-  personal information associated with it such as an email address.
+  Typically, this is a real name (or username) and an email address.
+- Where a commit is cryptographically-signed, the GPG key used will also have
+  personally-identifying information associated with it (such as an email address).
 
 Additionally, note that git is _explicitly_ a _decentralised_ source versioning and control system.
 
@@ -144,6 +152,7 @@ Additionally, note that git is _explicitly_ a _decentralised_ source versioning 
   repository (e.g., GitHub) and force all other copies to be updated also
 - It is, therefore, extremely important to prevent non-public content from ever
   being added to the git repository in the first place because it cannot be removed
+  with 100% confidence (being able to do so is an edge case, not the norm)
 
 ### Secrets
 

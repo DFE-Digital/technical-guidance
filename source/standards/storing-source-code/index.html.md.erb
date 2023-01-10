@@ -13,11 +13,11 @@ old_paths:
 We follow principles set out within the [GOV.UK Service Manual](https://www.gov.uk/service-manual)
 for managing code we write.
 
-### Sections of relevance:
+### Service Manual Sections of relevance:
 
-- [Service Manual, Technology: Use version control](https://www.gov.uk/service-manual/technology/maintaining-version-control-in-coding)
-- [Service Manual, Technology: Make source code open](https://www.gov.uk/service-manual/technology/making-source-code-open-and-reusable)
-- [Service Manual, Technology: Securing your information](https://www.gov.uk/service-manual/technology/securing-your-information)
+- [Service Manual > Technology > Use version control](https://www.gov.uk/service-manual/technology/maintaining-version-control-in-coding)
+- [Service Manual > Technology > Make source code open](https://www.gov.uk/service-manual/technology/making-source-code-open-and-reusable)
+- [Service Manual > Technology > Securing your information](https://www.gov.uk/service-manual/technology/securing-your-information)
 
 ### Summary / Highlights:
 
@@ -34,25 +34,74 @@ Additional detail and information is available via the links above.
 
 ## Types of source code
 
-- Infrastructure as code
-- Project
+Source code is broader and wider than just business and presentation code.
 
-## Git / GitHub
+How source code is stored and structured will vary by project:
 
-At the Department for Education, we use git and the MIT Licence.
+- A project may be composed of multiple services where each has its own repository
+- A monolith may have all source code for all purposes stored within the same source code repository
+- A mixture may apply where project source code and tests are within one repository,
+  while infrastructure code may be stored within a separate repository
 
-While some projects remain on Azure DevOps
+Examples of source code types and purposes:
 
-and should be migrated across
+- **Project source code**
+  - Code used to meet a user need - i.e., what is normally considered when describing "source code"
+- **Test code**
+  - Code used to evaluate the correctness of the project code
+  - Depending on the project, test code may involve provisioning infrastructure, deploying a build,
+    and even running the project code
+    _(e.g. a headless browser to test the presentation and accessibility of a web page)_
+- **Infrastructure as code**
+  - Code used to provision and configure the infrastructure a project runs upon
+- **CI configuration**
+  - Code used to inspect, validate, and potentially gate-keep changes being made to project code
+  - May include GitHub Actions and Azure Pipelines
+  - Typically triggered on a merge/PR event, but other examples include being triggered on
+    creation of a particular tag (e.g., one in the format `vX.Y.Z`) or on a timer/cron-basis
+- **Deployment code**
+  - Code used to build, test, and deploy project source code into a running environment
 
-Specifically, we use GitHub for new and migrated work though projects remain on Azure DevOps.
+## Source Code Versioning: Git
+
+At the Department for Education (DfE) we use [Git](https://git-scm.com/) for source code versioning.
+
+- Git is decentralised - this means all copies of the repository include the WHOLE history of the repository,
+  not just a snapshot
+- Branches are "cheap" - creating a new branch (or tag) involves just a new pointer at a specific commit
+  (thus minimal compute and storage implications)
+- Hashes/checkums for each file and commit depend on the entire tree - thus, the repository is safe from
+  surreptitious / malicious / accidental changes to earlier versions of a file without it being
+  very visible to other users
+
+
+
+## Git Repository Hosting - GitHub and Azure DevOps (ADO)
+
+While not required, most git users will nominate one copy of the git repository to be the authoritative copy.
+
+- It is possible to self-host a git server for this purpose but, often, this will be a hosted solution such as
+  GitHub, Azure DevOps, GitLab, or any of the numerous other commercial services available.
+- A "hub and spoke" is easier to reason about and keep synchronised
+- Integrations with other tools will work with less friction, where they have a single copy to work with
+  (e.g., automated test/deployment tools, issue/bug management)
+
+
+### GitHub
+
+Historically, some projects use (and may remain on) private Azure DevOps and/or private GitHub repositories
+for legacy reasons, though we are now required to [make new source code open](https://apply-the-service-standard.education.gov.uk/service-standard/12-make-new-source-code-open.html).
+
+Specifically, we use GitHub for new and migrated work.
+
 
 ### GitHub Organisations
 
-Department for Education source code repositories on GitHub should be stored under an appropriate
-organisation, thus giving appropriate oversight and protections to these repositories.
+Department for Education (DfE) source code repositories on GitHub should be stored under an appropriate
+organisation, thereby giving appropriate oversight and protections to these source code repositories.
 
 Specifically:
+
 - The [Department for Education Digital](https://github.com/DfE-Digital)
   GitHub organisation is used for new and existing source code repositories
   - This is applicable to production and prototype code
@@ -63,9 +112,9 @@ Specifically:
   GitHub organisation is also used by the DfE
   - Not the default for DfE-Digital
 
-
 There is a small cost for accounts to be added to a GitHub organisation.
 Ask your delivery manager to request your account being added to these GitHub organisations.
+
 
 ### Work vs Personal GitHub accounts
 
@@ -101,7 +150,7 @@ Additionally, note that git is _explicitly_ a _decentralised_ source versioning 
 - It is, therefore, not possible to delete/change information within one copy of the
   repository (e.g., GitHub) and force all other copies to be updated also
 - It is, therefore, extremely important to prevent non-public content from ever
-  being added to the git repository in the first place
+  being added to the git repository in the first place because it cannot be removed
 
 
 ### Secrets

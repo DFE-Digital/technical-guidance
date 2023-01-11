@@ -34,13 +34,6 @@ Additional detail and information is available via the links above.
 
 Source code is broader and wider than just business and presentation code.
 
-How source code is stored and structured will vary by project, based on needs and historical convention:
-
-- A project may be composed of multiple services where each has its own repository
-- A monolith may have all source code for all purposes stored within the same source code repository
-- A mixture may apply where project source code and tests are within one repository,
-  while infrastructure code may be stored within a separate repository
-
 Examples of source code types and purposes:
 
 - **Project source code**
@@ -59,6 +52,14 @@ Examples of source code types and purposes:
     creation of a particular tag (e.g., one in the format `vX.Y.Z`) or on a timer/cron-basis
 - **Deployment code**
   - Code used to build, test, and deploy project source code into a running environment
+
+How this source code is stored and structured will vary by project, based on needs and historical convention.
+For example:
+
+- A project may be composed of multiple services where each has its own repository
+- A monolith may have all source code for all purposes stored within the same source code repository
+- A mixture may apply where project source code and tests are within one repository,
+  while infrastructure code may be stored within a separate repository
 
 ## Source Code Versioning: Git
 

@@ -142,10 +142,11 @@ You can use the [new_aad_app_secret](https://github.com/DFE-Digital/bat-infrastr
 Before running the script:
 
 - Ensure you are logged in to the tenant containing the app registration and have selected the subscription which contains the resources that the app registration needs access to
+- Ensure you a member of the apps 'Owners'
 - Obtain the `Application (client) ID` of the app registration you want to add to the GitHub secret
 - A display name to help you identify this secret in the app registrations `Certificates & secrets` blade in the Azure Portal
 
-Run the script with `./new_aad_app_secret.sh <CLIENT_ID> "<DISPLAY_NAME>"`. Where the `CLIENT_ID` is the Application (client) ID from the app registration overview screen and `DISPLAY_NAME` could be "KV access". It should then output the required information as formatted JSON. This can be pasted in as the value for the GitHub secret.
+Run the script with `./new_aad_app_secret.sh <CLIENT_ID> "<DISPLAY_NAME>"`. Where the `CLIENT_ID` is the Application (client) ID from the app registration overview screen and `DISPLAY_NAME` could be "KV access" - it is the credential display name ([docs](https://learn.microsoft.com/en-us/cli/azure/ad/app/credential?view=azure-cli-latest#az-ad-app-credential-reset)). It should then output the required information as formatted JSON. This can be pasted in as the value for the GitHub secret.
 
 The information it contains can also be manually obtained:
 

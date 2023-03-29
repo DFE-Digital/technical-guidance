@@ -117,3 +117,24 @@ The required versions of project dependencies are defined in the `.tool-versions
 - List all possible versions of a plugin: `asdf list <plugin_name> all`
 - Install specific version of a plugin: `asdf install <plugin_name> <plugin_version>`
 - Update the `.tool-versions` file with a new plugin version: `asdf local <plugin_name> <plugin_version>`
+
+## WSL - Windows Subsystem for Linux
+
+A windows subsystem that allows users to run Linux without the need of a vm. The present version is v2, with has performance benefits.
+
+### Installation
+
+See https://learn.microsoft.com/en-us/windows/wsl/install
+
+Working with a VPN: using the DfE VPN you will need to install wsl-vpnkit [here](https://github.com/sakai135/wsl-vpnkit) and confirm it running with 'wsl -l --running' along with Ubuntu.
+
+### Working with VS Code.
+
+These is an extension that will allow for better integration with wsl, search in the extensions for 'wsl' or see the extension [here](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)
+
+### Working with GIT
+
+For git, you will need to set the 'git config --global credential.helper', see [here](https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-git) for detailed instructions. You may need to search the the credential helper, as opposed to the ones listed in the docs.
+
+
+

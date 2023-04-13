@@ -117,6 +117,7 @@ The required versions of project dependencies are defined in the `.tool-versions
 - List all possible versions of a plugin: `asdf list <plugin_name> all`
 - Install specific version of a plugin: `asdf install <plugin_name> <plugin_version>`
 - Update the `.tool-versions` file with a new plugin version: `asdf local <plugin_name> <plugin_version>`
+- for issues attempting to install in linux, try https://deanpcmad.com/2022/installing-older-ruby-versions-on-ubuntu-22-04/
 
 ## WSL - Windows Subsystem for Linux
 
@@ -124,7 +125,9 @@ A windows subsystem that allows users to run Linux without the need of a vm. The
 
 ### Installation
 
-See https://learn.microsoft.com/en-us/windows/wsl/install
+See https://learn.microsoft.com/en-us/windows/wsl/install for devices that are not locked down
+
+See https://learn.microsoft.com/en-us/windows/wsl/install-manual for device that are (vpn and policy conditions)
 
 Working with a VPN: using the DfE VPN you will need to install wsl-vpnkit [here](https://github.com/sakai135/wsl-vpnkit) and confirm it running with 'wsl -l --running' along with Ubuntu.
 

@@ -16,16 +16,25 @@ Domain names are normally maintained by the [Infrastructure Operations](/infrast
 
 ## Service Now
 
-Changes are requested via the [Service portal](<%= data.site.service_portal %>). Process:
+Changes to DNS require a Change Request, and can be found in the full [Service Now portal](<%= data.site.service_portal %>) portal under Change > Create New.
 
-* Request something
-* Categories: Non-standard
-* Any other request
-* Category: Non-standard
-* Business service: Shared IT core services
-* Service offering: Amazon Web Services
+* select 'normal change'
+* complete:
+  * Requested by: your name
+  * Service offering: Amazon Web Services
+  * Category:  Network/DNS/Firewall Maintance
+  * implementation group:  Infrastructure and Network Operation
+  * Impletementer:  The infrastructure Engineer assigned (query your team lead)
+  * provide: Could this change have potential impact on wider Services,  Short description, Description
+  * In the multiple Tab section
+    * Notes - no change
+    * Planning - complete sections
+    * Schedule - provide dates
+    * Conflicts - no change
+    * Closure Information
+  * Under 'Related Links', complete the 'complete risk assesment' 
 
-*For live services, the changes may have to go through CAB if there is a risk of disruption*
+
 
 ### Request subdomain or other record type
 Example: create a CNAME record service123.education.gov.uk pointing to domain service123.azurewebsites.net:
@@ -55,6 +64,8 @@ Optionally ask to set the TTL on the record. The default is 300s (5 min). Be car
 ```
 Please create a new DNS zone called service123.service.gov.uk
 ```
+
+Once submitted, the [Infrastructure Operations](/infrastructure/support/#infrastructure-operations) team will contact you for more information, including a risk assessment and a rollback plan.
 
 ## Official service.gov.uk domains
 

@@ -8,6 +8,20 @@ review_in: 6 months
 
 _Github actions_ is a powerful workflow system entirely defined in code. See the [original documentation](https://github.com/features/actions).
 
+## Working with Azure
+
+To run GitHub actions against Microsoft Azure, use the [Azure Login action](https://github.com/marketplace/actions/azure-login). The default policy is to create an environmental secret in the Repo, and supply it with a json credential in the format:
+
+```
+{
+   "clientId": "<GUID>",
+   "clientSecret": "<STRING>",
+   "subscriptionId": "<GUID>",
+   "tenantId": "<GUID>",
+   "resourceManagerEndpointUrl": "https://management.azure.com/"
+}
+```
+
 ## Re-use existing work
 Our [central respository of tested GitHub actions](https://github.com/DFE-Digital/github-actions) enable teams to set up their environments quickly and without needing to re-write existing actions. If you build something new, please consider adding it to the repo for everyone else to use.
 

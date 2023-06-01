@@ -15,28 +15,43 @@ Domain names are normally maintained by the [Infrastructure Operations](/infrast
 * *.service.gov.uk for [public beta and live services](#official-service.gov.uk-domains) linked from gov.uk. Example: [find-postgraduate-teacher-training.service.gov.uk](https://www.find-postgraduate-teacher-training.service.gov.uk/) or [apply-for-teacher-training.service.gov.uk](https://www.apply-for-teacher-training.service.gov.uk/)
 
 ## Service Now
+First a normal request is required to assign an engineer to the task and define the change window. Then a change request is raised to detail the implementation plan.
 
-Changes to DNS require a Change Request, and can be found in the full [Service Now portal](<%= data.site.service_portal %>) portal under Change > Create New.
+### Normal request
+Raise it in the [Service Now portal](https://dfe.service-now.com/serviceportal) portal:
 
-* select 'normal change'
-* complete:
-  * Requested by: your name
-  * Service offering: Amazon Web Services
-  * Category:  Network/DNS/Firewall Maintance
-  * implementation group:  Infrastructure and Network Operation
-  * Impletementer:  The infrastructure Engineer assigned (query your team lead)
-  * provide: Could this change have potential impact on wider Services,  Short description, Description
-  * In the multiple Tab section
-    * Notes - no change
-    * Planning - complete sections
-    * Schedule - provide dates
-    * Conflicts - no change
-    * Closure Information
-  * Under 'Related Links', complete the 'complete risk assesment' 
+* Request something
+* Categories: Non-standard
+* Any other request
+* Short description: Describe briefly the purpose of the request and mention it's a route53 domain change
+* Click "I confirm that the above results aren't relevant to my request"
+* Working from: Select either Home or Office
+* Category: Non-standard
+* Description: Add the technical detail according to examples below. Explain the time schedule constraints and ask for an engineer to be assigned.
+* Business service: Shared IT core services
+* Service offering: Amazon Web Services
 
+The call queue manager on duty then assigns it to an Engineer who has availability. The engineer will reach out to work and confirm scheduling.
 
+### Change request
+Raise it in the [ITIL Service Now](https://dfe.service-now.com/) portal, under Change > Create New.
 
-### Request subdomain or other record type
+* Select 'Normal change'
+* Complete:
+    * Requested by: Your name
+    * Environment: Production
+    * Service Offering: Amazon Web Services
+    * Category: Network/DNS/Firewall Maintance
+    * Implementation Group: Infrastructure and Network Operation
+    * Implementer: The operations engineer assigned above
+    * Short description: Used as title for the change
+    * Description: Describe the purpose, the implementation and the potential impact on services
+    * In the multiple tabs section:
+        * Planning - Complete sections using the information from the normal request above. Add the current DNS configuration in the backout plan.
+        * Schedule - Provide dates
+    * Under 'Related Links', complete the 'Complete risk assesment'
+
+### Request templates
 Example: create a CNAME record service123.education.gov.uk pointing to domain service123.azurewebsites.net:
 
 ```
@@ -71,7 +86,7 @@ Once submitted, the [Infrastructure Operations](/infrastructure/support/#infrast
 
 The [GOV.UK proposition](https://www.gov.uk/government/publications/govuk-proposition/govuk-proposition) lays out what should get a `service.gov.uk` domain. In the DfE, we interpet that as follows:
 
-- If a service is actively targeting the use of itself by externals (including schools and local authorities) then it should be a part of service.gov.uk 
+- If a service is actively targeting the use of itself by externals (including schools and local authorities) then it should be a part of service.gov.uk
 - Services should be assessed internally if they'll have fewer than 100K transations, by an external GDS assessment if they'll have more than 100K transactions
 - If a service is available publicly but targets internals (including contracted suppliers), or if it's private (for example an intranet, or an IP restricted extranet) then it can be on `education.gov.uk` or anything else we wish to use
 

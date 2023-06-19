@@ -1,0 +1,14 @@
+# docker-compose.yml
+
+version: '3.7'
+
+services:
+  web:
+    build: .
+    command: bundle exec middleman server
+    volumes:
+      - '.:/app'
+    ports:
+      - '4567:4567'
+# volumes:
+#  node_modules:

@@ -53,3 +53,38 @@ The password should be kept in your production [Azure key vault](/infrastructure
 
 ## Azure service principal
 See instructions in [CIP](/infrastructure/hosting/azure-cip/#service-principal) to create the service principal and how to use it.
+
+## Azure Service Principles for the AKS service.
+
+In order to run github actions on a service that uses AKS teacher services, you will will need AZURE_CREDENTIALS.
+
+
+Preregs:
+- service-abbreviation
+= Known github repo
+- The subscription that the resource group where the service is located (one each for dev,test,preprod and prod)
+
+In the Azure portal goto 'Azure Active Directory' > 'App registrations' tab
+
+There are 3 App registrations:
+- dev: s189d01-tsc-contributor
+- test:s189t01-tsc-contributor
+- production:s189p01-tsc-contributor
+
+In the app/SP settings, goto 'Certificates & secrets'
+- Add a 'new client secret', call it [service-abbreviation]-[env]
+--Copy the client secret, you won't be shown it again.
+
+
+Create a secret in the Github repo named 'AZURE_CREDENTIALS' for the appropriate environment
+in the following format:
+
+
+```json
+{
+    "clientId": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+    "clientSecret": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+    "subscriptionId": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+    "tenantId": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+}
+```

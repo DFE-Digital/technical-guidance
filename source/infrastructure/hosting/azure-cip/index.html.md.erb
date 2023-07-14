@@ -1,6 +1,6 @@
 ---
 title: Azure CIP
-last_reviewed_on: 2022-10-03
+last_reviewed_on: 2023-07-14
 review_in: 6 months
 ---
 
@@ -93,11 +93,13 @@ Should you require a static IP, it is possible to request an [Internet Access Se
 Contact #cloud-platform to set it up.
 
 ## Azure service principal
-To be able to access Azure from an external system like GOV.UK PaaS, a service account is required. It is called a
+To be able to access Azure from an external system like Github actions, a service account is required. It is called a
 service principal in Azure. See the [Azure documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals).
 
 ### Create service principal
-- Submit a CIP Request on Service Now using your education.gov.uk identity.  The request type is `Any Other Request` and in `Any other request description` enter the following:
+In this example we create a service principal which has Contributor (full access) including Keyvault. It depends on the custom role created in [Managing secrets](/infrastructure/security/managing-secrets/#request-roles).
+
+Submit a CIP Request on Service Now using your education.gov.uk identity. The request type is `Any Other Request` and in `Any other request description` enter the following:
 
 ```
 We have a new service called [service-name] that we are currently setting up for Teacher Services Digital team. This service will need service principals with Contributor access to [subscription-number] subscriptions so that it is in line with our deployment approach for new services.
@@ -157,7 +159,7 @@ The information it contains can also be manually obtained:
 
 #### GitHub Actions
 
-The GitHub secret (eg: `AZURE_CREDENTIALS`) can be used with the Azure login action or by providing it to Terraform.
+The GitHub secret (eg: `AZURE_CREDENTIALS`) can be used with the Azure login action or by providing it to Terraform ([Additional information](https://github.com/marketplace/actions/azure-login#configure-a-service-principal-with-a-secret)).
 
 ```yaml
 - uses: Azure/login@v1
@@ -165,7 +167,9 @@ The GitHub secret (eg: `AZURE_CREDENTIALS`) can be used with the Azure login act
     creds: ${{ secrets.AZURE_CREDENTIALS }}
 ```
 
-[Additional information](https://github.com/marketplace/actions/azure-login#configure-a-service-principal-with-a-secret)
+When using multiple deployment environments, each one may require its own set of credentials from different service principals. Configure `AZURE_CREDENTIALS`
+as [environment secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-an-environment) for each
+Github environment and make sure the [job is configured with the corresponding environment](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idenvironment).
 
 #### Terraform
 Use the [service principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret) credentials above

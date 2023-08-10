@@ -129,8 +129,14 @@ Add the service principal to groups or access policies to give it access to part
 To assign it a role, request [CIP](/infrastructure/support/#infrastructure-operations) to add them. You may need approval from Security, ie the allocated ISO.
 
 ### Use the service principal in external systems
+The following values are required for the external system to authenticate against the service principal:
 
-You can use the [new_aad_app_secret](https://github.com/DFE-Digital/bat-infrastructure/blob/main/scripts/new_aad_app_secret.sh) script to generate the formatted json with the required information as per the example below.
+- `clientId`: From App registration overview that we are creating the secret for, use the `Application (client) ID`
+- `clientSecret`: Access key generated above, retrieve it from the key vault secret (e.g. SPReadonlyCredentials) or update it if renewing the secret
+- `subscriptionId`: Get the subscription id at the subscription level
+- `tenantId`: From App registration overview, use `Directory (tenant) ID`
+
+To simplify, you can use the [new_aad_app_secret](https://github.com/DFE-Digital/bat-infrastructure/blob/main/scripts/new_aad_app_secret.sh) script to generate a formatted json with the required information as per the example below.
 
 ```json
 {
@@ -144,38 +150,64 @@ You can use the [new_aad_app_secret](https://github.com/DFE-Digital/bat-infrastr
 Before running the script:
 
 - Ensure you are logged in to the tenant containing the app registration and have selected the subscription which contains the resources that the app registration needs access to
-- Ensure you a member of the apps 'Owners'
+- Ensure you a member of the app registration's 'Owners'
 - Obtain the `Application (client) ID` of the app registration you want to add to the GitHub secret
-- A display name to help you identify this secret in the app registrations `Certificates & secrets` blade in the Azure Portal
 
-Run the script with `./new_aad_app_secret.sh <CLIENT_ID> "<DISPLAY_NAME>"`. Where the `CLIENT_ID` is the Application (client) ID from the app registration overview screen and `DISPLAY_NAME` could be "KV access" - it is the credential display name ([docs](https://learn.microsoft.com/en-us/cli/azure/ad/app/credential?view=azure-cli-latest#az-ad-app-credential-reset)). It should then output the required information as formatted JSON. This can be pasted in as the value for the GitHub secret.
+Run the script with `./new_aad_app_secret.sh <CLIENT_ID> "<DISPLAY_NAME>"`
 
-The information it contains can also be manually obtained:
+- `CLIENT_ID` is the Application (client) ID from the app registration overview screen
+- `DISPLAY_NAME` is the credential display name ([docs](https://learn.microsoft.com/en-us/cli/azure/ad/app/credential?view=azure-cli-latest#az-ad-app-credential-reset)) in the app registration's `Certificates & secrets` blade. Since a service principal may have multiple secrets, it should uniquely identify where it is used, such as: `<SERVICE_NAME>-<ENVIRONMENT>` (e.g. register-production)
 
-- `clientId`: From App registration overview that we are creating the secret for, use the `Application (client) ID`
-- `clientSecret`: Access key generated above, retrieve it from the key vault secret (e.g. SPReadonlyCredentials) or update it if renewing the secret
-- `subscriptionId`: Get the subscription id at the subscription level
-- `tenantId`: From App registration overview, use `Directory (tenant) ID`
+It should then output the required information as formatted JSON. This can be pasted in as the value for the GitHub secret for example.
 
 #### GitHub Actions
 
-The GitHub secret (eg: `AZURE_CREDENTIALS`) can be used with the Azure login action or by providing it to Terraform ([Additional information](https://github.com/marketplace/actions/azure-login#configure-a-service-principal-with-a-secret)).
+The credentials may be used in Github actions for the workflow to connect to Azure. As a standard, create a `AZURE_CREDENTIALS` secret containing the json string.
 
-```yaml
-- uses: Azure/login@v1
-  with:
-    creds: ${{ secrets.AZURE_CREDENTIALS }}
-```
-
-When using multiple deployment environments, each one may require its own set of credentials from different service principals. Configure `AZURE_CREDENTIALS`
+When using [multiple Github deployment environments](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment), each one may require its own set of credentials from different service principals. Configure `AZURE_CREDENTIALS`
 as [environment secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-an-environment) for each
 Github environment and make sure the [job is configured with the corresponding environment](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idenvironment).
 
-#### Terraform
-Use the [service principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret) credentials above
-to configure the [provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs#argument-reference).
+- Use in [Azure login action](https://github.com/marketplace/actions/azure-login#configure-a-service-principal-with-a-secret):
 
-The above json may be reused by passing it to a terraform variable then the [jsondecode](https://www.terraform.io/docs/language/functions/jsondecode.html) function can be used to extract the values.
+  ```yaml
+  - uses: Azure/login@v1
+    with:
+      creds: ${{ secrets.AZURE_CREDENTIALS }}
+  ```
+- [Configure ARM variables](https://github.com/DFE-Digital/github-actions/tree/master/set-arm-environment-variables) for [terraform backend](https://developer.hashicorp.com/terraform/language/settings/backends/azurerm#configuration-variables):
+
+  ```yaml
+  - name: Set ARM environment variables
+    uses: DFE-Digital/github-actions/set-arm-environment-variables@master
+    with:
+      azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+  ```
+  ```hcl
+  terraform {
+    ...
+    backend "azurerm" {}
+  }
+  ```
+- [Configure ARM variables](https://github.com/DFE-Digital/github-actions/tree/master/set-arm-environment-variables) for  the [terraform ARM provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret#configuring-the-service-principal-in-terraform) to create resources in Azure
+
+  ```yaml
+  - name: Set ARM environment variables
+    uses: DFE-Digital/github-actions/set-arm-environment-variables@master
+    with:
+      azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+  ```
+  ```hcl
+  provider "azurerm" {
+    features {}
+  }
+  ```
+
+
+#### Terraform
+In Github actions, use the ARM variables as described above.
+
+The json may also be passed as a terraform variable. Then the [jsondecode](https://www.terraform.io/docs/language/functions/jsondecode.html) function can be used to extract the values and [configure the provider explicitly](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs#argument-reference).
 
 ### Access key expiration
 The Operations team will alert you to the prospect of these secrets expiring, but will not update the credentials. If GitHub actions are used for example and the GitHub secret is not updated, then there is a risk of the CI/CD pipelines failing.

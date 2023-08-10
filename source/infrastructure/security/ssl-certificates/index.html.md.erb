@@ -174,6 +174,21 @@ For Digicert, you must provide a team email as additional contact. This can only
 
 The certificates are monitored and owners are notified via email before expiry by either the provider or the [Platform support team](/infrastructure/support/#platform-support). If Key vault automated renewal is configured, this can be ignored.
 
+### Azure Front Door (AFD) Renewal
+
+AFD should automatically renew SSL certificates, however there are times this process may get stuck.
+
+- Login the azure portal
+- Submit a PIM request
+- Goto the associated AFD
+- Goto domains section
+- For the domain name, under 'Validate State' you'll see 'pending'. Note that the certificate type should be 'AFD Managed'
+- Regenerate the TXT records, this may take several attempts.
+- Then click 'update' to update the 'DNS record status' which should show up after 'regenerate'
+- It will take approximately  5 mins to process.
+- Confirm that the _dnsauth record for the entry has been updated in the DNS zone.
+- check statuscake, you should see that the certificate is updated. You may need to do a forced test.
+
 ## Check certificate
 
 In order to view certificate expiry details such as expiry date, etc., you can run the following command to download the certificate currently being used on a website. In this example, we are focusing on _https://find-postgraduate-teacher-training.education.gov_.uk :

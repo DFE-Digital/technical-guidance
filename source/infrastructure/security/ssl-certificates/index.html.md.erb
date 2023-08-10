@@ -180,14 +180,14 @@ AFD should automatically renew SSL certificates, however there are times this pr
 
 - Login the azure portal
 - Submit a PIM request
-- Goto the associated AFD
-- Goto domains section
+- Go to the associated AFD
+- Go to domains section
 - For the domain name, under 'Validate State' you'll see 'pending'. Note that the certificate type should be 'AFD Managed'
 - Regenerate the TXT records, this may take several attempts.
 - Then click 'update' to update the 'DNS record status' which should show up after 'regenerate'
 - It will take approximately  5 mins to process.
 - Confirm that the _dnsauth record for the entry has been updated in the DNS zone.
-- check statuscake, you should see that the certificate is updated. You may need to do a forced test.
+- Check statuscake, you should see that the certificate is updated. You may need to do a forced test.
 
 ## Check certificate
 

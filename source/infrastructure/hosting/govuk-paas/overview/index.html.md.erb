@@ -222,6 +222,29 @@ reached using the form linked or via email. Support requests are tracked via Zen
 In case of suspected outage, always check [the status page](https://status.cloud.service.gov.uk/). It is highly recommended to subscribe to the
 mailing list (linked on the status page) to learn about potential disruptions.
 
+## App deletion
+
+With the moving of services and apps to Azure, once migration is complete, apps/services can be deleted on PaaS. This should be done through terraform, however if the resources need to be deleted, follow the below instructions:
+
+### Instructions
+
+At anypoint you can use the help argument - cf [COMMAND] -h
+
+- Prerequistes: PaaS account, Cloud Foundry cli (cf) installed.
+- Login (cf login)
+- List spaces (cd spaces)
+- Set the space (cf target -s [SPACE])
+- List the apps in the space, notes the associated routes in the output (cf apps)
+- List the routes - optional (cf routes)
+- Delete the app, with the associated route using -r (cf delete -r [APP]NAME>)*
+- List the services, note the associated 'bound apps' (cf services)
+- Delete the associated services - it may take several minutes (cf delete-service)
+
+*Required permissions:* to delete apps/services you will need the 'SPACE DEVELOPERS' role, to add it:
+
+- List permissions/roles (cf spaces-users [ORG] [SPACE])
+- Add your username to the SPACE DEVELOPERS (cf set-space-role [USERNAME] [ORG] [SPACE] spacedeveloper)
+
 ## Links
 * [GOV.UK PaaS home page](https://www.cloud.service.gov.uk/)
 * [GOV.UK PaaS Documentation](https://docs.cloud.service.gov.uk/)

@@ -1,0 +1,90 @@
+---
+title: Slack
+hide_in_navigation: true
+link_in_toc: true
+---
+[Back to Monitoring](/infrastructure/monitoring/)
+
+#  <%= current_page.data.title %>
+
+Slack is a communication tool based on text chat. All stakeholders follow some channels and discuss in threads inside the channels. It's convenient to send monitoring alerts to the channel as it has great visibility, it is received immediately and users can configure their own notifications.
+
+## Get a Slack account
+If you don't already have a Slack account, follow the process:
+
+1. Access the [DfE Slack](https://ukgovernmentdfe.slack.com/)
+1. Click "Create an account"
+1. Enter your email address
+1. Confirm your email address and follow the instructions
+
+## Create a Slack app
+
+1. Navigate to [Your apps](https://api.slack.com/apps)
+1. Click "Create New App"
+1. Select "From scratch"
+1. App name: `<Name of the service> <optional identifier>`
+1. Worskspace: "Department for Education"
+1. Click "Create app"
+1. Click "Collaborators"
+1. Add digital tools support engineers (ask in [Digital tools support](https://technical-guidance.education.gov.uk/infrastructure/support/#digital-tools-support))
+1. Add other team members and managers
+
+## Request incoming webhook
+
+1. Navigate to the app using the link generate above or access it via [Your apps](https://api.slack.com/apps)
+1. Click "Incoming Webhooks"
+1. On "Activate Incoming Webhooks", switch to "On"
+1. Click "Request To Add New Webhook"
+1. Fill in business justification
+1. Wait for Digital tools support to approve the request
+
+## Create new webhooks
+Onve authorised, it is possible to create multiple webhooks for the same app, and point them to different channels.
+
+1. Click "Add New Webhook to Workspace"
+1. Select the channel
+1. The webhook is created and you can copy the unique link
+
+## Use the webhook
+
+### Local test
+Test manually using the `curl` command shown on the "Incoming webhooks" page
+
+### Gihub actions
+- Ideally store the webhook as a [secret in keyvault](/infrastructure/security/managing-secrets/).
+- Retrieve the secret with [the az cli action](https://github.com/marketplace/actions/azure-cli-action)
+
+  ```yaml
+  - uses: Azure/login@v1
+    with:
+      creds: ${{ secrets.AZURE_CREDENTIALS }}
+  - name: Retrieve Slack Webhook from key vault
+    uses: azure/CLI@v1
+    id: fetch-slack-webhook
+    with:
+      inlineScript: |
+        SECRET_VALUE=$(az keyvault secret show --name "SLACK-WEBHOOK" --vault-name "${{ secrets.INFRA_KEY_VAULT}}" --query "value" -o tsv)
+        echo "::add-mask::$SECRET_VALUE"
+        echo "SLACK-WEBHOOK=$SECRET_VALUE" >> $GITHUB_OUTPUT
+  ```
+- Use a Github actions like [action-slack-notify](https://github.com/rtCamp/action-slack-notify) to post the message to the channel. Example:
+
+  ```yaml
+  - name: Slack Notification
+    if: failure()
+    uses: rtCamp/action-slack-notify@master
+    env:
+      SLACK_COLOR: '#ff0000'
+      SLACK_TITLE: Failure to Build API
+      SLACK_MESSAGE: The pipeline has failed to build the API image
+      SLACK_WEBHOOK: "${{ steps.fetch-slack-webhook.outputs.SLACK-WEBHOOK }}"
+  ```
+
+## Recover app
+If all the app collaborators have left, the webhooks cannot be updated. It is required to recover the app to add a collaborator.
+
+1. Find an existing Slack notification from this app in the channel
+1. Hover and select "Configuration". This takes you to the workspace configuration for this app. Take not of the URL
+1. Go to the #requests-slack channel
+1. Choose the "General Slack query" workflow
+1. Request to be added as a collaborator on the app, using the above URL. If digital tool support are not already collaborators, they may have to create a ticket with Slack support.

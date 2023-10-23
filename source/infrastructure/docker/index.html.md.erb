@@ -1,0 +1,154 @@
+---
+title: Desktop Docker
+---
+
+# <%= current_page.data.title %>
+
+<%= partial('partials/page_toc') %>
+
+the Folowwing information has been put together using;
+
+ *  Edition	Windows 11 Enterprise Version	22H2 Installed on	‎13/‎03/‎2023 OS build	22621.2283 Experience	Windows Feature Experience Pack 1000.22662.1000.0
+ 
+ *  all instruction are for use with DFE laptops with developer settings
+ 
+ *  all images are built using standard docker tooling
+ 
+ *  development IDE is visual studio code
+ 
+ *  visual studio code has docker extension installed
+ 
+ *  development code is running nodejs
+
+ *  development code is using npm as its package manager
+
+## Installing Docker
+You will need access to docker-users group on the system user groups of your machine in order to run docker and possibly an update to the wsl kernal (achieve this by requesting a meeting with system administrator who will be able to screen share and run the update for you)
+
+Requests should be made through the service portal, Access to restricted Groups and DFE sign-in requests along with your request for desktop-docker all will need to be raised by your DM or TL. Once complete it will appear in your software centre for you to install. For more information go here [install docker on windows](https://docs.docker.com/desktop/install/windows-install/)
+
+## Operating Desktop-Docker
+Once installed start the application by clicking on the desktop icon added during installation.
+
+
+## Build An Image
+
+To get started, follow the steps below:
+
+* Navigate to the Visual Studio code
+
+* Click on `Terminal`, this is found in the main menu at the top of the visual studio code IDE
+
+* Ensure you are in the cursor is in the terminal window at the end of the current directory
+
+* Use command line to navigate to your local source repo 'CD'
+
+* Create a new folder 'mkdir' new it the project name
+
+* Navigate to the newly created folder
+
+* Now in the ternimal window and the root of the folder type 'code .' this will open a new VSC IDE in the current project folder
+
+* Make sure you have desktop docker running
+
+* type in the terminal window 'npm init -y' this will build a simple project structure
+
+* once complete type in the terminal 'npm install express' 
+
+* Create a file called index.js and add it to the root directory
+
+* Open index.js in the editor and add this line to the top of the file 
+
+````
+
+const express = require('express');
+
+````
+
+* Now below that add 
+
+````
+
+const app = express();
+
+````
+
+* and on the next line add 
+
+````
+
+app.use(express.json());
+
+````
+* Add to the next line
+
+````
+
+const PORT = process.env.PORT || 3000;
+
+````
+* Now and add 
+
+```
+app.listen(PORT, () => {
+  console.log("Server Listening on PORT:", PORT);
+});
+```
+* Now you need to define a route in your project for this we will add a status to return running add the following to the index.js
+
+````
+app.get("/status", (request, response) => {
+   const status = {
+      "Status": "Running"
+   };
+   
+   response.send(status);
+});
+````
+* Open package.json file and add to the script section of the file
+
+````
+ "start": "node index.js" 
+ 
+ ````
+ making sure to add a comma to the end of the line above
+
+* now in the terminal window type 'npm start'
+
+* you should see a project start command a node command and server listening on the port number 3000
+
+* to close the server with the cursor in the terminal window select 'CTRL + C' and select 'Y'
+
+* Once successfully set up you are ready to add docker
+
+* Select 'View' from the top menu of yyou visual studio code IDE
+
+* Click command Pallet
+
+* In the command pallet at the > type Docker a list will appear select 'Add Docker Compose Files To Workspace'
+
+* next select application platform 'NODEJS'
+
+* Next select the script that hold your start command 'package.json' file
+
+* Next select the port default is 3000
+
+* VSC will then prompt you to add a docker file select yes
+
+* VSC has now added all the files necessary to run your project in docker by issuing commands to your compose file
+
+* To test this select one of the compose files right click and select 'Compose Up'
+
+* VSC will now build your image and your container and start it running which can be seen in the terminal window
+
+* Once started you can go back to your browser and enter 'http://localhost:3000/status' the browser should return 
+````
+{
+  "Status": "Running"
+}
+````
+* For more information on docker and compose goto: [How to use docker and compose](https://code.visualstudio.com/docs/containers/docker-compose) 
+
+* For more information on docker extension in Vsc goto: [Overview of contaoners in VSC](https://code.visualstudio.com/docs/containers/overview)
+
+* For more information on docker and node starter kit in vsc goto: [Quick node starter page](https://code.visualstudio.com/docs/containers/quickstart-node)

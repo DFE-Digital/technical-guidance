@@ -1,5 +1,5 @@
 ---
-title: Desktop Docker
+title: Docker Desktop
 ---
 
 # <%= current_page.data.title %>
@@ -25,7 +25,37 @@ the Folowwing information has been put together using;
 ## Installing Docker
 You will need access to docker-users group on the system user groups of your machine in order to run docker and possibly an update to the wsl kernal (achieve this by requesting a meeting with system administrator who will be able to screen share and run the update for you)
 
-Requests should be made through the service portal, Access to restricted Groups and DFE sign-in requests along with your request for desktop-docker all will need to be raised by your DM or TL. Once complete it will appear in your software centre for you to install. For more information go here [install docker on windows](https://docs.docker.com/desktop/install/windows-install/)
+[Requests should be made through the service portal](https://dfe.service-now.com/serviceportal) 
+
+Use [User Access to restricted Groups](https://dfe.service-now.com/serviceportal?id=sc_cat_item&sys_id=59d68b331bd13050199d6397b04bcb23)
+
+*  RequestedFor should be pre filled with your name
+
+*  RequestedTo should be pre filled with your name, 'If you are doing this for another member of staff you can now change to there name
+
+*  In do you want to add or remove access drop down select 'Add Access'
+
+*  In Which Group(s) would you like to add the user to type 'docker-users'
+
+*  In Is there any other information you would like to provide? type 'required to run Docker Desktop to complete daily software engineering tasks'
+
+and for the driver installation you should
+
+Use [Install device driver on my device](https://dfe.service-now.com/serviceportal?id=sc_cat_item&sys_id=c8748b941ba670904f999978b04bcb18&sysparm_category=09e18be6db2f8340865049ee3b96190f)
+
+*  RequestedFor should be pre filled with your name, 'If you are doing this for another member of staff you can now change to there name
+
+*  Contect Number Usually phone number that you can be reached on
+
+*  In Options for device drop down select 'Other'
+
+* In Laptop/Tablet Asset Number add you laptop number "this can be found in windows by going to 'control panel > system > device name'"
+
+* In Please confirm the type of Device, including Make and Model enter the make and model information from systems about
+
+* In Please explain the reason why you need the driver installing type "required to run Docker Desktop to complete daily software engineering tasks"
+
+All will need to be raised by your Delivery Manager or Team Lead. Once complete it will appear in your software centre for you to install. For more information go here [install docker on windows](https://docs.docker.com/desktop/install/windows-install/)
 
 ## Operating Desktop-Docker
 Once installed start the application by clicking on the desktop icon added during installation.
@@ -39,7 +69,9 @@ To get started, follow the steps below:
 
 * Click on `Terminal`, this is found in the main menu at the top of the visual studio code IDE
 
-* Ensure you are in the cursor is in the terminal window at the end of the current directory
+* Make sure you have desktop docker running
+
+* Ensure your cursor is in the terminal window at the end of the current directory
 
 * Use command line to navigate to your local source repo 'CD'
 
@@ -48,8 +80,6 @@ To get started, follow the steps below:
 * Navigate to the newly created folder
 
 * Now in the ternimal window and the root of the folder type 'code .' this will open a new VSC IDE in the current project folder
-
-* Make sure you have desktop docker running
 
 * type in the terminal window 'npm init -y' this will build a simple project structure
 

@@ -1,0 +1,41 @@
+name: Delete review app on AKS
+
+on:
+  pull_request:
+    branches:
+    - master
+    types:
+    - closed
+
+concurrency: deploy-${{ github.ref }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    environment: review
+
+    steps:
+    - name: Destroy review app
+      uses: actions/checkout@v4
+
+    - uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.6.4
+        terraform_wrapper: false
+
+    - uses: DFE-Digital/github-actions/set-arm-environment-variables@master
+      with:
+        azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Terraform Destroy
+      run: |
+        make ci review terraform-destroy
+      env:
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+
+    - name: Post Pull Request Comment
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        header: aks
+        message: Review app <https://technical-guidance-${{ github.event.pull_request.number }}.test.teacherservices.cloud> was deleted

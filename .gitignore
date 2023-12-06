@@ -20,3 +20,11 @@
 
 # Ignore vscode files
 .vscode/
+
+# Ignore terraform files
+bin/terrafile
+.terraform
+terraform/application/vendor
+terraform/domains/environment_domains/vendor
+terraform/domains/infrastructure/vendor
+terraform.tfstate*

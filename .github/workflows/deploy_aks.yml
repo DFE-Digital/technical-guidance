@@ -1,0 +1,94 @@
+name: Build and deploy to AKS cluster
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+concurrency: deploy-${{ github.ref }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      docker-image-tag: ${{ steps.build-image.outputs.tag }}
+      matrix-environments: ${{ toJSON(steps.*.outputs.matrix-environment) }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+        bundler-cache: true
+
+    - name: Build docs with middleman
+      run: make build
+
+    - name: Build and push docker image
+      id: build-image
+      uses: DFE-Digital/github-actions/build-docker-image@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        context: .
+
+    - name: Prepare matrix environments review
+      id: matrix-env-review
+      if: github.event_name == 'pull_request'
+      run: echo "matrix-environment=review" >> $GITHUB_OUTPUT
+
+    - name: Prepare matrix environments for production
+      id: matrix-env-main
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: |
+        echo "matrix-environment=production" >> $GITHUB_OUTPUT
+
+  deploy:
+        name: Deploy ${{ matrix.environment }}
+        runs-on: ubuntu-latest
+        needs: [build]
+        environment:
+          name: ${{ matrix.environment }}
+          url: ${{ steps.get-app-url.outputs.url }}
+        strategy:
+          max-parallel: 1
+          matrix:
+            environment: ${{ fromJSON(needs.build.outputs.matrix-environments) }}
+
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v3
+
+          - uses: hashicorp/setup-terraform@v3
+            with:
+              terraform_version: 1.6.4
+              terraform_wrapper: false
+
+          - uses: DFE-Digital/github-actions/set-arm-environment-variables@master
+            with:
+              azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+
+          - name: Terraform Apply
+            run: |
+              make ci ${{ matrix.environment }} terraform-apply
+            env:
+              DOCKER_IMAGE_TAG: ${{ needs.build.outputs.docker-image-tag }}
+              PR_NUMBER: ${{ github.event.pull_request.number }}
+
+          - name: Get application URL
+            id: get-app-url
+            run: |
+              url=$(terraform -chdir=terraform/application output -raw url)
+              echo "url=${url}" >> $GITHUB_OUTPUT
+
+          - name: Post comment to Pull Request ${{ github.event.number }}
+            if: ${{ github.event_name == 'pull_request' }}
+            uses: marocchino/sticky-pull-request-comment@v2
+            with:
+              header: aks
+              message: Review app deployed to <${{ steps.get-app-url.outputs.url }}>

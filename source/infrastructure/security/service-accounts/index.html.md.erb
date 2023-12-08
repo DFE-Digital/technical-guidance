@@ -6,34 +6,19 @@ title: Service accounts
 
 <%= partial('partials/page_toc') %>
 
-Service accounts are user accounts on various systems like GOV.UK PaaS, Github, Azure usually required by automation. They are not related to a human user to avoid the risk of stopping
+Service accounts are user accounts on various systems like Github, Azure usually required by automation. They are not related to a human user to avoid the risk of stopping
 the automation when the user is offboarded. This requires shared credentials so care should be taken to be able to share them in a secure way.
 
 - For non email based credentials like Azure service principals, add the keys to the production [keyvault protected by PIM](/infrastructure/security/managing-secrets).
-- For email based credentials like GOV.UK Paas, Github, Dockerhub, a useful pattern is to use a shared email. It provides a unique email address used to register the account agains the system. The human owners of the service accounts are made members of the shared email
+- For email based credentials like Azure, Github, Dockerhub, a useful pattern is to use a shared email. It provides a unique email address used to register the account agains the system. The human owners of the service accounts are made members of the shared email
 and are able to reset the password. See below.
 
 ## Shared email
-
-### Google Group
-For `@digital.education.gov.uk` email addresses:
-
-Decide on a reasonable name for you service account; fill in this form and inform [Digital tools](<%= data.site.digital_tools %>) on SLACK that you have put in the request
-
-* Request the group is created using the [Google Group Request Form](https://docs.google.com/forms/d/e/1FAIpQLScEp4GBH-oBGsZR94XxTivad5YempL6VJeKlIUG3x-Mpyj0eA/viewform).
-	* You will be asked to name the group manager, this needs to be someone with an @digital.education.gov.uk email address. We suggest that this is a permanent member of the Infrastructure team.
-	* The group name should be logical and represent the project and purpose of the group.
-	* You should list all the team members who require access, though if you are going to be a manager of the group, it can be can be changed later.
-	* We advise that you inform [Digital tools](<%= data.site.digital_tools %>) that are creating the group, it will be used as a Service Account.
-* Ensure that there is more than one member of the group.
-* Ensure you receive a confirmation email after you have submitted the form.
+### Outlook distribution list
+This creates a new email address and when emails are sent to it, the members of the distribution list receive them in their own inbox. To create it, use the [Distribution Lists service now form](https://dfe.service-now.com.mcas.ms/serviceportal?id=sc_cat_item&sys_id=a28540a5dbeeee005ca2fddabf961968).
 
 ### Outlook shared mailbox
-For `@education.gov.uk` email addresses, create a shared mailbox using
-[the service portal form](https://dfe.service-now.com.mcas.ms/serviceportal/?id=sc_cat_item&sys_id=5daf935837189240c033a16043990ecf&referrer=popular_items).
-
-## GOV.UK PaaS account
-Follow the above and see [GOV.UK PaaS service accounts](<%= data.site.gov_uk_paas %>production/#service-accounts).
+This creates a mailbox that can be shared with multiple users. It is displayed separately in Outlook and emails are stored there. Create a shared mailbox using [the service portal form](https://dfe.service-now.com.mcas.ms/serviceportal/?id=sc_cat_item&sys_id=5daf935837189240c033a16043990ecf&referrer=popular_items).
 
 ## Github account
 Request a new user from [Digital tools](<%= data.site.digital_tools %>).

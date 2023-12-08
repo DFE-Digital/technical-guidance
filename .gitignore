@@ -8,6 +8,9 @@
 # Ignore bundler config
 /.bundle
 
+# bundled gems
+/vendor
+
 # Ignore cache
 /.sass-cache
 /.cache

@@ -1,0 +1,3 @@
+domains:
+    source:  "https://github.com/DFE-Digital/terraform-modules"
+    version: "stable"

@@ -7,12 +7,8 @@ link_in_toc: true
 
 #  <%= current_page.data.title %>
 
-[GOV.UK PaaS](<%= data.site.gov_uk_paas %>) doesn’t provide monitoring tools natively. It provides logs and metrics which can be streamed to a separate monitoring solution.
-
-The prometheus ecosystem is a good fit for PaaS. It is made up of various components:
-
 ### Exporters
-Provides metrics on the `/metrics` http endpoint. We use exporters for PaaS, Redis, Postgres, Rails...
+Provides metrics on the `/metrics` http endpoint. We use exporters for Redis, Postgres, Rails...
 
 ### Prometheus
 Prometheus is the brains of the system providing the following functions:
@@ -33,6 +29,3 @@ Reads the metrics from various datasources including influxdb to create advanced
 
 #### Further Reading
 * [Grafana dynamic variables](/infrastructure/monitoring/grafana/dynamic_variables.html)
-
-### Delivery
-We have created reusable terraform modules to deploy the whole solution easily and reliably. See: [cf-monitoring](https://dfe-digital.github.io/cf-monitoring/)

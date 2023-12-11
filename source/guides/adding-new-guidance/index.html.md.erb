@@ -16,11 +16,11 @@ Note that review apps only worked for pull requests raised in the original repos
 Make sure to make changes in a branch. Every change should be reviewed in a pull request, no matter how minor, and we've enabled
 [branch protection](https://help.github.com/articles/about-protected-branches/) to enforce this.
 
-Once the pull request is merged, the deploy Github action workflow runs the build and pushes the static site to GOV.UK PaaS.
+Once the pull request is merged, the deploy Github action workflow runs the build and pushes the static site to AKS.
 
 ## Review apps
 Every pull request builds a separate _review app_. It is a unique version of the documentation implementing the changes from
-the pull request and pushed to GOV.UK PaaS with a unique URL so it can be shared and peer reviewed. The URL is posted in a
+the pull request and pushed to AKS with a unique URL so it can be shared and peer reviewed. The URL is posted in a
 comment on the pull request.
 
 Any change to the branch is automatically pushed to the review app after a few minutes.
@@ -30,8 +30,6 @@ When the pull request is closed or merged, the review app is deleted.
 ## Guidance content
 In the [DfE Digital technology guidance repository](https://github.com/DFE-Digital/technology-guidance), in the `source` directory, create a
 subdirectory representing the name of the guidance.
-
-For example: `source/guides/govuk-paas`.
 
 Inside the new directory, create an `index.html.md.erb` file following this pattern:
 

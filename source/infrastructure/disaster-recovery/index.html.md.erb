@@ -26,8 +26,8 @@ The application may crash because of a bug, memory leak, high utilisation…
 |-|-|
 |Impact|It may or may not impact end users as a service may deploy multiple application instances.|
 |Prevention|Crashes may happen because of high memory, CPU or disk usage. These metrics should be monitored and notify in advance to avoid the crash entirely.|
-|Detection|Endpoint monitoring like `StatusCake` would notify of a total outage impacting users, if the whole application crashes. An application _instance_ crash may be reported by monitoring.<br/>In the case of GOV.UK PaaS, the Prometheus metric `crash` increases if an instance crashes.|
-|Remediation|The quickest action is to roll back the problematic change or roll forward with a fix. Ideally the platform detects a failing application and restarts it.<br/>For example GOV.UK PaaS detects the failure by running frequent healthchecks. Then it deploys a new container and kills the failed one.<br/>If there is no such feature, the application may be restarted manually. If the restart doesn't work, the application and infrastructure must be investigated manually.|
+|Detection|Endpoint monitoring like `StatusCake` would notify of a total outage impacting users, if the whole application crashes. An application _instance_ crash may be reported by monitoring.|
+|Remediation|The quickest action is to roll back the problematic change or roll forward with a fix. Ideally the platform detects a failing application and restarts it.<br/>For example kubernetes detects the failure by running frequent healthchecks. Then it deploys a new container and kills the failed one.<br/>If there is no such feature, the application may be restarted manually. If the restart doesn't work, the application and infrastructure must be investigated manually.|
 
 ## Data corruption
 The data in the database is corrupted because of a bug, human error, malicious activity… and cannot be recovered.
@@ -35,12 +35,12 @@ The data in the database is corrupted because of a bug, human error, malicious a
 |||
 |-|-|
 |Impact|Some data may be lost, updated with incorrect value or may be presented to the wrong users.|
-|Prevention|GOV.UK PaaS keeps backups of the database and transaction logs. We can recreate the database with daily or point-in-time (1s resolution) backup|
+|Prevention|Azure postgres keeps backups of the database and transaction logs. We can recreate the database with daily or point-in-time (1s resolution) backup|
 |Detection|Smoke tests may detect corruptions in some critical data.|
 |Remediation|Access to the service should be stopped immediately.<br/>The data may be fixed manually if the change is simple. If the change is complex or if we don't know the extent of the issue, it may be necessary to recover the database from a backup whether daily, hourly or point-in-time using transaction logs.<br/>[Restore database](https://docs.cloud.service.gov.uk/deploying_services/postgresql/#postgresql-service-backup) with latest snapshot or point in time|
 
 ## Loss of database instance
-It is possible to lose the database instance and the associated backups. For example, if a database service is deleted from GOV.UK PaaS, in case of human or automation error, the whole instance is deleted, including its backups.
+It is possible to lose the database instance and the associated backups. For example, if the database server is deleted from Azure, in case of human or automation error, the whole instance is deleted, including its backups.
 
 |||
 |-|-|
@@ -50,12 +50,12 @@ It is possible to lose the database instance and the associated backups. For exa
 |Remediation|Restore database from external daily or most recent backup|
 
 ## Loss of Azure/AWS availability zone
-We deploy to PaaS London region which has 3 separate availability zones (AZ). It may happen that one of them is unavailable: either network, compute or storage services are affected.
+We deploy to the UK South or West Europe regions which have 3 separate availability zones (AZ). It may happen that one of them is unavailable: either network, compute or storage services are affected.
 
 |||
 |-|-|
 |Impact|Applications may be slow or unavailable|
-|Prevention|Applications should be built with failure in mind: deploy multiple application instances and deploy databases in cluster mode. Spread them across multiple AZs for high availability.<br/>GOV.UK PaaS is PaaS is spread across 3 AZs. Scale applications to more than 1 instance and choose `HA` database plans.|
+|Prevention|Applications should be built with failure in mind: deploy multiple application instances and deploy databases in cluster mode. Spread them across multiple AZs for high availability.<br/>Our AKS clusters are spread across 3 AZs. Scale applications to more than 1 replicas and enable zone redundancy.|
 |Detection|Endpoint monitoring checking for uptime and response time|
 |Remediation|If not handled automatically by the platform, redeploy applications and fail over clusters|
 
@@ -69,17 +69,7 @@ In some rare cases, an entire region might become unavailable.
 |Detection|Endpoint monitoring checking for uptime|
 |Remediation|Start services in backup region, trigger DNS failover|
 
-## GOV.UK PaaS unavailable
-When our services are on GOV.UK PaaS, any problem with platform may impact us. See [GOV.UK PaaS Support](<%= data.site.gov_uk_paas%>overview/#platform-support).
-
-|||
-|-|-|
-|Impact|Services may be slow or unavailable. Or the service may be available but operations and deployments are broken.|
-|Prevention|For critical applications, it is possible to deploy to 2 different regions (London and Ireland), synchronise the data, configure a DNS based failover or GSLB. We don’t usually protect against this risk as it is not worth the complexity of the required set-up.|
-|Detection|Endpoint monitoring checking for uptime|
-|Remediation|Start services in backup region, trigger DNS failover|
-
-## Azure issues impacting GOV.UK PaaS
+## Azure issues impacting delivery
 We often rely on Azure for:
 
 - Terraform state in Azure Storage
@@ -99,7 +89,7 @@ An attacker may send a high number of requests to overload the service and make 
 |||
 |-|-|
 |Impact|The service is unavailable or slow for users|
-|Prevention|Every property in Azure is protected by [Azure's infrastructure DDoS (Basic) Protection](https://docs.microsoft.com/en-us/azure/ddos-protection/ddos-protection-overview).<br/>All apps on GOV.UK PaaS using a [custom domain](https://docs.cloud.service.gov.uk/deploying_services/use_a_custom_domain/) are protected by [AWS Shield Standard](https://aws.amazon.com/shield/features/)<br/>Depending on the criticality of the service, it is possible to use Azure DDoS Protection Standard instead.|
+|Prevention|Every resource in Azure is protected by [Azure's infrastructure DDoS (Basic) Protection](https://docs.microsoft.com/en-us/azure/ddos-protection/ddos-protection-overview)<br/>Depending on the criticality of the service, it is possible to use Azure DDoS Protection Standard instead.|
 |Detection|Endpoint monitoring checking for uptime and response time|
 |Remediation|Protection measures are triggered automatically. It is also possible to analyse the traffic pattern and change the application accordingly.|
 
@@ -110,13 +100,13 @@ A malicious actor steals credentials or an ex employee still has working credent
 |-|-|
 |Impact|They may break the app, read or change confidential data|
 |Prevention|Separate production environment and tighten security. Non production environments should only hold test or anonymised data.<br/>Revoke access every day or use [Azure PIM](https://docs.microsoft.com/en-us/azure/active-directory/privileged-identity-management/pim-configure) to give users temporary access. Make sure the offboarding process is followed. Use single-sign-on and 2FA when possible.<br/>Do not give databases a public IP.|
-|Detection|Azure audit logs, GOV.UK PaaS audit log|
+|Detection|Azure audit logs|
 |Remediation|Revoke access of the suspicious user, investigate their actions<br/>Rotate secrets they may know and possibly restore the database to a known good state.|
 
 ## Disclosure of secrets
 Different kind of sensitive information may be posted online accidentally by a developer. On a website like [pastebin](https://pastebin.com/) or committed to a GitHub public repository. Examples:
 
-- _Deployment secrets_ like GOV.UK PaaS credentials, AWS API key
+- _Deployment secrets_ like AWS API key
 - _Application secrets_ like Google API key
 - _Application data_ like a database dump
 
@@ -134,7 +124,7 @@ Each service must have a valid SSL certificate otherwise clients cannot connect.
 |||
 |-|-|
 |Impact|Users can't access the website. Or they may ignore browser warnings and could then be tricked into a malicious website.|
-|Prevention|Set up auto renewal of certificates stored in [Azure Key Vault](https://docs.microsoft.com/en-us/azure/key-vault/certificates/tutorial-rotate-certificates). Services on PaaS are configured with a custom domain which generates a certificate and renews it automatically. If not auto renewed, set up monitoring of expiry date. Certficates created on DfE's Globalsign are monitored by Operations and owners receive notifications.|
+|Prevention|Set up auto renewal of certificates stored in [Azure Key Vault](https://docs.microsoft.com/en-us/azure/key-vault/certificates/tutorial-rotate-certificates). Services using Azure front door are configured with a custom domain which generates a certificate and renews it automatically. If not auto renewed, set up monitoring of expiry date. Certficates created on DfE's Globalsign are monitored by Operations and owners receive notifications.|
 |Detection|Email from Operations or notification from monitoring|
 |Remediation|If not auto renewed, issue a new DigiCert certificate and install it on the website|
 
@@ -144,7 +134,7 @@ A sudden spike in user traffic due to an announcement, a product launch or a coi
 |||
 |-|-|
 |Impact|The system is slow or unresponsive|
-|Prevention|Set up response time monitoring.<br/>Run load testing to determine bottlenecks and know how to scale up.<br/>Use CDN for web page caching and internal caching like Redis or Memcached. On GOV.UK PaaS, serve web assets (javascript, CSS...) without [forwarding any header](https://docs.cloud.service.gov.uk/deploying_services/use_a_custom_domain/#forwarding-headers) to optimise caching.|
+|Prevention|Set up response time monitoring.<br/>Run load testing to determine bottlenecks and know how to scale up.<br/>Use CDN for web page caching and internal caching like Redis or Memcached.|
 |Detection|Alert from response time monitoring, high CPU or memory usage, instances crashing|
 |Remediation|Scale applications and services horizontally and vertically<br/>Disable expensive features|
 
@@ -165,7 +155,7 @@ A sudden spike in user traffic due to an announcement, a product launch or a coi
 |-|-|
 |Impact|Users are not impacted, but we would not be able to deploy via automation|
 |Prevention|Plan to be able to deploy manually. Have DockerHub or Azure container registry ready as backup registry.|
-|Detection|[GitHub status page](https://www.githubstatus.com/). Updates are posted to the #govuk-paas Slack channel.<br/>Notification of pipeline failures|
+|Detection|[GitHub status page](https://www.githubstatus.com/)|
 |Remediation|Build and deploy manually|
 
 ## DockerHub

@@ -42,7 +42,7 @@ The live application or website should always be up and running and should never
 1. **Unit and linting tests** are usually run by the developers manually and by the automated workflow when they push a branch. They allow testing a new feature in isolation, but also in integration with other features or different dataset.
 1. **Security tests** check there are no known vulnerabilities in the produced code or image
 1. **Smoke tests**, **integration tests**, **acceptance tests** validate the application in a production-like environment to iron out issues with the environment, data or dependencies. A staging or pre-production environment with the same configuration as production may be used. The data may refreshed daily with sanitised production data.
-1. When a new version of the code is deployed to production, there should be **zero downtime** and it should be transparent to end users. Blue-green, rolling or canary deployments may be used. We typically use the blue-green deployment on GOV.UK PaaS and deployment slot swap on Azure.
+1. When a new version of the code is deployed to production, there should be **zero downtime** and it should be transparent to end users. Blue-green, rolling or canary deployments may be used. We typically use the rolling deployment on kubernetes and deployment slot swap on Azure.
 1. **Monitoring** should run continuously to check the production application health. [StatusCake](https://www.statuscake.com/) or [Azure ping tests](https://docs.microsoft.com/en-us/azure/azure-monitor/app/monitor-web-app-availability) are used for simple and fast pings. Smoke tests may also validate the business logic, as implemented in Teaching vacancies via Github actions.
 
 ## Repeatability

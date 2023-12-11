@@ -119,3 +119,20 @@ domains-infra-plan: domains composed-variables domains-infra-init
 
 domains-infra-apply: domains composed-variables domains-infra-init
 	terraform -chdir=terraform/domains/infrastructure apply -var-file config/zones.tfvars.json ${AUTO_APPROVE}
+
+domains-init: domains  composed-variables set-azure-account
+	./bin/terrafile -p terraform/domains/environment_domains/vendor/modules -f terraform/domains/environment_domains/config/${CONFIG}_Terrafile
+
+	terraform -chdir=terraform/domains/environment_domains init -upgrade -reconfigure \
+		-backend-config=resource_group_name=${RESOURCE_GROUP_NAME} \
+		-backend-config=storage_account_name=${STORAGE_ACCOUNT_NAME} \
+		-backend-config=key=${ENVIRONMENT}.tfstate
+
+domains-plan: domains-init
+	terraform -chdir=terraform/domains/environment_domains plan -var-file config/${CONFIG}.tfvars.json
+
+domains-apply: domains-init
+	terraform -chdir=terraform/domains/environment_domains apply -var-file config/${CONFIG}.tfvars.json ${AUTO_APPROVE}
+
+domains-destroy: domains-init
+	terraform -chdir=terraform/domains/environment_domains destroy -var-file config/${CONFIG}.tfvars.json ${AUTO_APPROVE}

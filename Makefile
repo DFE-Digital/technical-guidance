@@ -106,3 +106,16 @@ build:
 
 check-links: build
 	bundle exec ruby -rhtml-proofer -e "HTMLProofer.check_directory('./build',{:hydra => { :max_concurrency => 1 }}).run"
+domains-infra-init: domains composed-variables set-azure-account
+	./bin/terrafile -p terraform/domains/infrastructure/vendor/modules -f terraform/domains/infrastructure/config/zones_Terrafile
+
+	terraform -chdir=terraform/domains/infrastructure init -reconfigure -upgrade \
+		-backend-config=resource_group_name=${RESOURCE_GROUP_NAME} \
+		-backend-config=storage_account_name=${STORAGE_ACCOUNT_NAME} \
+		-backend-config=key=domains_infrastructure.tfstate
+
+domains-infra-plan: domains composed-variables domains-infra-init
+	terraform -chdir=terraform/domains/infrastructure plan -var-file config/zones.tfvars.json
+
+domains-infra-apply: domains composed-variables domains-infra-init
+	terraform -chdir=terraform/domains/infrastructure apply -var-file config/zones.tfvars.json ${AUTO_APPROVE}

@@ -43,8 +43,8 @@ jobs:
       run: echo "matrix-environment=review" >> $GITHUB_OUTPUT
 
     - name: Prepare matrix environments for production
-      id: matrix-env-main
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      id: matrix-env-master
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: |
         echo "matrix-environment=production" >> $GITHUB_OUTPUT
 

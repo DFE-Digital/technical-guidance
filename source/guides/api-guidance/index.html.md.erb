@@ -43,19 +43,6 @@ API names are important, especially those APIs that are external as they are rep
 
 First, follow the GDS guidance here [When naming an API](https://www.gov.uk/guidance/gds-api-technical-and-data-standards#when-naming-and-hosting-your-api)
 
-### DfE API naming convention
-
-Use the below convention for external facing DfE APIs:
-
-`<https://education-{api-name}.api.gov.uk/{resource>}`
-
-Example:
-
-`<https://education-school-attendance.api.gov.uk/submission>`
-
-APIs must be named following these standards and guidelines, failure to do so may mean you will not be able to use an **api.gov.uk** domain making your API less discoverable for users.
-
-Once you have agreed a name you can get your domain from [Get an API domain on GOV.UK](https://www.gov.uk/guidance/get-an-api-domain-on-govuk).
 
 ## DfE API standards
 
@@ -65,14 +52,24 @@ At DfE we inherit from the [GDS API technical and data standards](https://www.go
 
 ## How and where to publish a DfE API
 
-The best API designers also consume their own APIs. Consider your new API in the context of existing DfE APIs and services. Ensure you are not duplicating or confusing potential users. Should you be building a new API or adding a resource to an existing API? Find out what APIs already exist in your local repositories as well as the following public repositories (not exhaustive):
+The best API designers also use their own APIs. Consider your new API in the context of existing DfE APIs and services to ensure you are not duplicating or confusing potential users. To help determine whether you should build a new API or add a resource to an existing one, check for existing APIs in your local repositories and the following public repositories:
 
-* [DfE developer hub](https://dfe-developerhub.education.gov.uk) A new service that provides a GOV.UK branded public facing front door to DfE's APIs. A place to publish your DfE APIs, document them, provide information on authentication and access requests. It also provides a sandbox to allow potential users to test your API.
-* [DfE-Digital GitHub organisation](https://github.com/DFE-Digital) GitHub organisation containing repositories with DfE's API source and documentation.
-* [GOV.UK API catalogue](https://www.api.gov.uk/#uk-government-apis) A new alpha service providing a cross Government view of available APIs (If you publish here please just list your API and sign post back to the [DfE developer hub](https://dfe-developerhub.education.gov.uk)) for documentation, testing etc.
+* [Find and Use an API](https://beta-find-and-use-an-api.education.gov.uk) A new service,currently in Public Beta, which provides a GOV.UK branded public facing front door for users to discover DfE APIs (see next section for further details)
+* [DfE-Digital GitHub organisation](https://github.com/DFE-Digital) Contains repositories with DfE's API source and documentation.
+* [GOV.UK API catalogue](https://www.api.gov.uk/#uk-government-apis) A new alpha service providing a cross-government view of available APIs. If you publish here you can list your API and link back to Find and Use an API.  The DfE has several disparate API catalogues and repositories. We are working to rationalize these using the Find and Use an API service to make it easier for potential users and publishers of APIs to connect.
 
+## Find and Use an API
 
-The DfE has a number of disparate API catalogues/repo's. We have recognised this and are working to rationalise these using the [DfE developer hub](https://dfe-developerhub.education.gov.uk) to make it easier and provide a consistent way for potential users and publishers of APIs to get connected.
+The DfE has a number of disparate API catalogues/repo's. We have recognised this and are working to rationalise these using the new [Find and Use an API](https://beta-find-and-use-an-api.education.gov.uk) service to make it easier and provide a consistent way for potential users and publishers of APIs to get connected.
+
+Find and Use an API is currently in Public Beta.  It provides a GOV.UK branded public facing front door for users to discover and consume data from DfE APIs.  APIs can be public facing, or available to DfE internal users only.  A management portal is provided to allow developers to configure, document, provide information on authentication and publish APIs, and to manage subscription requests from users.
+
+Developers of new DfE APIs should aim to host their services on Find and Use an API, leveraging the security benefits and infrastructure cost savings of a shared service.  Existing APIs should be listed on the service to allow discoverability and satisfy CDDO reporting requirements.
+
+The public-facing 'Consumer Portal' can be found at https://beta-find-and-use-an-api.education.gov.uk
+
+The DfE developer-facing 'Management Portal' can be found at https://apimanagement.education.gov.uk
+
 
 ## API Specification and documentation
 
@@ -84,7 +81,7 @@ An OpenAPI definition can then be used by documentation generation tools to disp
 
 Make sure that your API is secure. GDS provides specific guidelines in [API technical and data standards](https://www.gov.uk/guidance/gds-api-technical-and-data-standards#when-to-authenticate-your-api). As well as this general guide, we have provided specific guidance here on securing your DfE API in the [DfE Developer Hub documentation](https://dfe-developerhub.education.gov.uk/documentation/authorisation)
 
-##JSON Security
+## JSON Security
 
 GDS API standards recommend that
 

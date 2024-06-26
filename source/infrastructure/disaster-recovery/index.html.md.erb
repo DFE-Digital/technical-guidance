@@ -7,7 +7,7 @@ weight: 40
 
 <%= partial('partials/page_toc') %>
 
-This document is intended to list technical risks to our digital services and the mitigations we have in place.
+This document is intended to list technical risks to our digital services and the mitigations we have in place.<br/><br/>For any issue affecting a service (or services) always [check if there are any dependent services](https://educationgovuk.sharepoint.com/sites/teacher-services-infrastructure/SitePages/Teacher-services-dependencies.aspx) that may also be affected.
 
 ## Application bug
 A software or configuration defect gets deployed and it’s impacting users
@@ -27,7 +27,7 @@ The application may crash because of a bug, memory leak, high utilisation…
 |Impact|It may or may not impact end users as a service may deploy multiple application instances.|
 |Prevention|Crashes may happen because of high memory, CPU or disk usage. These metrics should be monitored and notify in advance to avoid the crash entirely.|
 |Detection|Endpoint monitoring like `StatusCake` would notify of a total outage impacting users, if the whole application crashes. An application _instance_ crash may be reported by monitoring.|
-|Remediation|The quickest action is to roll back the problematic change or roll forward with a fix. Ideally the platform detects a failing application and restarts it.<br/>For example kubernetes detects the failure by running frequent healthchecks. Then it deploys a new container and kills the failed one.<br/>If there is no such feature, the application may be restarted manually. If the restart doesn't work, the application and infrastructure must be investigated manually.|
+|Remediation|The quickest action is to roll back the problematic change or roll forward with a fix. Ideally the platform detects a failing application and restarts it.<br/>For example kubernetes detects the failure by running frequent healthchecks. Then it deploys a new container and kills the failed one.<br/>If there is no such feature, the application may be restarted manually.<br/>If the restart doesn't work, the application and infrastructure must be investigated manually.<br/>AKS also uses rolling deployments, so a new deployment will only become active if the startup probe (set to a service healthcheck) is successful.|
 
 ## Data corruption
 The data in the database is corrupted because of a bug, human error, malicious activity… and cannot be recovered.
@@ -37,7 +37,7 @@ The data in the database is corrupted because of a bug, human error, malicious a
 |Impact|Some data may be lost, updated with incorrect value or may be presented to the wrong users.|
 |Prevention|Azure postgres keeps backups of the database and transaction logs. We can recreate the database with daily or point-in-time (1s resolution) backup|
 |Detection|Smoke tests may detect corruptions in some critical data.|
-|Remediation|Access to the service should be stopped immediately.<br/>The data may be fixed manually if the change is simple. If the change is complex or if we don't know the extent of the issue, it may be necessary to recover the database from a backup whether daily, hourly or point-in-time using transaction logs.<br/>[Restore database](https://docs.cloud.service.gov.uk/deploying_services/postgresql/#postgresql-service-backup) with latest snapshot or point in time|
+|Remediation|Access to the service should be stopped immediately.<br/>The data may be fixed manually if the change is simple. If the change is complex or if we don't know the extent of the issue, it may be necessary to recover the database from a backup whether daily, hourly or point-in-time using transaction logs.<br/>[Restore database](https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/how-to-restore-server-portal) with latest snapshot or point in time|
 
 ## Loss of database instance
 It is possible to lose the database instance and the associated backups. For example, if the database server is deleted from Azure, in case of human or automation error, the whole instance is deleted, including its backups.
@@ -49,13 +49,23 @@ It is possible to lose the database instance and the associated backups. For exa
 |Detection|Endpoint monitoring may point to a healthcheck page checking the connection to the databse. Or smoke tests running in production may detect it.|
 |Remediation|Restore database from external daily or most recent backup|
 
+## Accidental resource deletion
+We use terraform to provision resources, but it could be possible for a code change or a user with privileges to delete resources accidentally or otherwise.
+
+|||
+|-|-|
+|Impact|Applications may be unavailable. Data may be lost.|
+|Prevention|Approved PIM request required for production Azure access.<br/>Pull Requests require at least 1 approval.<br/>Soft delete and versioning enabled for key vaults and storage accounts.<br/>Azure resource locks placed on important resources [Azure locks](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources?tabs=json). |
+|Detection|Endpoint monitoring may point to a healthcheck page that is now failing. Or smoke tests running in production may detect it.|
+|Remediation|Recovery dependent on the resource deleted, either restore correct version or redeploy and restore data from backup|
+
 ## Loss of Azure/AWS availability zone
 We deploy to the UK South or West Europe regions which have 3 separate availability zones (AZ). It may happen that one of them is unavailable: either network, compute or storage services are affected.
 
 |||
 |-|-|
 |Impact|Applications may be slow or unavailable|
-|Prevention|Applications should be built with failure in mind: deploy multiple application instances and deploy databases in cluster mode. Spread them across multiple AZs for high availability.<br/>Our AKS clusters are spread across 3 AZs. Scale applications to more than 1 replicas and enable zone redundancy.|
+|Prevention|Applications should be built with failure in mind: AKS clusters should be configured with nodes spread across multiple AZs. AKS Deployments should use a zone topology spread constraint. Scale applications to more than 1 replica to enable zone redundancy.<br/>Azure storage accounts should be ZRS or GZRS if zone redundancy is required (automatic and manual failover).<br/>Azure key vault uses replication within region and to a paired region (automatic failover).<br/>Azure Postgres can be configured zone redundant, with the active/standby instances in different zones.<br/>Azure Redis can be zone redundant only if using the Premium SKU.<br/>Postgres and Redis utilise automatic failover. Postgres can also be failed over manually.<br/>Cluster Public IP addresses should be configured with zone redundancy [Azure PIP redundancy](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/public-ip-addresses#availability-zone)|
 |Detection|Endpoint monitoring checking for uptime and response time|
 |Remediation|If not handled automatically by the platform, redeploy applications and fail over clusters|
 
@@ -65,7 +75,7 @@ In some rare cases, an entire region might become unavailable.
 |||
 |-|-|
 |Impact|Applications may be unavailable|
-|Prevention|For critical applications, it is possible to deploy to 2 different regions, synchronise the data, configure a DNS based failover or GSLB. We don’t usually protect against this risk as it is not worth the complexity of the required set-up.|
+|Prevention|For critical applications, it is possible to deploy to 2 different regions, synchronise the data, configure a DNS based failover or GSLB. We don’t usually protect against this risk as it is not worth the complexity of the required set-up.<br/>Production Postgres backups are kept in a GRS Azure storage account, which maintains copies of data in a separate region. Any critical application data kept in a storage account should be GRS/GZRS.<br/>Azure Key Vault maintains a copy of the contents in another region.<br/>For storage accounts and key vaults, failover is automatic and transparent. Storage accounts also support manual failover. |
 |Detection|Endpoint monitoring checking for uptime|
 |Remediation|Start services in backup region, trigger DNS failover|
 
@@ -89,7 +99,7 @@ An attacker may send a high number of requests to overload the service and make 
 |||
 |-|-|
 |Impact|The service is unavailable or slow for users|
-|Prevention|Every resource in Azure is protected by [Azure's infrastructure DDoS (Basic) Protection](https://docs.microsoft.com/en-us/azure/ddos-protection/ddos-protection-overview)<br/>Depending on the criticality of the service, it is possible to use Azure DDoS Protection Standard instead.|
+|Prevention|Every resource in Azure is protected by [Azure's infrastructure DDoS (Basic) Protection](https://docs.microsoft.com/en-us/azure/ddos-protection/ddos-protection-overview)<br/>Depending on the criticality of the service, it is possible to use Azure DDoS Protection Standard instead.<br/>Public IP addresses can have DDOS protection enabled individually. |
 |Detection|Endpoint monitoring checking for uptime and response time|
 |Remediation|Protection measures are triggered automatically. It is also possible to analyse the traffic pattern and change the application accordingly.|
 
@@ -99,7 +109,7 @@ A malicious actor steals credentials or an ex employee still has working credent
 |||
 |-|-|
 |Impact|They may break the app, read or change confidential data|
-|Prevention|Separate production environment and tighten security. Non production environments should only hold test or anonymised data.<br/>Revoke access every day or use [Azure PIM](https://docs.microsoft.com/en-us/azure/active-directory/privileged-identity-management/pim-configure) to give users temporary access. Make sure the offboarding process is followed. Use single-sign-on and 2FA when possible.<br/>Do not give databases a public IP.|
+|Prevention|Separate production environment and tighten security. Non production environments should only hold test or anonymised data.<br/>Use [Azure PIM](https://docs.microsoft.com/en-us/azure/active-directory/privileged-identity-management/pim-configure) to give users temporary access. Make sure the offboarding process is followed. Use single-sign-on and 2FA when possible.<br/>Use Azure RBAC for AKS, and separate service namespaces and resources into service AD groups. To restrict developer access to their services only.<br/>Do not give databases a public IP.|
 |Detection|Azure audit logs|
 |Remediation|Revoke access of the suspicious user, investigate their actions<br/>Rotate secrets they may know and possibly restore the database to a known good state.|
 
@@ -109,7 +119,6 @@ Different kind of sensitive information may be posted online accidentally by a d
 - _Deployment secrets_ like AWS API key
 - _Application secrets_ like Google API key
 - _Application data_ like a database dump
-
 
 |||
 |-|-|
@@ -139,7 +148,7 @@ A sudden spike in user traffic due to an announcement, a product launch or a coi
 |Remediation|Scale applications and services horizontally and vertically<br/>Disable expensive features|
 
 ## DfE Sign-In failure
-[DfE Sign-in](https://services.signin.education.gov.uk/) is a single-sign-on solutions for many website.
+[DfE Sign-in](https://services.signin.education.gov.uk/) is a single-sign-on solution for many websites.
 
 |||
 |-|-|
@@ -171,7 +180,7 @@ If DockerHub is down it won’t impact the running service, but we won’t be ab
 |Remediation|Build and deploy manually|
 
 ## Monitoring and logging failure
-We rely on services like [Logit.io](https://logit.io/), [StatusCake](https://www.statuscake.com/), [Prometheus ecosystem](https://github.com/DFE-Digital/cf-monitoring/), [Skylight](https://www.skylight.io/), [Sentry](https://sentry.io/)
+We rely on services like [Logit.io](https://logit.io/), [StatusCake](https://www.statuscake.com/), [Prometheus ecosystem](https://github.com/DFE-Digital/teacher-services-cloud/), [Skylight](https://www.skylight.io/), [Sentry](https://sentry.io/), [Azure Monitor](https://learn.microsoft.com/en-us/azure/azure-monitor/overview).
 
 |||
 |-|-|
@@ -191,7 +200,21 @@ GOV.UK Notify is used to communicate with our users via emails, texts and letter
 |Remediation||
 
 ## Google BigQuery
-TBD
+Our services load web analytics and database data into Google BigQuery via an event stream. BQ Data is then available for analysis using various tools.
+
+|||
+|-|-|
+|Impact|Unable to send data to BQ.<br/>Reporting unavailable or out of date.|
+|Prevention||
+|Detection|Sentry errors.<br/>Daily monitoring of out of date data by the BI team.<br/>Daily checksums to confirm service database tables match data kept in BQ.<br/>[GCP status page](https://status.cloud.google.com).|
+|Remediation|Missing data can be manually reloaded when BQ is available.<br/>[GCP Basic support](https://cloud.google.com/support?hl=en).|
 
 ## Google API
-TBD
+Various Google API's are used by our services, including Geocoding, Indexing, and Analytics.
+
+|||
+|-|-|
+|Impact|Some application functionality will be degraded or unavailable.|
+|Prevention||
+|Detection|Sentry errors.<br/>[Check maps api status](https://status.cloud.google.com/maps-platform).|
+|Remediation|[GCP Basic support](https://cloud.google.com/support?hl=en).|

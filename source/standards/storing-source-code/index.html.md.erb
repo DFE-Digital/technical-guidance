@@ -278,10 +278,14 @@ You _must_ keep secrets separate from source code, and keep them private.
 Private repositories are a poor way to protect secrets, and may only be used
 where access to the code might reveal draft policy decisions.
 
+Teams should ensure GitHub Secrets Detection and Push Protection is turned on.
+
 Secrets should be managed at the platform level, at DfE we can use:
 - [GitHub Secrets](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions) for GitHub Actions workflows
 - [Azure Key Vault](https://learn.microsoft.com/en-us/azure/key-vault/general/basic-concepts) for cloud platform secrets
 - Azure resources should use [managed identities](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview) and [Azure RBAC](https://learn.microsoft.com/en-us/azure/role-based-access-control/overview) to remove the need for secrets where possible
+
+If a secret has been pushed to a repository by accident, this should trigger an incident.
 
 ## Archiving Repositories
 

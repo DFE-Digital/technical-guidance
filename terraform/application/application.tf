@@ -29,7 +29,7 @@ module "web_application" {
   cluster_configuration_map  = module.cluster_data.configuration_map
   kubernetes_config_map_name = module.application_configuration.kubernetes_config_map_name
   kubernetes_secret_name     = module.application_configuration.kubernetes_secret_name
-  web_port = 80
+  web_port = 8080
   probe_path = "/"
 
   docker_image = var.docker_image

@@ -173,9 +173,70 @@ For repositories that are particularly sensitive, or considered higher risk syst
 - SBOM's are generated and verified
 - artifacts attestations to provide cryptographically signed provenance of software and artifacts built by the repository/pipeline
 
+#### Dependabot configuration options
+
+The below example shows some [recommended options](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file) you can include in your `dependabot.yml` file under the `.github` directory.
+
+```
+version: 2
+
+registries:
+  dockerhub: # Define access for a private registry
+    type: docker-registry
+    url: registry.hub.docker.com
+    username: dfe-digital
+    password: ${{ secrets.DFE_DOCKERHUB_PASSWORD }}
+
+updates:
+
+  - package-ecosystem: "docker"
+    directory: "/docker" # docker directory
+    registries:
+      - dockerhub # Allow version updates for dependencies in this registry defined above
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "nuget" # .NET
+    directory: "/src" # src directory
+    schedule:
+      interval: "weekly"
+    commit-message: # prefixes commit message with specified text
+      prefix: "chore(deps): "
+
+  - package-ecosystem: "bundler" # ruby (gems)
+    directory: "/" # root
+    schedule:
+      interval: "weekly"
+    groups: # Group all dependabot PRs for production into one single PR (based on wildcard)
+      production-dependencies:
+        dependency-type: "production"
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm" # JavaScript (npm and yarn)
+    directory: "/" # root
+    schedule:
+      interval: "weekly"
+    labels: # adds the following labels to pull requests
+      - "npm"
+      - "dependencies"
+
+  - package-ecosystem: "terraform" # Terraform
+    directory: "/terraform" # terraform directory
+    schedule:
+      interval: "weekly"
+    reviewers: # select required reviewers
+      - "dfe-digital/security-engineers"
+
+  - package-ecosystem: "github-actions" # GitHub Actions
+    directory: "/" # For GHA '/' actually correlates to '.github/workflows'
+    schedule:
+      interval: "weekly"
+```
+
 ### Managing vulnerabilities with GitHub Advanced Security
 
-When using SCA and SAST tools such as dependabot and CodeQL, you will find that they have the ability to send the results of their scans to the security tab on a repository.
+When using SCA and SAST tools such as dependabot, CodeQL and Sonar you will find that they have the ability to send the results of their scans to the security tab on a repository.
 
 The security tab collects this data so it can be easily viewed by developers and triaged. This could include:
 - marking as a false positive where necessary
@@ -185,6 +246,7 @@ The security tab collects this data so it can be easily viewed by developers and
 
 Developers should keep the vulnerabilities in their repositories to a minimum by triaging and fixing vulnerabilities within DfE's Service Level Agreement timetables, following the [DfE guidance on vulnerability triaging](TBC).
 
+Note that GitHub Advanced Security is currently only available for public repositories unless you have a licence via GitHub Enterprise.
 
 ## Data Protection Considerations - Git Repositories
 

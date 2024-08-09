@@ -6,33 +6,297 @@ old_paths:
 
 # <%= current_page.data.title %>
 
-All our source code is open by default, and stored on well-known,
-public code hosting services. At the DfE, we use GitHub.
 
-We follow the principles set out in the service manual for managing the
-code that we write:
+## GOV.UK Service Manual
 
-- [use version control](https://www.gov.uk/service-manual/technology/maintaining-version-control-in-coding)
-- [make source code open](https://www.gov.uk/service-manual/technology/making-source-code-open-and-reusable)
+We follow principles set out within the [GOV.UK Service Manual](https://www.gov.uk/service-manual) and [CDDO Secure by Design](https://www.security.gov.uk/policy-and-guidance/secure-by-design/principles/#1-create-responsibility-for-cyber-security-risk)
+for managing code we write.
 
-You should keep secrets separate from source code, and keep them private.
+### Service Manual Sections of relevance:
 
-## GitHub
+- [Service Manual > Technology > Use version control](https://www.gov.uk/service-manual/technology/maintaining-version-control-in-coding)
+- [Service Manual > Technology > Make source code open](https://www.gov.uk/service-manual/technology/making-source-code-open-and-reusable)
+- [Service Manual > Technology > Securing your information](https://www.gov.uk/service-manual/technology/securing-your-information)
 
-New repositories for products and services live in the
-[Department for Education Digital organisation](https://github.com/DfE-Digital)
-on GitHub. New repositories must be created within the [Department for Education Digital](https://github.com/DFE-Digital) organisation, whether they contain service production code or prototypes. Work created outside of the DfE Digital organisation should be transferred into the DfE Digital organisation at the earliest opportunity. [Guide to transferring a repository](https://help.github.com/en/articles/transferring-a-repository).
+### Summary / Highlights:
 
-You can use your personal GitHub account (but you should [add your DfE
-email address to your account](https://help.github.com/articles/adding-an-email-address-to-your-github-account/),
-and [use it for notifications](https://help.github.com/articles/managing-notification-emails-for-organizations/)).
-Ask your delivery manager to request you being added to the Github organisation.
+- Changes to source code _must_ be tracked
+- Code we produce _should_ be made available via an internet source code repository
+- Published code _should_ be under an Open Source initiative compatible licence
+- Due-care _must_ be given to security considerations, including:
+  - Suitable protection of confidential information and secrets
+  - Departmental/governmental rules related to the use of cloud/3rd-party tooling
+  - Proper process and accountability/approvals for making code changes
 
-Another Github organisation account heavilly used by the DfE but not the default for DfE-Digital is ['SkillsFundingAgency'](https://github.com/SkillsFundingAgency/).
+Additional detail and information is available via the links above.
 
-Repositories should be [clearly named](/standards/naming-things/),
-and have an [appropriate licence](/standards/licencing-software-or-code)
-and enough documentation that someone new can get started with the
-project.
+## Types of source code
 
-Private repositories are not a good way to protect secrets, and should only be used where access to the code might reveal draft policy decisions. Secrets should be managed at the platform level.
+Source code is broader and wider than just business and presentation code.
+
+Examples of source code types and purposes:
+
+- **Project source code**
+  - Code used to meet a user need - i.e., what is normally considered when describing "source code"
+- **Test code**
+  - Code used to evaluate the correctness of the project code
+  - Depending on the project, test code may involve provisioning infrastructure, deploying a build,
+    and even running the project code
+    _(e.g. a headless browser to test the presentation and accessibility of a web page)_
+- **Infrastructure as code**
+  - Code used to provision and configure the infrastructure a project runs upon
+- **CI configuration**
+  - Code used to inspect, validate, and potentially gate-keep changes being made to project code
+  - May include GitHub Actions and Azure Pipelines
+  - Typically triggered on a merge/PR event, but other examples include being triggered on
+    creation of a particular tag (e.g., one in the format `vX.Y.Z`) or on a timer/cron-basis
+- **Deployment code**
+  - Code used to build, test, and deploy project source code into a running environment
+
+How this source code is stored and structured will vary by project, based on needs and historical convention.
+For example:
+
+- A project may be composed of multiple services where each has its own repository
+- A monolith may have all source code for all purposes stored within the same source code repository
+- A mixture may apply where project source code and tests are within one repository,
+  while infrastructure code may be stored within a separate repository
+
+## Source Code Versioning: Git
+
+At the Department for Education (DfE) we use [Git](https://git-scm.com/) for source code versioning.
+
+- Git is decentralised - this means all copies of the repository include the **whole** history of the repository,
+  not just a snapshot
+- Branches are "cheap" - creating a new branch (or tag) involves just a new pointer at a specific commit
+  (thus minimal compute and storage implications)
+- Hashes/checkums for each file and commit depend on the entire tree - thus, the repository is safe from
+  surreptitious / malicious / accidental changes to earlier versions of a file without it being
+  very visible to other users
+
+## Git Repository Hosting - GitHub and Azure DevOps (ADO)
+
+While not required, most git users will nominate one copy of the git repository to be the authoritative copy.
+
+- It is possible to self-host a git server for this purpose but, often, this will be a hosted solution such as
+  GitHub, Azure DevOps, GitLab, or any of the numerous other commercial services available.
+- A "hub and spoke" is easier to reason about and keep synchronised
+- Integrations with other tools will work with less friction, where they have a single copy to work with
+  (e.g., automated test/deployment tools, issue/bug management)
+
+### GitHub
+
+Historically, some projects use (and may remain on) private Azure DevOps and/or private GitHub repositories
+for legacy reasons, though we are now required
+to [make new source code open](https://apply-the-service-standard.education.gov.uk/service-standard/12-make-new-source-code-open.html).
+
+Specifically, we use GitHub for new and migrated work.
+
+### GitHub Organisations
+
+Department for Education (DfE) source code repositories on GitHub should be stored under an appropriate
+organisation, thereby giving appropriate oversight and protections to these source code repositories.
+
+Specifically:
+
+- The [Department for Education Digital](https://github.com/DfE-Digital)
+  GitHub organisation is used for new and existing source code repositories
+  - This is applicable to production and prototype code
+- Work created outside the DfE Digital organisation should be transferred into
+  the DfE Digital organisation at the earliest opportunity.
+  - [GitHub: Guide to transferring a repository](https://help.github.com/en/articles/transferring-a-repository)
+- The [Skills Funding Agency](https://github.com/SkillsFundingAgency/) and [DfEAgileOps](https://github.com/dfeagiledevops)
+  GitHub organisations are also used by the DfE
+  - Not the default for DfE-Digital
+
+If your account is added to a repository without the account being a member of the owning organisation,
+it will be counted and labelled as
+an ["outside collaborator"](https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/adding-outside-collaborators-to-repositories-in-your-organization).
+
+To join a GitHub organisation, follow the guidance and request forms available
+via [Digital Tools Support](<%= data.site.digital_tools %>).
+As there is a small cost implication for accounts to be added to a GitHub organisation,
+this should normally be done via / with support from your Delivery Manager.
+
+### Work vs Personal GitHub accounts
+	
+You may use your personal GitHub account, but you should:
+	
+- [GitHub: Add your DfE email address to your account](https://help.github.com/articles/adding-an-email-address-to-your-github-account/)
+- [GitHub: Use your secondary (DfE) email address for notifications](https://help.github.com/articles/managing-notification-emails-for-organizations/)
+
+### Repository Requirements
+
+There are a number of requirements repositories in DfE must meet in order to be compliant with service standards and [Secure by Design](https://cddo.blog.gov.uk/2024/02/07/getting-started-with-the-secure-by-design-approach/) principles.
+
+Repositories containing production/ service code must:
+
+- have branch protection turned on for the default branch in your repository either via traditional branch protection or via repository rules. Branch protection should include:
+    - at least one approval before merging
+    - dismissal of stale approvals when new commits are pushed
+    - codeowners review requirement
+    - approval of most recent push
+    - conversation resolution before merging
+    - status checks to have passed
+- be [clearly named](/standards/naming-things/)
+- have an [appropriate licence](/standards/licencing-software-or-code)
+- have a [CONTRIBUTING.md file](https://mozillascience.github.io/working-open-workshop/contributing/) to give guidance on how users can collaborate and contribute to the project
+- have a [CODEOWNERS file](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners#example-of-a-codeowners-file) 
+  that outlines the users or teams that own the code in your repository. 
+  Team's are preferred for maintainability reasons.
+- include topics that help to provide metadata on ownership, teams, type of product, whether the code is production or prototype
+
+For repositories containing application code, the repository should:
+
+- run Software Composition Analysis (SCA) scans for dependencies
+    - [Dependabot](https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide) is easy to get started with in GitHub,
+      consider a [dependabot.yml file](https://docs.github.com/en/enterprise-cloud@latest/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file) for more control over configuration
+- run Static Application Security Testing (SAST) scans against the application code
+    - teams can utilise the [DfE SAST reusable workflow](https://github.com/DFE-Digital/github-actions/tree/master/sast-reusable-workflow) which can run CodeQL or Semgrep
+    - alternatively teams may already be running Sonar
+- run Dynamic Application Security Testing (DAST) scans against testing environments before code is pushed to production
+    - open source options with GitHub Actions include [zaproxy](https://github.com/zaproxy/action-full-scan) and [nuclei](https://github.com/projectdiscovery/nuclei-action)
+- run Unit Tests
+- run linters 
+- run Infrastructure as Code scanning to look for potential cloud infrastructure misconfigurations
+    - [checkov](https://github.com/bridgecrewio/checkov) is a reliable and open source IaC scanner, it supports Terraform, ARM, Bicep, Helm charts and Dockerfiles (and more)
+- run container vulnerability scanning to look for vulnerabilities in container images
+    - [trivy](https://github.com/aquasecurity/trivy) can be used for container image scanning
+    - [Azure Defender can scan images in Azure Container Registry](https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-introduction#vulnerability-assessment) for an additional cost
+- turn on [private vulnerability reporting](https://docs.github.com/en/code-security/security-advisories/working-with-repository-security-advisories/configuring-private-vulnerability-reporting-for-a-repository)
+- turn [secret scanning with push protection](https://docs.github.com/en/code-security/secret-scanning/configuring-secret-scanning-for-your-repositories) on
+- block builds from deploying to production when high and critical risk issues are found that are over DfE SLA's (this can be done via the [DfE SAST reusable workflow](https://github.com/DFE-Digital/github-actions/tree/master/sast-reusable-workflow))
+- include a webhook to receive security events
+- use a [.gitignore](https://git-scm.com/docs/gitignore) file 
+
+For repositories that are particularly sensitive, or considered higher risk systems we should ensure that:
+
+- [commits are signed](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits) using a gpg key
+- SBOM's are generated and verified
+- artifact attestations are used to provide cryptographically signed provenance of software
+
+#### Dependabot configuration options
+
+The below example shows some [recommended options](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file) you can include in your `dependabot.yml` file under the `.github` directory.
+
+```
+version: 2
+
+registries:
+  dockerhub: # Define access for a private registry
+    type: docker-registry
+    url: registry.hub.docker.com
+    username: dfe-digital
+    password: ${{ secrets.DFE_DOCKERHUB_PASSWORD }}
+
+updates:
+
+  - package-ecosystem: "docker"
+    directory: "/docker" # docker directory
+    registries:
+      - dockerhub # Allow version updates for dependencies in this registry defined above
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "nuget" # .NET
+    directory: "/src" # src directory
+    schedule:
+      interval: "weekly"
+    commit-message: # prefixes commit message with specified text
+      prefix: "chore(deps): "
+
+  - package-ecosystem: "bundler" # ruby (gems)
+    directory: "/" # root
+    schedule:
+      interval: "weekly"
+    groups: # Group all dependabot PRs for production into one single PR (based on wildcard)
+      production-dependencies:
+        dependency-type: "production"
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm" # JavaScript (npm and yarn)
+    directory: "/" # root
+    schedule:
+      interval: "weekly"
+    labels: # adds the following labels to pull requests
+      - "npm"
+      - "dependencies"
+
+  - package-ecosystem: "terraform" # Terraform
+    directory: "/terraform" # terraform directory
+    schedule:
+      interval: "weekly"
+    reviewers: # select required reviewers
+      - "dfe-digital/security-engineers"
+
+  - package-ecosystem: "github-actions" # GitHub Actions
+    directory: "/" # For GHA '/' actually correlates to '.github/workflows'
+    schedule:
+      interval: "weekly"
+```
+
+### Managing vulnerabilities with GitHub Advanced Security
+
+When using SCA and SAST tools such as dependabot, CodeQL and Sonar you will find that they have the ability to send the results of their scans to the security tab on a repository.
+
+The security tab collects this data so it can be easily viewed by developers and triaged. This could include:
+
+- marking as a false positive where necessary
+- reading the suggestion to produce a PR fix 
+- removing and rotating secrets that have been accidentally pushed to the repository
+- reviewing and merging dependabot Pull Requests
+
+Developers should keep the vulnerabilities in their repositories to a minimum by triaging and fixing vulnerabilities within DfE's Service Level Agreement timetables, following the [DfE guidance on vulnerability triaging](TBC).
+
+Note that GitHub Advanced Security is currently only available for public repositories unless you have a licence via GitHub Enterprise.
+
+## Data Protection Considerations - Git Repositories
+
+### Personal Data
+
+Storage of a git repository must be treated with due care and consideration.
+This applies whether it is within a central hosted environment or stored
+elsewhere such on a developer's computer.
+
+Places where we may normally find personally-identifiable information:
+
+- Changes to source code, commits, are annotated with authorship details.
+  Typically, this is a real name (or username) and an email address.
+- Where a commit is cryptographically-signed, the GPG key used will also have
+  personally-identifying information associated with it (such as an email address).
+
+Additionally, note that git is _explicitly_ a _decentralised_ source versioning and control system.
+
+- It is, therefore, not possible to delete/change information within one copy of the
+  repository (e.g., GitHub) and force all other copies to be updated also
+- It is, therefore, extremely important to prevent non-public content from ever
+  being added to the git repository in the first place because it cannot be removed
+  with 100% confidence (being able to do so is an edge case, not the norm)
+
+### Secrets
+
+You _must_ keep secrets separate from source code, and keep them private.
+
+Private repositories are a poor way to protect secrets, and may only be used
+where access to the code might reveal draft policy decisions.
+
+Teams should ensure GitHub Secrets Detection and Push Protection is turned on.
+
+Secrets should be managed at the platform level, at DfE we can use:
+
+- [GitHub Secrets](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions) for GitHub Actions workflows
+- [Azure Key Vault](https://learn.microsoft.com/en-us/azure/key-vault/general/basic-concepts) for cloud platform secrets
+- Azure resources should use [managed identities](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview) and [Azure RBAC](https://learn.microsoft.com/en-us/azure/role-based-access-control/overview) to remove the need for secrets where possible
+
+If a secret has been pushed to a repository by accident, this should trigger an incident.
+
+## Archiving Repositories
+
+If a repository becomes redundant and the codebase is no longer in use or required then it should be archived using the following guideline before deletion:
+
+|Repository Type | Archive Duration | Recovery after Deletion
+|:-:| - | - |
+| Public | 12 months | 90 days |
+| Private | 6 months | 90 days |
+
+Archiving of repositories should be completed following agreement with the relevant parties.

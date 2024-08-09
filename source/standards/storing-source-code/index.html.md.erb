@@ -1,7 +1,5 @@
 ---
 title: Storing source code
-last_reviewed_on: 2024-08-01
-review_in: 3 months
 old_paths:
 - /documentation/standards/storing-source-code.html
 ---
@@ -11,7 +9,7 @@ old_paths:
 
 ## GOV.UK Service Manual
 
-We follow principles set out within the [GOV.UK Service Manual](https://www.gov.uk/service-manual)
+We follow principles set out within the [GOV.UK Service Manual](https://www.gov.uk/service-manual) and [CDDO Secure by Design](https://www.security.gov.uk/policy-and-guidance/secure-by-design/principles/#1-create-responsibility-for-cyber-security-risk)
 for managing code we write.
 
 ### Service Manual Sections of relevance:
@@ -153,8 +151,8 @@ For repositories containing application code, the repository should:
     - [Dependabot](https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide) is easy to get started with in GitHub,
       consider a [dependabot.yml file](https://docs.github.com/en/enterprise-cloud@latest/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file) for more control over configuration
 - run Static Application Security Testing (SAST) scans against the application code
-    - teams can utilise the [DfE SAST reusable workflow](https://github.com/DFE-Digital/github-actions/tree/master/sast-reusable-workflow) which can run CodeQL or Semgrep. 
-    - alternatively teams may already be running Sonar or Snyk 
+    - teams can utilise the [DfE SAST reusable workflow](https://github.com/DFE-Digital/github-actions/tree/master/sast-reusable-workflow) which can run CodeQL or Semgrep
+    - alternatively teams may already be running Sonar
 - run Dynamic Application Security Testing (DAST) scans against testing environments before code is pushed to production
     - open source options with GitHub Actions include [zaproxy](https://github.com/zaproxy/action-full-scan) and [nuclei](https://github.com/projectdiscovery/nuclei-action)
 - run Unit Tests
@@ -166,12 +164,12 @@ For repositories containing application code, the repository should:
     - [Azure Defender can scan images in Azure Container Registry](https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-containers-introduction#vulnerability-assessment) for an additional cost
 - turn on [private vulnerability reporting](https://docs.github.com/en/code-security/security-advisories/working-with-repository-security-advisories/configuring-private-vulnerability-reporting-for-a-repository)
 - turn [secret scanning with push protection](https://docs.github.com/en/code-security/secret-scanning/configuring-secret-scanning-for-your-repositories) on
-- block builds from deploying to production when high and critical risk issues are found that are over DfE SLA's
+- block builds from deploying to production when high and critical risk issues are found that are over DfE SLA's (this can be done via the [DfE SAST reusable workflow](https://github.com/DFE-Digital/github-actions/tree/master/sast-reusable-workflow))
 - include a webhook to receive security events
 - use a [.gitignore](https://git-scm.com/docs/gitignore) file 
 
 For repositories that are particularly sensitive, or considered higher risk systems we should ensure that:
-- commits are signed
+- [commits are signed](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits) using a gpg key
 - SBOM's are generated and verified
 - artifacts attestations to provide cryptographically signed provenance of software and artifacts built by the repository/pipeline
 

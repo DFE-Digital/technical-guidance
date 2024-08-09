@@ -172,7 +172,7 @@ For repositories that are particularly sensitive, or considered higher risk syst
 
 - [commits are signed](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits) using a gpg key
 - SBOM's are generated and verified
-- artifacts attestations to provide cryptographically signed provenance of software and artifacts built by the repository/pipeline
+- artifact attestations are used to provide cryptographically signed provenance of software
 
 #### Dependabot configuration options
 
@@ -240,6 +240,7 @@ updates:
 When using SCA and SAST tools such as dependabot, CodeQL and Sonar you will find that they have the ability to send the results of their scans to the security tab on a repository.
 
 The security tab collects this data so it can be easily viewed by developers and triaged. This could include:
+
 - marking as a false positive where necessary
 - reading the suggestion to produce a PR fix 
 - removing and rotating secrets that have been accidentally pushed to the repository
@@ -282,6 +283,7 @@ where access to the code might reveal draft policy decisions.
 Teams should ensure GitHub Secrets Detection and Push Protection is turned on.
 
 Secrets should be managed at the platform level, at DfE we can use:
+
 - [GitHub Secrets](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions) for GitHub Actions workflows
 - [Azure Key Vault](https://learn.microsoft.com/en-us/azure/key-vault/general/basic-concepts) for cloud platform secrets
 - Azure resources should use [managed identities](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview) and [Azure RBAC](https://learn.microsoft.com/en-us/azure/role-based-access-control/overview) to remove the need for secrets where possible

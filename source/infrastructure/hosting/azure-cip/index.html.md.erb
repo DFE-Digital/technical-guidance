@@ -90,39 +90,25 @@ Contact #cloud-platform to set it up.
 
 ## Azure service principal
 To be able to access Azure from an external system like Github actions, a service account is required. It is called a
-service principal in Azure. See the [Azure documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals).
+*service principal* in Azure, or *App regisration*. See the [Azure documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals).
 
 ### Create service principal
-In this example we create a service principal which has Contributor (full access) including Keyvault. It depends on the custom role created in [Managing secrets](/infrastructure/security/managing-secrets/#request-roles).
-
-Submit a CIP Request on Service Now using your education.gov.uk identity. The request type is `Any Other Request` and in `Any other request description` enter the following:
+In this example we create a service principal which has a custom role created in [Managing secrets](/infrastructure/security/managing-secrets/#request-roles). Submit a [CIP Request](https://dfe.service-now.com/ithelpcentre?id=sc_cat_item&table=sc_cat_item&sys_id=51b0b9c5db1ff7809402e1aa4b96197d&searchTerm=cip) on Service Now using your education.gov.uk identity. Example:
 
 ```
-We have a new service called [service-name] that we are currently setting up for Teacher Services Digital team. This service will need service principals with Contributor access to [subscription-number] subscriptions so that it is in line with our deployment approach for new services.
+Please create a new service principal named [subscription-prefix]-[service-abbreviation]-contributor. It will be used to deploy Azure resources from GitHub repositories in the DFE-Digital Github organisation.
 
-The Service Principals will all need the Directory.Read.All Microsoft Graph API Application permission, this will need to be approved by a Domain Admin.
+Assign the following:
+- Custom role "s189-Contributor and Key Vault editor" on subscription [subscription]
+- "Directory.Read.All" Microsoft Graph API Application permission, this will need to be approved by a Domain Admin. Required for automation to validate secrets.
 
-The Service Principals will all need the following Azure resource permissions:
-Service Principal Name: Azure Resource Permissions
-[dev-subscription-prefix]-[service-abbreviation]-contributor: Contributor, Key Vault Reader and Key Vault Secrets Officer roles on subscription [dev-subscription-name]
-[test-subscription-prefix]-[service-abbreviation]-contributor: Contributor, Key Vault Reader and Key Vault Secrets Officer roles on subscription [test-subscription-name]
-[prod-subscription-prefix]-[service-abbreviation]-contributor: Contributor, Key Vault Reader and Key Vault Secrets Officer roles on subscription [prod-subscription-name]
-
-They will be used to deploy Azure resources from GitHub repository DFE-Digital/[repo-name] owned by DFE-Digital.
-
-Please can you also add the following users as Owners on the Service Principals: [digital-accounts-for-infra-team-members]
+Add the following users as Owners on the Service Principals: [Azure users]
 ```
-
-Substitute anything in square brackets with values relevant to your request.
-
-- [Create access keys](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-app?tabs=dotnet#create-a-client-secret) with
-**1 year expiration**. This is mandated by CIP.
-- **_This is the only time you will see the key_**, so take this opportunity to COPY and PASTE it into the Key Vault now, in a secret named `SP-Readonly-Credentials` for instance
 
 ### Add permissions
 Add the service principal to groups or access policies to give it access to particular resources.
 
-To assign it a role, request [CIP](/infrastructure/support/#infrastructure-operations) to add them. You may need approval from Security, ie the allocated ISO.
+To assign more roles, request [CIP](/infrastructure/support/#infrastructure-operations) to add them. You may need approval from Security, ie the allocated ISO.
 
 ### Use the service principal in external systems
 The following values are required for the external system to authenticate against the service principal:

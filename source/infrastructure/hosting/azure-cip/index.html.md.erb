@@ -13,16 +13,14 @@ It provides access to most Azure resources including App Services, Container Ins
 Portal: [https://portal.azure.com/](https://portal.azure.com/)
 
 ## Platform documentation
-* [CIP platform docs](https://docs.platform.education.gov.uk/index.html)
+* [CIP platform docs](https://docs.education.gov.uk/)
 
 ## Onboarding users
-Use this [service portal form](https://dfe.service-now.com.mcas.ms/serviceportal/?id=sc_cat_item&sys_id=51b0b9c5db1ff7809402e1aa4b96197d&referrer=recent_items) to create the onboarding request:
+Use this [IT Help Centre form](https://dfe.service-now.com.mcas.ms/ithelpcentre/?id=sc_cat_item&sys_id=51b0b9c5db1ff7809402e1aa4b96197d) to create the onboarding request:
 
 1. From _Request type_ dropdown, select: _Azure Portal and DevOps User Account Request_
 1. From _Add/Change/Remove_ dropdown, select: _Add_
 1. Enter new users' email addresses
-
-If access to the service portal is not possible, ask the helpdesk (See [Support](/infrastructure/support/#helpdesk)) to "Invite --username-- to the CIP AAD. FAO of the Infrastructure Operations Team"
 
 Ask in #cloud-platform on Slack if more help is required.
 
@@ -32,7 +30,7 @@ To access Azure DevOps, the new user must access the [Azure DevOps CIP instance]
 
 ## Privileged Identity Management (PIM) Requests
 
-[Privileged Identity Management (PIM)](https://docs.microsoft.com/en-us/azure/active-directory/privileged-identity-management/pim-configure) is a service in Azure Active Directory (Azure AD) that enables you to manage, control, and monitor access to important resources at DfE such as access to staging and production environments.
+[Privileged Identity Management (PIM)](https://docs.microsoft.com/en-us/azure/active-directory/privileged-identity-management/pim-configure) is a service in Azure Active Directory (Azure AD) that enables you to manage, control, and monitor access to important resources at DfE such as access to staging and production environments. We use it for *Azure resources* and *Groups*.
 
 To request access to your eligible assignments, follow the steps below:
 
@@ -46,7 +44,7 @@ To request access to your eligible assignments, follow the steps below:
 
 * Click on `My roles` on the left hand side of the page, under `Tasks`
 
-* Click on `Azure resources` under `Activate`
+* Click on either `Azure resources` or `Groups` under `Activate`
 
 * You may have to lengthen the resource section in order to see the full resource name, including the environment
 
@@ -61,7 +59,7 @@ however an administrator can navigate to PIM using the search box (as documented
 
 
 ## Onboarding a service
-Use this [service portal form](https://dfe.service-now.com.mcas.ms/serviceportal/?id=sc_cat_item&sys_id=51b0b9c5db1ff7809402e1aa4b96197d&referrer=recent_items) to create the onboarding request and choose _Request type: On-Boarding request_. It should be filled in by a senior civil servant (G7 or above). This includes an onboarding form to attach. Finance must be agreed beforehand.
+Use this [IT Help Centre form](https://dfe.service-now.com.mcas.ms/ithelpcentre/?id=sc_cat_item&sys_id=51b0b9c5db1ff7809402e1aa4b96197d&referrer=recent_items) to create the onboarding request and choose _Request type: On-Boarding request_. It should be filled in by a senior civil servant (G7 or above). This includes an onboarding form to attach. Finance must be agreed beforehand.
 
 You will be given:
 
@@ -70,7 +68,7 @@ You will be given:
 * PIM (Privileged Identity Management) set up: members of the Delivery team can elevate their access themselves in staging, and request approval from a Manager in production.
 * A new project in Azure DevOps dfe-ssp organisation and corresponding service connections to the subscriptions
 
-The production subscription can be requested via the same [service portal form](https://dfe.service-now.com.mcas.ms/serviceportal/?id=sc_cat_item&sys_id=51b0b9c5db1ff7809402e1aa4b96197d&referrer=recent_items).
+The production subscription can be requested via the same [IT Help Centre form](https://dfe.service-now.com.mcas.ms/ithelpcentre/?id=sc_cat_item&sys_id=51b0b9c5db1ff7809402e1aa4b96197d&referrer=recent_items).
 Choose _Request type: Request production subscription_.
 
 ## Provisioned Azure DevOps
@@ -81,19 +79,12 @@ When a service is onboarded to CIP, an Azure DevOps project is automatically pro
 ## Azure Development
 Deployments should always be done via infrastructure as code. We recommend using [Terraform](/infrastructure/dev-tools/#terraform) or [ARM templates](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview).
 
-## Access from/to Internet
-Static public IPs are not permitted by default in CIP. Instead, Azure provides unique domain names but the IP may change.
-
-Should you require a static IP, it is possible to request an [Internet Access Service](https://docs.platform.education.gov.uk/docs/articles/resource-management/platform-firewalls/internet-access-service.html?q=internet). It provides routing from/to the internet via a static IP and a firewall. URLs accessed via the firewall must be whitelisted.
-
-Contact #cloud-platform to set it up.
-
 ## Azure service principal
 To be able to access Azure from an external system like Github actions, a service account is required. It is called a
 *service principal* in Azure, or *App regisration*. See the [Azure documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals).
 
 ### Create service principal
-In this example we create a service principal which has a custom role created in [Managing secrets](/infrastructure/security/managing-secrets/#request-roles). Submit a [CIP Request](https://dfe.service-now.com/ithelpcentre?id=sc_cat_item&table=sc_cat_item&sys_id=51b0b9c5db1ff7809402e1aa4b96197d&searchTerm=cip) on Service Now using your education.gov.uk identity. Example:
+In this example we create a service principal which has a custom role created in [Managing secrets](/infrastructure/security/managing-secrets/#request-roles). Submit a [CIP Request](https://dfe.service-now.com/ithelpcentre?id=sc_cat_item&table=sc_cat_item&sys_id=51b0b9c5db1ff7809402e1aa4b96197d&searchTerm=cip) on Service Now. Example:
 
 ```
 Please create a new service principal named [subscription-prefix]-[service-abbreviation]-contributor. It will be used to deploy Azure resources from GitHub repositories in the DFE-Digital Github organisation.

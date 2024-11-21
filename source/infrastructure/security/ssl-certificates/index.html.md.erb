@@ -17,7 +17,7 @@ Certificates generated on the CAs are paid for centrally by the [Platform suppor
 This documentation doesn't apply to Azure managed certificates in [App service](https://learn.microsoft.com/en-us/azure/app-service/configure-ssl-certificate?tabs=apex%2Cportal#create-a-free-managed-certificate) or [Front door](https://learn.microsoft.com/en-us/azure/frontdoor/standard-premium/how-to-configure-https-custom-domain#afd-managed-certificates-for-non-azure-pre-validated-domain).
 
 ## Create account
-Use the [External Digital Certificates form](https://dfe.service-now.com.us.cas.ms/serviceportal?id=sc_cat_item&sys_id=8fe3fae3dbd77f809402e1aa4b9619d0) on the service portal and choose: _Request type: Request an account_
+Use the [External Digital Certificates form](https://dfe.service-now.com.us.cas.ms/ithelpcentre?id=sc_cat_item&sys_id=8fe3fae3dbd77f809402e1aa4b9619d0) on the IT Help Centre and choose: _Request type: Request an account_
 
 ## Generate manually
 ### Create CSR and private key
@@ -115,8 +115,8 @@ openssl pkcs12 -export -out cert.pfx -inkey privatekey.key -in cert.cer
 
 ### Key vault account
 A special "Key vault account" is required and must be approved on case by case basis. It can be requested via the
-[Non-standard / Any Other Request](https://dfe.service-now.com.mcas.ms/serviceportal?id=sc_cat_item&sys_id=3ab186f8db2c2b403b929334ca961998&sysparm_category=19d07bc3dbff17003b929334ca9619bd)
-service portal form. The business service is _Shared IT core services_ and the offering is _SSL Certificate Authority Systems (external)_.
+[Non-standard / Any Other Request](https://dfe.service-now.com.mcas.ms/ithelpcentre?id=sc_cat_item&sys_id=3ab186f8db2c2b403b929334ca961998&sysparm_category=19d07bc3dbff17003b929334ca9619bd)
+IT Help Centre form. The business service is _Shared IT core services_ and the offering is _SSL Certificate Authority Systems (external)_.
 
 ### Digicert CA
 - If you don't have an API key, first login to Digicert with the Key vault account

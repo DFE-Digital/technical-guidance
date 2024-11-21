@@ -37,8 +37,7 @@ You will need to raise a request in Service Now to request roles for both the se
 The sample request may be used for all the subscriptions or one at a time.
 
 ### Sample Request
-Create a request in Service Now: Request something, Non-Standard, Any Other Request,
-Select an appropriate Category: Non Standard, Business Service: Shared IT Core services, Service Offering: CIP Platform
+Create a request using the [CIP Request form](https://dfe.service-now.com/ithelpcentre?id=sc_cat_item&table=sc_cat_item&sys_id=51b0b9c5db1ff7809402e1aa4b96197d). Example for a new "s146-getintoteachingwebsite-Contributor and Key Vault editor" custom role:
 
 ```
 Configure PIM access to Key Vault following the pattern in https://docs.platform.education.gov.uk/docs/blogs/platform-engineering/key-vault-rbac.html :
@@ -67,50 +66,4 @@ The secrets can then be retrieved using the [Azure/get-keyvault-secrets](https:/
 ## Access secrets from Terraform
 Login using the [service principal](/infrastructure/hosting/azure-cip/#github-actions) in Terraform.
 
-The secrets can then be retrieved using the [azurerm_key_vault data source](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault).
-
-## Store multiple values per secret
-
-The name of a secret must be hard coded in the systems retrieving it. When using infrastructure as code, this name may be present in multiple files which creates a burden to rename or add more secrets.
-
-An alternative is to store a file containing multiple secrets as key-value pairs, for example with `YAML`. The secrets can be added, removed or updated in the file without changing anything in the code.
-There are a number of ways to edit or read the secrets.
-
-### Edit using Azure CLI
-Create a YAML local file and upload it:
-
-```shell
-az keyvault secret set  --vault-name sXXXd01-kv --name TTA-KEYS --file local_file.yml
-```
-_Make sure to delete the local file after use._
-
-### Read using Azure CLI
-Print the file content:
-
-```shell
-az keyvault secret show  --vault-name sXXXd01-kv --name TTA-KEYS
-```
-_Make sure to clear the command line after use._
-
-Download to a local file:
-
-```shell
-az keyvault secret download  --vault-name sXXXd01-kv --name TTA-KEYS --file local_file.yml
-```
-_Make sure to delete the local file after use._
-
-### Read using GitHub Actions
-Use the [keyvault-yaml-secret action](https://github.com/DFE-Digital/keyvault-yaml-secret) to retrieve a secret from the YAML file.
-
-### Read using Terraform
-Use the [yamldecode](https://www.terraform.io/docs/language/functions/yamldecode.html) function to parse the YAML file and access individual values:
-
-```hcl
-infra_secrets = yamldecode(data.azurerm_key_vault_secret.infra_secrets.value)
-paas_password = infra_secrets["paas_password"]
-```
-
-### Read and write using the fetch_config.rb script
-[fetch_config.rb](https://github.com/DFE-Digital/bat-platform-building-blocks/tree/master/scripts/fetch_config) is a convenient ruby script to read and write securely to and from Azure Key Vault and transform into multiple formats.
-
-It is routinely used by developers. See `print-app-secrets` and `edit-app-secrets` in this [Makefile](https://github.com/DFE-Digital/publish-teacher-training/blob/master/Makefile) for example.
+The secrets can then be retrieved using the [azurerm_key_vault](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault), [azurerm_key_vault_secrets](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secrets) and [azurerm_key_vault_secret](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) data sources.

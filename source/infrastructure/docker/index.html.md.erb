@@ -9,15 +9,15 @@ title: Docker Desktop
 The following information has been put together using;
 
  *  Edition	Windows 11 Enterprise Version	22H2 Installed on	‎13/‎03/‎2023 OS build	22621.2283 Experience	Windows Feature Experience Pack 1000.22662.1000.0
- 
+
  *  all instruction are for use with DFE laptops with developer settings
- 
+
  *  all images are built using standard docker tooling
- 
+
  *  development IDE is visual studio code
- 
+
  *  visual studio code has docker extension installed
- 
+
  *  development code is running nodejs
 
  *  development code is using npm as its package manager
@@ -25,9 +25,9 @@ The following information has been put together using;
 ## Installing Docker
 You will need access to docker-users group on the system user groups of your machine in order to run docker and possibly an update to the wsl kernal (achieve this by requesting a meeting with system administrator who will be able to screen share and run the update for you)
 
-[Requests should be made through the service portal](https://dfe.service-now.com/serviceportal) 
+[Requests should be made through the IT Help Centre](https://dfe.service-now.com/ithelpcentre)
 
-Use [User Access to restricted Groups](https://dfe.service-now.com/serviceportal?id=sc_cat_item&sys_id=59d68b331bd13050199d6397b04bcb23)
+Use [User Access to restricted Groups](https://dfe.service-now.com/ithelpcentre?id=sc_cat_item&table=sc_cat_item&sys_id=59d68b331bd13050199d6397b04bcb23)
 
 *  RequestedFor should be pre filled with your name
 
@@ -43,7 +43,7 @@ Use [User Access to restricted Groups](https://dfe.service-now.com/serviceportal
 
 and for the driver installation you should
 
-Use [Install device driver on my device](https://dfe.service-now.com/serviceportal?id=sc_cat_item&sys_id=c8748b941ba670904f999978b04bcb18&sysparm_category=09e18be6db2f8340865049ee3b96190f)
+Use [Install device driver on my device](https://dfe.service-now.com/ithelpcentre?id=sc_cat_item&sys_id=c8748b941ba670904f999978b04bcb18&sysparm_category=09e18be6db2f8340865049ee3b96190f)
 
 *  RequestedFor should be pre filled with your name, 'If you are doing this for another member of staff you can now change to there name
 
@@ -87,11 +87,11 @@ To get started, follow the steps below:
 
 * type in the terminal window 'npm init -y' this will build a simple project structure
 
-* once complete type in the terminal 'npm install express' 
+* once complete type in the terminal 'npm install express'
 
 * Create a file called index.js and add it to the root directory
 
-* Open index.js in the editor and add this line to the top of the file 
+* Open index.js in the editor and add this line to the top of the file
 
 ````
 
@@ -99,7 +99,7 @@ const express = require('express');
 
 ````
 
-* Now below that add 
+* Now below that add
 
 ````
 
@@ -107,7 +107,7 @@ const app = express();
 
 ````
 
-* and on the next line add 
+* and on the next line add
 
 ````
 
@@ -121,7 +121,7 @@ app.use(express.json());
 const PORT = process.env.PORT || 3000;
 
 ````
-* Now and add 
+* Now and add
 
 ```
 app.listen(PORT, () => {
@@ -135,15 +135,15 @@ app.get("/status", (request, response) => {
    const status = {
       "Status": "Running"
    };
-   
+
    response.send(status);
 });
 ````
 * Open package.json file and add to the script section of the file
 
 ````
- "start": "node index.js" 
- 
+ "start": "node index.js"
+
  ````
  making sure to add a comma to the end of the line above
 
@@ -175,13 +175,13 @@ app.get("/status", (request, response) => {
 
 * VSC will now build your image and your container and start it running which can be seen in the terminal window
 
-* Once started you can go back to your browser and enter 'http://localhost:3000/status' the browser should return 
+* Once started you can go back to your browser and enter 'http://localhost:3000/status' the browser should return
 ````
 {
   "Status": "Running"
 }
 ````
-* For more information on docker and compose goto: [How to use docker and compose](https://code.visualstudio.com/docs/containers/docker-compose) 
+* For more information on docker and compose goto: [How to use docker and compose](https://code.visualstudio.com/docs/containers/docker-compose)
 
 * For more information on docker extension in Vsc goto: [Overview of contaoners in VSC](https://code.visualstudio.com/docs/containers/overview)
 

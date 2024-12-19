@@ -31,6 +31,7 @@ module "web_application" {
   kubernetes_secret_name     = module.application_configuration.kubernetes_secret_name
   web_port = 8080
   probe_path = "/"
+  replicas = var.replicas
 
   docker_image = var.docker_image
 }

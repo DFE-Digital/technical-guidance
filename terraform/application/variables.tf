@@ -16,6 +16,10 @@ variable "config_short" {
 variable "service_name" {
   description = "Full name of the service. Lowercase and hyphen separated"
 }
+variable "replicas" {
+  default     = 1
+  description = "Number of replicas for deployment"
+}
 variable "service_short" {
   description = "Short name to identify the service. Up to 6 charcters."
 }

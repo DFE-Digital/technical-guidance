@@ -36,6 +36,7 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         context: .
+        snyk-token: ${{ secrets.SNYK_TOKEN }}
 
     - name: Prepare matrix environments review
       id: matrix-env-review

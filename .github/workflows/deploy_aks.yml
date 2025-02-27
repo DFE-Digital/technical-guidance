@@ -13,6 +13,10 @@ concurrency: deploy-${{ github.ref }}
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      packages: write
+      pull-requests: write
     outputs:
       docker-image-tag: ${{ steps.build-image.outputs.tag }}
       matrix-environments: ${{ toJSON(steps.*.outputs.matrix-environment) }}
@@ -63,7 +67,7 @@ jobs:
 
         steps:
           - name: Checkout code
-            uses: actions/checkout@v3
+            uses: actions/checkout@v4
 
           - uses: hashicorp/setup-terraform@v3
             with:
@@ -72,11 +76,13 @@ jobs:
 
           - uses: DFE-Digital/github-actions/set-kubelogin-environment@master
             with:
-              azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+              azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+              azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+              azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
           - name: Terraform Apply
             run: |
-              make ci ${{ matrix.environment }} terraform-apply
+              make ci ${{ matrix.environment }} terraform-plan
             env:
               DOCKER_IMAGE_TAG: ${{ needs.build.outputs.docker-image-tag }}
               PR_NUMBER: ${{ github.event.pull_request.number }}

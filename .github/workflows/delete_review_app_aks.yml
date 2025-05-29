@@ -1,46 +1,41 @@
-name: Delete review app on AKS
+name: Delete Review App
 
 on:
   pull_request:
     branches:
-    - master
+      - master
     types:
-    - closed
-
-concurrency: deploy-${{ github.ref }}
+      - closed
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: PR number of review app to delete
+        required: false
+        type: string
 
 jobs:
-  build-and-push:
+  delete-review-app:
+    name: Delete Review App ${{ github.event.pull_request.number || github.event.inputs.pr_number }}
+    concurrency: deploy_review_${{ github.event.pull_request.number || github.event.inputs.pr_number }}
     runs-on: ubuntu-latest
+    if: >
+      (github.event.action == 'closed') ||
+      (github.event_name == 'workflow_dispatch')
+
     environment: review
     permissions:
-      id-token: write
       pull-requests: write
+      id-token: write
 
     steps:
-    - name: Destroy review app
-      uses: actions/checkout@v4
-
-    - uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: 1.6.4
-        terraform_wrapper: false
-
-    - uses: DFE-Digital/github-actions/set-kubelogin-environment@master
-      with:
-        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-
-    - name: Terraform Destroy
-      run: |
-        make ci review terraform-destroy
-      env:
-        PR_NUMBER: ${{ github.event.pull_request.number }}
-
-    - name: Post Pull Request Comment
-      if: ${{ github.event_name == 'pull_request' }}
-      uses: marocchino/sticky-pull-request-comment@v2
-      with:
-        header: aks
-        message: Review app <https://technical-guidance-${{ github.event.pull_request.number }}.test.teacherservices.cloud> was deleted
+      - uses: DFE-Digital/github-actions/delete-review-app@master
+        with:
+          azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          terraform-base: terraform/application
+          pr-number: ${{ github.event.pull_request.number || github.event.inputs.pr_number }}
+          resource-group-name: s189t01-techg-rv-rg
+          storage-account-name: s189t01techgrvtfsa
+          container-name: terraform-state
+          tf-state-file: ${{ github.event.pull_request.number || github.event.inputs.pr_number }}_kubernetes.tfstate

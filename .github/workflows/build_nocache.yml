@@ -1,0 +1,45 @@
+name: Build No Cache
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 12 * * 0"
+    # Will run once a week on Sunday afternoon
+
+jobs:
+  build-no-cache:
+    outputs:
+      docker-image-tag: ${{ steps.build-image.outputs.tag }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout
+
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+          bundler-cache: true
+
+      - name: Build docs with middleman
+        run: make build
+
+      - name: Build without cache and push docker image
+        id: build-image
+        uses: DFE-Digital/github-actions/build-docker-image@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          context: .
+          reuse-cache: false
+          snyk-token: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Notify slack on failure
+        uses: rtCamp/action-slack-notify@master
+        if: ${{ failure() }}
+        with:
+          SLACK_USERNAME: CI Deployment
+          SLACK_COLOR: failure
+          SLACK_ICON_EMOJI: ":github-logo:"
+          SLACK_TITLE: "Build failure"
+          SLACK_MESSAGE: ":alert: Rebuild docker cache failure :sadparrot:"
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

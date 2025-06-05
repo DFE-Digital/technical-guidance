@@ -69,6 +69,16 @@ We deploy to the UK South or West Europe regions which have 3 separate availabil
 |Detection|Endpoint monitoring checking for uptime and response time|
 |Remediation|If not handled automatically by the platform, redeploy applications and fail over clusters|
 
+## Loss of Google Cloud Platform availability zone
+We deploy to the europe-west2 (London) region, which consists of three separate availability zones. While BigQuery is a regional service and not tied to a single zone, disruptions in an individual zone can still affect related zonal services such as compute or networking that interact with BigQuery (e.g., ETL pipelines or query clients running in zonal VMs or GKE).
+
+|||
+|-|-|
+|Impact|BigQuery itself is unlikely to be impacted, but ETL workloads, scheduled queries, or data ingestion processes that depend on zonal resources may be delayed or fail. Query performance may be degraded if metadata services or job scheduling are affected by broader regional strain|
+|Prevention|BigQuery is a regional, multi-zone service by design. No additional configuration is needed for zone redundancy.<br/>For ingestion workloads:<br/>Deploy GKE clusters or Compute Engine VMs across multiple zones within europe-west2.<br/>Use regional IPs and regional managed instance groups for resilient client infrastructure.<br/>Ensure Dataflow or other data processing services are regional, not zonal.|
+|Detection|Use Cloud Monitoring to:<br/>Track scheduled query success/failure in BigQuery.<br/>Check health of ETL pipelines|
+|Remediation| BigQuery will automatically fail over across zones as needed. Use retry logic in ingestion pipelines to absorb temporary failures|
+
 ## Loss of Azure/AWS region
 In some rare cases, an entire region might become unavailable.
 
@@ -78,6 +88,16 @@ In some rare cases, an entire region might become unavailable.
 |Prevention|For critical applications, it is possible to deploy to 2 different regions, synchronise the data, configure a DNS based failover or GSLB. We don’t usually protect against this risk as it is not worth the complexity of the required set-up.<br/>Production Postgres backups are kept in a GRS Azure storage account, which maintains copies of data in a separate region. Any critical application data kept in a storage account should be GRS/GZRS.<br/>Azure Key Vault maintains a copy of the contents in another region.<br/>For storage accounts and key vaults, failover is automatic and transparent. Storage accounts also support manual failover. |
 |Detection|Endpoint monitoring checking for uptime|
 |Remediation|Start services in backup region, trigger DNS failover|
+
+## Loss of Google Cloud Platform region
+In rare scenarios, the entire europe-west2 (London) region may become unavailable due to a major outage.
+
+|||
+|-|-|
+|Impact|Applications relying solely on resources in europe-west2 may become fully unavailable, including compute workloads and access to regional services like BigQuery and Cloud Storage|
+|Prevention|We typically do not protect against regional failure due to the added complexity of multi-region architecture and regulatory requirement to confine data to the UK|
+|Detection|Monitor endpoints with Cloud Monitoring uptime checks|
+|Remediation|Contact Google support and monitor the Google status pages|
 
 ## Azure issues impacting delivery
 We often rely on Azure for:

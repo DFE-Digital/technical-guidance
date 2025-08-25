@@ -51,6 +51,11 @@ variable "enable_monitoring" {
   description = "Enable monitoring and alerting"
 }
 
+variable "run_as_non_root" {
+  default     = true
+  description = "Run containers as non-root user for security compliance"
+}
+
 locals {
   postgres_ssl_mode = var.enable_postgres_ssl ? "require" : "disable"
 }

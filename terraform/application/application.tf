@@ -34,4 +34,8 @@ module "web_application" {
   replicas = var.replicas
 
   docker_image = var.docker_image
+
+  run_as_user     = "10001"
+  run_as_group    = "10001"
+  run_as_non_root = var.run_as_non_root
 }

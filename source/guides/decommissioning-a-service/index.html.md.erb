@@ -1,0 +1,127 @@
+---
+title: Decommissioning a Digital service
+weight: 10
+---
+
+# <%= current_page.data.title %>
+
+<%= partial('partials/page_toc') %>
+
+# Decommissioning a Digital Service  
+**For technologists supporting service retirement in the Department for Education**
+
+Decommissioning a digital service is as important as building one well. It involves multiple disciplines working together to ensure that retiring a service doesn’t leave behind technical debt, security risks, or data governance gaps. This guide is for technologists in DfE who are supporting the decommissioning of a digital service — particularly those hosted on the Department’s cloud platforms.
+
+While many actions will be led by a delivery manager or product manager, technologists play a key role in ensuring the process is safe, orderly, and well-documented.
+
+---
+
+## What this guide covers
+
+- Roles and responsibilities in a decommissioning effort
+- A checklist to assess if your service is ready to decommission
+- Technical actions and considerations
+- Links to related guidance and policies
+
+---
+
+## Decommissioning is a team sport
+
+Retiring a service requires input from:
+
+- **Product Managers** – to agree scope, sunset dates, and work with policy and comms colleagues to create a communications plan
+- **Delivery Managers** – to coordinate work across the team and track progress
+- **Technical Architects / Engineers** – to lead infrastructure teardown and codebase closure
+- **Security and Data Protection Leads** – to agree retention policies and advise on secure data disposal
+- **Service Management/ Tech Ops** – to confirm incident routes, support content, and operational manuals are updated or retired
+
+---
+
+## Start with a team discovery session
+
+Before planning decommissioning steps, hold a dedicated all-team meeting. This session should involve developers, delivery and product managers, content writers, Business Analysts, Technical  Architects, Service Managers — anyone who’s had a stake in the service’s delivery or operations.
+
+**Purpose**:  
+To collectively inventory everything that makes up or supports the service — technical and non-technical — and identify what needs to be retired, archived, handed over, or maintained elsewhere.
+
+**What to cover**:
+
+- **Live environments** – infrastructure, containers, hosting platforms, environments in use  
+- **Source code** – active and archived repos, internal packages or libraries  
+- **CI/CD and monitoring** – GitHub Actions, pipelines, dashboards, uptime checks  
+- **Data** – production and non-production databases, backup locations, retention schedules  
+- **Accounts and access** – service accounts, API tokens, OneLogin access, Notify senders  
+- **Documentation and tooling** – SharePoint folders, Trello boards, Notion spaces, Confluence, Slack channels  
+- **User and stakeholder impact** – are there any remaining users, dependencies, or stakeholders who rely on this?
+
+Use a shared document or whiteboard to capture all elements. Assign a current owner and an action for each item. Something like:
+- “Shut down”
+- “Archive”
+- “Transfer/hand over”
+- “Keep/monitor”
+
+
+
+This gives you a shared baseline for decisions and actions, and reduces risk of missing things that exist outside technical systems (like a forgotten Notify account or Trello board still used by a policy team).
+
+---
+
+## Are you ready to decommission?
+
+Answering these questions can help you judge if a service is ready to be retired:
+
+### Technical
+
+- Are all integrations and dependent services documented and understood?  
+- Are Github repos inactive or archived?
+- Have CI/CD pipelines, monitoring, and alerting tools been reviewed and prepared for removal?  
+
+#### Infrastructure-specific considerations (DfE Azure services)
+
+- **Are you handling DNS teardown in the right order?**  
+  If your service uses **public IP addresses**, ensure you **revoke or remove DNS records** before releasing or destroying the public IP. Once released, that IP returns to the public pool and could be reassigned — risking unintended traffic routing if DNS records persist.  
+  > While TLS certificates help mitigate this risk, revoking the DNS entry first is still best practice.
+
+
+### Security & Data
+
+- Have you securely disposed of any personal data in line with the [DfE Data Protection Policy](https://www.gov.uk/government/publications/data-protection-policy)?  
+- Have logs, backups, and data stores been assessed for retention periods and secure deletion?  
+- Have secrets, tokens, or certificates been revoked and removed from vaults or environment variables?  
+- **Have you consulted the relevant data and records teams?**  
+  Contact:  
+  - The **Records Management Team**: [records.enquiries@education.gov.uk](mailto:records.enquiries@education.gov.uk)  
+  - The **Data Protection Team**: [dp.enquiries@service.education.gov.uk](mailto:dp.enquiries@service.education.gov.uk)
+
+### Operations
+
+- Has the service been removed from your support rota, runbooks, and incident response plans?  
+- Have you updated documentation, including operational manuals and the service inventory?
+
+### Communication
+
+- Have you communicated closure timelines with internal users and stakeholders?  
+- Have you decided whether a redirect or holding page needs to be set up if there’s a public-facing URL?  
+- Have you worked with your policy colleagues on a comms plan?
+  - DfE digital teams should coordinate with relevant policy teams to agree how and when to communicate the service closure. This may include messages for external stakeholders, guidance updates, GOV.UK content changes, or ministerial lines if needed.
+
+---
+
+## Key links and guidance
+
+- **DfE CIP Cloud Decommissioning Guidance**  
+  [docs.education.gov.uk/cip/decomindex/#decommission-your-service](https://docs.education.gov.uk/cip/decomindex/#decommission-your-service)
+
+- **Securely Retiring Service Components (Cabinet Office / CSG)**  
+  [security.gov.uk/.../retiring-service-components-securely](https://www.security.gov.uk/policy-and-guidance/secure-by-design/activities/retiring-service-components-securely/)
+
+- **GOV.UK Notify: Stop using your Notify service**  
+  [https://www.notifications.service.gov.uk/features#stop-using](https://www.notifications.service.gov.uk/features#stop-using)
+
+---
+
+## Good practices
+
+- **Archive responsibly**: Repositories should be marked with an archived README, stating when and why the service was decommissioned.  
+- **Keep what’s useful**: Don’t delete documentation or code unless there's a data or licensing reason to do so. It may help future projects.  
+- **Log decisions**: Use your team’s decision log to record why the service was retired and how risks were mitigated.

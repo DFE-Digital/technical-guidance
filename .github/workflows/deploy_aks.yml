@@ -70,7 +70,7 @@ jobs:
 
           - uses: hashicorp/setup-terraform@v3
             with:
-              terraform_version: 1.6.4
+              terraform_version: 1.14.5
               terraform_wrapper: false
 
           - uses: DFE-Digital/github-actions/set-kubelogin-environment@master
@@ -155,4 +155,3 @@ jobs:
           azure-subscription-id:  ${{ secrets.AZURE_SUBSCRIPTION_ID   }}
           environment: ${{ matrix.domain_environment }}
           healthcheck: "/"
-

@@ -1,9 +1,9 @@
 terraform {
-  required_version = "= 1.6.4"
+  required_version = "= 1.14.5"
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.116.0"
+      version = "4.61.0"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
@@ -22,7 +22,7 @@ terraform {
 provider "azurerm" {
   features {}
 
-  skip_provider_registration = true
+  resource_provider_registrations = "none"
 
 }
 

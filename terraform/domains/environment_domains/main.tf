@@ -8,4 +8,5 @@ module "domains" {
   domains             = each.value.domains
   environment         = each.value.environment_short
   host_name           = each.value.origin_hostname
+  block_paths         = var.block_paths
 }

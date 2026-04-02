@@ -21,6 +21,29 @@ production: production-cluster
 domains:
 	$(eval include global_config/domains.sh)
 
+review-domains:
+	$(eval CONFIG=review)
+	$(eval ENVIRONMENT=review)
+	$(eval include global_config/domains.sh)
+	$(eval TERRAFORM_MODULES_TAG=2613-spike-fd-block-by-path)
+
+review-domains-init: review-domains composed-variables set-azure-account
+	rm -rf terraform/domains/environment_domains/vendor/modules/domains
+	git -c advice.detachedHead=false clone --depth=1 --single-branch --branch ${TERRAFORM_MODULES_TAG} https://github.com/DFE-Digital/terraform-modules.git terraform/domains/environment_domains/vendor/modules/domains
+	terraform -chdir=terraform/domains/environment_domains init -upgrade -reconfigure \
+		-backend-config=resource_group_name=${RESOURCE_GROUP_NAME} \
+		-backend-config=storage_account_name=${STORAGE_ACCOUNT_NAME} \
+		-backend-config=key=${ENVIRONMENT}.tfstate
+
+review-domains-plan: review-domains-init
+	terraform -chdir=terraform/domains/environment_domains plan -var-file config/${CONFIG}.tfvars.json
+
+review-domains-apply: review-domains-init
+	terraform -chdir=terraform/domains/environment_domains apply -var-file config/${CONFIG}.tfvars.json ${AUTO_APPROVE}
+
+review-domains-destroy: review-domains-init
+	terraform -chdir=terraform/domains/environment_domains destroy -var-file config/${CONFIG}.tfvars.json ${AUTO_APPROVE}
+
 composed-variables:
 	$(eval RESOURCE_GROUP_NAME=${AZURE_RESOURCE_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-rg)
 	$(eval KEYVAULT_NAMES='("${AZURE_RESOURCE_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-app-kv", "${AZURE_RESOURCE_PREFIX}-${SERVICE_SHORT}-${CONFIG_SHORT}-inf-kv")')

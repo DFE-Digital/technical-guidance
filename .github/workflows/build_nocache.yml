@@ -8,6 +8,8 @@ on:
 
 jobs:
   build-no-cache:
+    permissions:
+      packages: write
     outputs:
       docker-image-tag: ${{ steps.build-image.outputs.tag }}
     runs-on: ubuntu-latest

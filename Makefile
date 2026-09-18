@@ -137,3 +137,44 @@ domains-apply: domains-init
 
 domains-destroy: domains-init
 	terraform -chdir=terraform/domains/environment_domains destroy -var-file config/${CONFIG}.tfvars.json ${AUTO_APPROVE}
+
+# Test domains2 infrastructure
+domains2-infra-vendor:
+	rm -rf terraform/domains/infrastructure_v2_test/vendor/modules/domains
+	git -c advice.detachedHead=false clone --depth=1 --single-branch --branch 1756-spike-domains-terraform-modules-enhancements https://github.com/DFE-Digital/terraform-modules.git terraform/domains/infrastructure_v2_test/vendor/modules/domains
+
+domains2-infra-init: domains composed-variables domains2-infra-vendor set-azure-account
+	terraform -chdir=terraform/domains/infrastructure_v2_test init -upgrade -reconfigure \
+		-backend-config=resource_group_name=${RESOURCE_GROUP_NAME} \
+		-backend-config=storage_account_name=${STORAGE_ACCOUNT_NAME} \
+		-backend-config=key=domains2_infrastructure_test.tfstate
+
+domains2-infra-plan: domains2-infra-init
+	terraform -chdir=terraform/domains/infrastructure_v2_test plan -var-file config/zones.tfvars.json
+
+domains2-infra-apply: domains2-infra-init
+	terraform -chdir=terraform/domains/infrastructure_v2_test apply -var-file config/zones.tfvars.json ${AUTO_APPROVE}
+
+# Test domains2 environment domains
+domains2-env-vendor:
+	rm -rf terraform/domains/environment_domains_v2_test/vendor/modules/domains
+	git -c advice.detachedHead=false clone --depth=1 --single-branch --branch 1756-spike-domains-terraform-modules-enhancements https://github.com/DFE-Digital/terraform-modules.git terraform/domains/environment_domains_v2_test/vendor/modules/domains
+
+domains2-env-init: domains composed-variables domains2-env-vendor set-azure-account
+	terraform -chdir=terraform/domains/environment_domains_v2_test init -upgrade -reconfigure \
+		-backend-config=resource_group_name=${RESOURCE_GROUP_NAME} \
+		-backend-config=storage_account_name=${STORAGE_ACCOUNT_NAME} \
+		-backend-config=key=domains2_environment_${ENVIRONMENT}_test.tfstate
+
+domains2-env-plan: domains2-env-init
+	terraform -chdir=terraform/domains/environment_domains_v2_test plan -var-file config/${CONFIG}.tfvars.json
+
+domains2-env-apply: domains2-env-init
+	terraform -chdir=terraform/domains/environment_domains_v2_test apply -var-file config/${CONFIG}.tfvars.json ${AUTO_APPROVE}
+
+# Cleanup commands
+domains2-env-destroy: domains2-env-init
+	terraform -chdir=terraform/domains/environment_domains_v2_test destroy -var-file config/${CONFIG}.tfvars.json ${AUTO_APPROVE}
+
+domains2-infra-destroy: domains2-infra-init
+	terraform -chdir=terraform/domains/infrastructure_v2_test destroy -var-file config/zones.tfvars.json ${AUTO_APPROVE}

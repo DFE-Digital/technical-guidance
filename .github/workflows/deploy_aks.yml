@@ -13,6 +13,11 @@ concurrency: deploy-${{ github.ref }}
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
     outputs:
       docker-image-tag: ${{ steps.build-image.outputs.tag }}
       matrix-environments: ${{ toJSON(steps.*.outputs.matrix-environment) }}

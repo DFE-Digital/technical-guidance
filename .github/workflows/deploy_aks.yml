@@ -3,7 +3,7 @@ name: Build and deploy to AKS cluster
 on:
   push:
     branches:
-    - master
+    - ss-test-build-permissions
   pull_request:
     branches:
     - master

@@ -4,10 +4,17 @@ source 'https://rubygems.org'
 gem 'wdm', '~> 0.1.0', platforms: [:mswin, :mingw]
 
 # Windows does not come with time zone data
-gem 'tzinfo-data', platforms: [:mswin, :mingw, :jruby]
+gem 'tzinfo-data', platforms: [:windows, :jruby]
 
 # Include the tech docs gem
 gem 'govuk_tech_docs'
 
 # HTML-proofer to check links
 gem 'html-proofer'
+
+# Former standard library gems
+gem 'logger'
+gem 'bigdecimal'
+gem 'benchmark'
+gem 'mutex_m'
+gem 'base64'

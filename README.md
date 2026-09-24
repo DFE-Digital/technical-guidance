@@ -13,7 +13,8 @@ See the [Adding a new guidance][/guides/adding-new-guidance] section.
 
 The documentation is [© Crown copyright][copyright] and available under the terms of the [Open Government 3.0][ogl] licence.
 
-[rvm]: https://www.ruby-lang.org/en/documentation/installation/#managers
+[just]: https://github.com/casey/just
+[mise]: https://mise.jdx.dev/
 [bundler]: http://bundler.io/
 [mit]: LICENCE
 [copyright]: http://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/

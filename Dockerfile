@@ -1,4 +1,4 @@
-FROM nginxinc/nginx-unprivileged:1.29.5-alpine3.23-slim
+FROM nginxinc/nginx-unprivileged:1.27.3-alpine3.20
 
 # Switch to root to create the user
 USER root

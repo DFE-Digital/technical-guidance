@@ -1,0 +1,82 @@
+---
+title: Work safely in DfE repositories
+weight: 40
+summary: Maintain ownership, review changes and respond to security alerts.
+link_in_toc: true
+---
+
+# <%= current_page.data.title %>
+
+<%= partial('partials/page_toc') %>
+
+This page covers day to day repository work. It complements the existing
+[source code standard](/standards/storing-source-code/#repository-requirements)
+and does not replace its repository controls or scanning requirements.
+
+## Ownership and access
+
+- Repository maintainers should ensure at least two named responsible maintainers or an appropriately staffed
+  owning team are recorded under the proposed DfE ownership baseline. This is a resilience measure, not a SAML
+  requirement.
+
+- Use least privilege and approved teams. Keep README ownership and support details current, and use
+  CODEOWNERS to route reviews where configured.
+
+- Request permission before changing repository visibility, access, security settings or deployment behaviour.
+  Public content must be suitable for publication under DfE policy.
+
+## Branches pull requests and checks
+
+- Follow the repository CONTRIBUTING guidance. For the Developer Platform repositories, use
+  `US/<ticket-number>` branches and the documented `US/<ticket-number>` to `dev` to `main` PR workflow. This
+  is a team convention rather than a universal GitHub requirement.
+
+- Make focused changes, link the work item and explain how you tested them. Request an authorised reviewer and
+  code owner where required.
+
+- Resolve review conversations and obtain fresh approval when changes invalidate an earlier review. Required
+  build, test, format and security checks must pass.
+
+- Do not bypass branch protection, force push a protected branch or merge your own unreviewed changes. Use an
+  approved exception process for genuine emergencies.
+
+## Security scanning and alerts
+
+- Repository maintainers should verify secret scanning and push protection, dependency alerts and updates, and
+  code scanning or approved equivalent tooling. Availability depends on visibility, licensing and
+  configuration; an enterprise account alone does not prove coverage.
+
+- If push protection blocks a secret, stop and investigate. Remove and rotate a real exposed credential as
+  appropriate. Do not bypass the protection merely to complete a push.
+
+- Treat Dependabot PRs and AI suggested fixes as changes requiring tests and review. A version update can
+  introduce breaking changes.
+
+- Report missing protections to the repository owner or DevSecOps. Alert recipients, triage and remediation
+  ownership must be defined; do not assume every contributor receives alerts.
+
+## Using GitHub Copilot
+
+Follow [GitHub Copilot safe use guidance](/guides/github/copilot/).
+
+Review and test every generated change before accepting or merging it. Copilot can produce incorrect or
+insecure code. Content exclusions and instructions are not a substitute for access controls or approved
+handling of sensitive information. Keep required CI, human review and security checks in place.
+
+## Apply the repository workflow
+
+The `US/<ticket-number>` to `dev` to `main` convention above applies to the
+Developer Platform repositories. Follow each repository's own contribution
+instructions and protected branches. Do not introduce `dev` or assume that
+workflow applies to this technical guidance repository.
+
+Where a required security capability is unavailable, raise the gap with the
+repository owner and DevSecOps and agree its resolution through the approved
+process. Missing licensing or a deferred implementation does not waive the
+existing security requirements.
+
+## Related guidance
+
+- [GitHub user guidance](/guides/github/)
+- [Storing source code](/standards/storing-source-code/)
+- [Managing secrets](/infrastructure/security/managing-secrets/)

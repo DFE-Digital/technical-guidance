@@ -1,0 +1,247 @@
+---
+title: Getting started with GitHub Copilot
+weight: 30
+summary: Request access and start Copilot in your browser or IDE.
+link_in_toc: true
+---
+
+# <%= current_page.data.title %>
+
+<%= partial('partials/page_toc') %>
+
+### What this guide helps you do
+
+Use this guide to request access, sign in and start using GitHub Copilot in your browser or development
+environment. Complete the preparation below, then follow the section for VS Code or Visual Studio. You only
+need the tools approved for your role.
+
+This guide covers GitHub Copilot for software development. Access to Microsoft 365 Copilot in Teams, Outlook
+or Word does not by itself give you GitHub Copilot access.
+
+### Before you start
+
+- Use the GitHub account approved for your DfE work. Know its username and add and verify your own
+  education.gov.uk email address in GitHub Settings > Emails, subject to approved DfE account policy.
+
+- Ensure your DfE Microsoft Entra sign in and required MFA work. Complete organisation SSO where required,
+  using the official organisation link supplied by DfE.
+
+- Complete the required GitHub, security and Copilot training and read the GitHub user and single sign on
+  guidance. Confirm that you understand the data handling and acceptable use requirements.
+
+- Ask the approved access team to assign a DfE funded Copilot licence to the correct GitHub username.
+  Organisation membership and successful SSO do not by themselves assign a Copilot licence.
+
+- Use an approved device and supported, DfE approved software version. If installation is restricted, request
+  software through the approved IT route.
+
+### Request access if you do not have it
+
+Request GitHub Copilot access through
+[Digital Tools Support](<%= data.site.digital_tools %>).
+
+Include your name, DfE email address, exact GitHub username, team or organisation, business reason and training status. 
+Confirm that access has been approved and a licence assigned before completing the setup steps below.
+
+You can check https://github.com/settings/copilot for entitlement or a request access option, where available.
+Follow DfE approval requirements even if GitHub offers a self service request. Do not buy a personal plan or
+start a free trial as a workaround.
+
+### How to recognise success
+
+You are signed into the approved GitHub account, the DfE funded entitlement is confirmed, and Copilot can
+answer a safe test question in an authorised client. This does not confirm that every model, agent or
+connected tool is approved.
+
+## Sign in and open Copilot in your browser
+
+### Step one Check your GitHub account
+
+1. Open https://github.com and sign in to the GitHub account approved for DfE work.
+
+2. Select your profile picture and check the username. Your GitHub username may differ from your DfE email
+  address.
+
+3. If you are signed into an account other than the one approved for your DfE work, switch to the approved
+  account. If you do not know which account to use, contact the access team before linking identities.
+
+### Step two Complete organisation SSO where required
+
+1. Open the official SSO link for the organisation you need, or follow the SSO prompt shown by GitHub.
+
+2. When redirected to Microsoft Entra ID, select your DfE work identity and complete the required MFA checks.
+
+3. Check that the correct GitHub account is being linked. If GitHub says the identity is linked to another
+  account, stop and contact support. Do not unlink it or create a replacement account yourself.
+
+4. Return to GitHub and check access to a repository you are authorised to use. SSO and Copilot licensing are
+  separate checks.
+
+### Step three Open Copilot Chat
+
+1. Go to https://github.com/copilot while signed into the approved account.
+
+2. If prompted to subscribe, pay or use a free plan, check your username and ask the access team to confirm
+  your DfE entitlement.
+
+3. If a model selector is available, select an option on the current DfE approved model list. Use Auto only
+  where approved. A model appearing in the interface does not confirm DfE approval.
+
+4. Enter a safe test question, such as: Explain the difference between a C# class and an interface. Do not
+  include personal data, secrets or sensitive project details.
+
+Expected result: Copilot returns an answer. Feature availability depends on your entitlement and applicable
+policy. If browser chat is disabled, use an approved IDE route or ask support; do not bypass the restriction.
+
+### Before opening work content
+
+Read the current GitHub guidance and check that your proposed data and use case are permitted. Copilot may use
+repository, file or conversation context. Only open or attach information that is approved for this service.
+
+## Set up Copilot in Visual Studio Code
+
+Use this section for VS Code. Visual Studio is a different application and has separate instructions in the
+next section. Button labels can vary with the installed version.
+
+### Step one Start setup
+
+1. Open the DfE approved version of Visual Studio Code.
+
+2. Hover over the Copilot icon in the Status Bar and select Use AI Features. Follow the GitHub sign in
+  prompts. Current VS Code setup installs the required extensions automatically. If the control is missing or
+  installation is blocked, contact IT.
+
+3. For DfE organisations hosted on github.com, use the GitHub.com sign in option. Do not choose a GHE.com
+  instance unless your administrator has explicitly provided one.
+
+### Step two Authorise the correct account
+
+1. In the browser window opened by VS Code, check that the GitHub username matches the one with your DfE
+  Copilot entitlement.
+
+2. Review the authorisation prompt. Continue only if you initiated the sign in and it is the expected VS Code
+  GitHub authentication flow.
+
+3. Complete any required organisation SSO prompts, then allow the browser to return to Visual Studio Code when
+  asked.
+
+4. Check the Accounts menu in VS Code to confirm the GitHub account in use. If several accounts are present,
+  confirm Copilot uses the licensed DfE approved one.
+
+### Step three Open chat and test it
+
+1. Open Copilot Chat using the Copilot or Chat button. On Windows or Linux, Ctrl+Alt+I opens chat in the
+  standard keymap; use the menu if your shortcuts differ.
+
+2. For your first test, choose Ask or an equivalent question only mode if offered. Avoid granting tools or
+  running an agent for the initial check.
+
+3. Select a DfE approved model if the selector is available, or an approved Auto option.
+
+4. Ask: Explain what a unit test is in C# using a short example. Review the answer.
+
+Expected result: chat responds without requesting a personal subscription. Check the Copilot status menu for
+sign in, availability and usage information.
+
+### Optional Check inline suggestions
+
+In an approved practice project, open a C# file and write a simple comment describing a method. If an inline
+suggestion appears, read it first. Tab commonly accepts the suggestion and Esc dismisses it; your keymap may
+differ. If no suggestion appears, check the Copilot status and whether inline suggestions are enabled. Do not
+change centrally managed policy.
+
+## Set up Copilot in Visual Studio
+
+Use this section for the full Visual Studio IDE. These steps follow Microsoft guidance for supported Visual
+Studio versions; labels can differ between versions.
+
+### Step one Check installation
+
+1. Open your DfE approved Visual Studio installation and open a solution, project or the IDE without code.
+
+2. Look for the GitHub Copilot badge in the upper right of the IDE. If Copilot is missing, use the approved
+  software installation route. Microsoft provides an Install Copilot option and installer component, but local
+  installation rights may be restricted.
+
+3. Complete any required approved installation or update and restart Visual Studio when prompted.
+
+### Step two Add your licensed GitHub account
+
+1. Use the Visual Studio account menu to add or sign into a GitHub account. Your Microsoft or Visual Studio
+  subscription sign in alone is not the GitHub Copilot sign in.
+
+2. When the browser opens, check the exact GitHub username. Use the account assigned the DfE funded Copilot
+  licence.
+
+3. Complete the expected GitHub authorisation flow and any required organisation SSO, then return to Visual
+  Studio.
+
+4. Check the Copilot badge for your sign in or access status. If it offers a personal purchase or free plan,
+  ask support to check the entitlement rather than subscribing.
+
+### Step three Open chat
+
+1. Select the GitHub Copilot badge, then Open Chat Window. Alternatively, use View > GitHub Copilot Chat where
+  available.
+
+2. Use a question only mode for the first test if offered. Choose a DfE approved model or approved Auto option
+  where available.
+
+3. Ask: Explain the difference between a C# class and an interface. Check that an answer appears.
+
+Expected result: you can open chat and receive an answer using the approved account. If it fails, check the
+GitHub account in Visual Studio and refresh its sign in before changing any configuration.
+
+### Use it with your solution
+
+Only open a repository or solution that is approved for use with Copilot. For the Developer Platform
+repository, open the solution file in Visual Studio, then select a non sensitive code file and ask for an
+explanation. Do not accept generated edits until you have reviewed the proposed changes and can test them.
+
+## Use Copilot safely and get help
+
+### A safe first task
+
+1. Open a non sensitive practice file or an approved work file. Check the context or attachments included in
+  chat.
+
+2. Ask a focused question, such as: Explain this method and suggest test cases. Do not change any files yet.
+
+3. Check the explanation against the code. Ask for clarification if it is wrong or incomplete.
+
+4. If you request an edit, review the diff, build and run relevant tests. Follow the repository PR and human
+  review process.
+
+### Before approving actions
+
+- Complete the required training and use only approved features and connections. Copilot access does not
+  itself authorise access to another service.
+
+- Review requested commands and tool actions. Do not approve unexpected access, external data transfers,
+  deployment or security changes.
+
+- Keep credentials, recovery codes and private keys out of prompts and screenshots. Follow the published usage
+  allowance and request approval for exceptions.
+
+### If something does not work
+
+**Copilot asks for payment.** Check your GitHub username and ask the access team to verify that the DfE
+entitlement is assigned to that exact account.
+
+**SSO or MFA fails.** Use the official organisation SSO link and confirm your DfE sign in works. Send the
+error and correlation ID to support without including credentials.
+
+**Works in browser but not IDE.** Check the IDE GitHub account and software version. Save your work before
+signing out and back into GitHub or restarting the IDE. This may also affect Git access.
+
+**A model or feature is missing.** Check the published approved list and ask support about policy. Do not
+switch accounts, add a personal API key or disable controls.
+
+**Network or installation error.** Ask IT to check approved software, proxy and network configuration. Do not
+disable certificate validation, firewall or device protections.
+
+### What to include in a support request
+
+Provide your GitHub username, DfE email, organisation, IDE and version, time of failure, exact sanitised error
+and whether browser access works. Never send passwords, tokens, private keys or recovery codes. Use the
+published DfE support route; confirm the correct service desk or mailbox for Copilot requests with your access team.

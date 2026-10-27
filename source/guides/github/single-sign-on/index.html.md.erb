@@ -1,0 +1,202 @@
+---
+title: Sign in to GitHub with single sign on
+weight: 10
+summary: Prepare your account, authenticate and troubleshoot access.
+link_in_toc: true
+---
+
+# <%= current_page.data.title %>
+
+<%= partial('partials/page_toc') %>
+
+## Who this guidance is for
+
+Follow this guidance when accessing DfE GitHub organisations, contributing to DfE repositories or using DfE
+funded GitHub Copilot. It explains how to prepare your account, authenticate through single sign on, protect
+credentials and work safely with code.
+
+This guide combines official GitHub guidance with proposed DfE working requirements. DfE specific requirements
+need approval before publication. Follow existing approved DfE policies and the rules for your repository
+where these impose additional controls.
+
+### Your essential responsibilities
+
+- Use the GitHub account approved for your DfE work and authenticate with your own DfE Microsoft Entra
+  identity. Never share an account.
+
+- Add and verify your education.gov.uk email address. Use the approved DfE address for work commits and
+  notifications as required by DfE policy.
+
+- Complete the required security and GitHub training, and Copilot training before using the funded service.
+  Ask for clarification if you do not understand a requirement.
+
+- Keep credentials out of repositories, issues, pull requests and AI prompts. Follow the required review,
+  testing and security checks.
+
+- Report access problems, exposed credentials and suspected misuse through the appropriate support or security
+  route.
+
+### What SSO does
+
+Single sign on links your GitHub account to your DfE identity. When SAML SSO is enforced, members must
+authenticate through the identity provider to access the organisation’s protected resources. Microsoft Entra
+ID may require MFA or other checks under DfE policy. Repository access still depends on your assigned
+permissions.
+
+GitHub account security, DfE authentication, repository permissions and email verification are separate
+controls. A successful SSO sign in does not grant access to every repository or replace secure development
+practices.
+
+### Account ownership
+
+Where GitHub personal accounts are linked to SAML, they remain personal accounts in GitHub’s technical account
+model. A work email and SSO do not convert an account into an Enterprise Managed User. Use only the account
+DfE has approved for work; do not assume an existing account used for personal projects is approved. Separate
+work account and contractor exceptions must follow the approved DfE process.
+
+## Prepare your account and sign in
+
+### Set up your work identity
+
+- Check that you can sign into your DfE Microsoft Entra account and use the required MFA method.
+
+- In GitHub Settings, open Emails, add your own education.gov.uk address and complete verification using the
+  email GitHub sends. Set the DfE address as the primary email on a dedicated DfE work account, subject to
+  approved local policy.
+
+- Check your Git commit identity in each work repository. Set your DfE name and email locally so personal
+  projects are not changed unintentionally. Verify the result before committing.
+
+- Use a strong account authentication method and enable GitHub 2FA in line with organisation policy. Prefer
+  phishing resistant methods such as passkeys or security keys where supported and approved. Store recovery
+  information securely.
+
+Example for a work repository terminal:
+
+```shell
+git config user.name "Your Name"
+git config user.email "your.name@education.gov.uk"
+git config --get user.email
+```
+
+A commit email is attribution metadata, not proof of authentication or legal ownership. Apply DfE intellectual
+property and employment or contract requirements separately.
+
+### Sign in through SSO
+
+1. Sign into the approved GitHub account. If you have several browser sessions, check the username before
+  proceeding.
+
+1. Open the organisation’s SSO link supplied through an official DfE communication or use the SSO prompt shown
+  by GitHub.
+
+1. Follow the redirect to Microsoft Entra ID, select your DfE work identity and complete the required
+  authentication checks.
+
+1. Check that you are linking the correct GitHub account. If the identity is already linked to a different
+  account, stop and contact support.
+
+1. Return to GitHub and confirm access to a repository you are authorised to use. Test your normal Git and IDE
+  workflow as well.
+
+### Sessions and access changes
+
+GitHub may ask you to authenticate again when an SSO session expires. Use the same approved identity. Before a
+communicated enforcement deadline, complete sign in and report failures promptly. Members who have not
+authenticated through the IdP may be removed when enforcement is enabled.
+
+If a repository is missing, ask the owner or support team to check membership, team permissions and SSO. Do
+not create a second account or request administrator access merely to work around the problem.
+
+## Use Git credentials and tools securely
+
+### Choose the appropriate authentication method
+
+Browser sign in and Git authentication are different. Use an approved credential manager, SSH key or token for
+Git and API access. Do not use your account password for HTTPS Git operations. Ask Platform Engineering which
+method is approved for your use case.
+
+| Method | What you need to do |
+| --- | --- |
+| Classic personal access token | Where permitted, authorise it for the organisation through Configure SSO after signing in through the IdP. Limit scopes and expiry. |
+| Fine grained personal access token | Select only the required resource owner, repositories and permissions. Complete creation and any organisation approval process; SSO authorisation happens during creation. |
+| SSH key | Use an approved key, protect the private key and authorise the public key for the organisation through Configure SSO. |
+| IDE or GitHub CLI | Sign into the approved account and complete any SSO or application authorisation prompts. Check permissions and credential state if access fails. |
+
+Once an account has a linked SAML identity, credential authorisation can be required even while SSO
+enforcement is off. Signing into the browser alone may not resolve an unauthorised token or key.
+
+### Protect credentials
+
+- Grant only the access needed, use expiry dates and revoke credentials that are lost, exposed or no longer
+  needed. Follow DfE’s approved credential storage process.
+
+- Do not put tokens, passwords, connection strings or private keys in code, Git history, configuration
+  committed to Git, screenshots, chat messages or AI prompts.
+
+- Do not share a user token or password with a colleague. Each person must have their own identity and access
+  approval.
+
+- For unattended integrations, ask Platform Engineering to select an approved GitHub App or workload identity
+  design. Do not build shared production automation around your personal login without review.
+
+### If a secret is exposed
+
+Report it immediately through the DfE security incident route and arrange revocation or rotation with the
+credential owner. Deleting the visible text does not invalidate the secret or remove it from history. Preserve
+evidence and follow the agreed remediation process. Do not attempt a force push or history rewrite without
+coordination.
+
+## Get help and keep access current
+
+### Troubleshoot access in order
+
+- Confirm your GitHub username, organisation and DfE identity are correct.
+
+- Use the organisation SSO link to renew authentication. Check your DfE sign in and MFA work.
+
+- For Git or API failures, check the relevant key or token’s expiry, permissions, SSO authorisation and
+  approval status. Do not increase permissions indiscriminately.
+
+- Check with the repository owner whether membership or team access has changed.
+
+- Contact support with the details below if the issue persists. Do not unlink your SAML identity, disable
+  security controls or repeatedly create new credentials.
+
+| Issue | Include in your request |
+| --- | --- |
+| Browser SSO or MFA failure | Organisation, username, time, error text and Entra correlation ID if shown. |
+| Git or IDE access failure | Repository, tool, operation, sanitised error and credential type. Never include the credential itself. |
+| Missing repository or permissions | Repository, required task, team and approving service owner. |
+| Suspected compromise or exposed secret | Use the DfE security incident process immediately; provide relevant evidence without disclosing live secrets. |
+
+Proposed internal support contact: Platform.ENGINEERING@education.gov.uk. Confirm the mailbox
+is the published support route before release. It is internal use only. External collaborators must use their
+agreed sponsor or external support channel. Never send recovery codes or authentication secrets to this
+mailbox.
+
+### When your role changes or you leave
+
+- Notify the access owner when access is no longer required, your role changes or your contract ends. Follow
+  the approved offboarding process.
+
+- Hand over repository ownership, open work and automation dependencies before leaving. Do not transfer
+  credentials by email or chat.
+
+- Administrators must coordinate identity assignments, GitHub membership, sessions and credentials. Users
+  should not assume that disabling an Entra account removes every possible access path.
+
+## Official GitHub instructions
+
+- [Authentication with
+  SSO](https://docs.github.com/en/enterprise-cloud@latest/authentication/authenticating-with-single-sign-on/about-authentication-with-single-sign-on)
+- [Authorise a personal access token for
+  SSO](https://docs.github.com/en/enterprise-cloud@latest/authentication/authenticating-with-single-sign-on/authorizing-a-personal-access-token-for-use-with-single-sign-on)
+- [Authorise an SSH key for
+  SSO](https://docs.github.com/en/enterprise-cloud@latest/authentication/authenticating-with-single-sign-on/authorizing-an-ssh-key-for-use-with-single-sign-on)
+
+## Related guidance
+
+- [GitHub user guidance](/guides/github/)
+- [Storing source code](/standards/storing-source-code/)
+- [Managing secrets](/infrastructure/security/managing-secrets/)

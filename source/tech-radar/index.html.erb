@@ -1,0 +1,105 @@
+---
+title: Tech radar
+weight: 40
+---
+
+<% radar = data.tech_radar %>
+<% base = radar['meta']['base_path'] %>
+
+<div class="radar-hero">
+  <h1><%= current_page.data.title %></h1>
+  <p>See which technologies are recommended at the Department for Education, which are worth trying, and which to move away from.</p>
+</div>
+
+<div class="radar-draft">
+  <p class="govuk-body"><strong><%= radar_h(radar['meta']['status']) %> (<%= radar_h(radar['meta']['updated']) %>).</strong>
+  This radar is built from a stock report of the software used across the department. The rings are a proposal
+  and are still being reviewed by the tech community. Do not treat them as final policy yet.</p>
+</div>
+
+<p class="govuk-body">
+  The tech radar helps teams choose technology for new work. It is a picture of what is in use across DfE
+  and what we recommend. It does not replace the guidance in
+  <a class="govuk-link" href="/guides/default-technology-stack/">The DfE Technology Stack</a>. Use it alongside that guidance.
+</p>
+
+<script type="application/json" id="tech-radar-data"><%= radar_json %></script>
+
+<div id="tech-radar">
+  <p id="tech-radar-fallback" class="govuk-body">
+    The interactive radar needs JavaScript. You can still
+    <a class="govuk-link" href="#browse-by-area">browse every technology by area</a>.
+  </p>
+</div>
+
+<h2 id="how-to-read-the-radar">How to read the radar</h2>
+
+<p class="govuk-body">
+  Each dot is a technology. The closer a dot is to the centre, the more strongly we recommend it.
+  Select a dot, or a card in grid view, to see more detail.
+</p>
+
+<h3>Rings</h3>
+
+<dl class="radar-defs">
+  <% radar['rings'].each do |ring| %>
+    <div class="radar-defs-row">
+      <dt><span class="radar-badge radar-badge--<%= radar_h(ring['id']) %>"><%= radar_h(ring['name']) %></span></dt>
+      <dd><%= radar_h(ring['description']) %></dd>
+    </div>
+  <% end %>
+</dl>
+
+<h3>Quadrants</h3>
+
+<dl class="radar-defs">
+  <% radar['quadrants'].each do |quadrant| %>
+    <div class="radar-defs-row">
+      <dt><%= radar_h(quadrant['name']) %></dt>
+      <dd><%= radar_h(quadrant['description']) %></dd>
+    </div>
+  <% end %>
+</dl>
+
+<h2 id="browse-by-area">Browse by area</h2>
+
+<p class="govuk-body">Each area has its own page that lists the technologies by ring, with guidance and links.</p>
+
+<% radar['quadrants'].each do |quadrant| %>
+  <h3><%= radar_h(quadrant['name']) %></h3>
+  <ul class="radar-area-cards">
+    <% radar['areas'].select { |area| area['quadrant'] == quadrant['id'] }.each do |area| %>
+      <% count = radar['entries'].count { |entry| entry['area'] == area['id'] } %>
+      <li>
+        <h4 class="govuk-heading-s"><a class="govuk-link" href="<%= base %><%= radar_h(area['id']) %>/"><%= radar_h(area['name']) %></a></h4>
+        <p class="govuk-body govuk-!-font-size-16"><%= radar_h(area['description']) %></p>
+        <p class="govuk-body govuk-!-font-size-16"><strong><%= count %></strong> technologies</p>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<h2 id="core-dfe-stack">The core DfE stack</h2>
+
+<p class="govuk-body">
+  These are the technologies most commonly used to build and run services across the department.
+  If you are starting a new service, begin here.
+</p>
+
+<%= partial('partials/radar_table', locals: { entries: radar_entries(nil, true), caption: 'Core DfE technology stack', show_area: true }) %>
+
+<h2 id="keeping-the-radar-up-to-date">Keeping the radar up to date</h2>
+
+<p class="govuk-body">
+  The radar is reviewed regularly by the tech community. Anyone can suggest a change:
+</p>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li><a class="govuk-link" href="<%= radar_h(radar['meta']['edit_url']) %>">edit the radar data on GitHub</a> and raise a pull request</li>
+  <li><a class="govuk-link" href="<%= radar_h(radar['meta']['issues_url']) %>">raise an issue</a> to suggest a new technology or a change of ring</li>
+  <li>ask in <%= radar_h(radar['meta']['slack']) %> on Slack</li>
+</ul>
+
+<p class="govuk-body">
+  See <a class="govuk-link" href="/guides/adding-new-guidance/#updating-the-tech-radar">Updating the tech radar</a> for how the data file works.
+</p>

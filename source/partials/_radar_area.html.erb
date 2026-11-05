@@ -1,0 +1,38 @@
+<%# Body of a per-area page. Locals: area_id (string) %>
+<% area = radar_area(area_id) %>
+<% quadrant = radar_quadrant(area['quadrant']) %>
+<% base = data.tech_radar['meta']['base_path'] %>
+<% area_entries = radar_entries(area_id) %>
+
+<p class="govuk-body-l"><%= radar_h(area['description']) %></p>
+
+<div class="radar-draft">
+  <p class="govuk-body"><strong>Draft.</strong> Ring placements are a proposal and are still being reviewed by the tech community.
+  See <a class="govuk-link" href="<%= base %>#how-to-read-the-radar">how to read the radar</a>.</p>
+</div>
+
+<p class="govuk-body">
+  This area sits in the <strong><%= radar_h(quadrant['name']) %></strong> quadrant.
+  <a class="govuk-link" href="<%= base %>?area=<%= radar_h(area_id) %>">See these technologies on the radar</a>.
+</p>
+
+<ul class="radar-ring-summary">
+  <% data.tech_radar['rings'].each do |ring| %>
+    <% count = area_entries.count { |entry| entry['ring'] == ring['id'] } %>
+    <li><span class="radar-badge radar-badge--<%= radar_h(ring['id']) %>"><%= radar_h(ring['name']) %>: <%= count %></span></li>
+  <% end %>
+</ul>
+
+<% data.tech_radar['rings'].each do |ring| %>
+  <% in_ring = area_entries.select { |entry| entry['ring'] == ring['id'] } %>
+  <% next if in_ring.empty? %>
+  <h2 id="<%= radar_h(ring['id']) %>"><%= radar_h(ring['name']) %></h2>
+  <p class="govuk-body"><%= radar_h(ring['description']) %></p>
+  <%= partial('partials/radar_table', locals: { entries: in_ring, caption: "#{ring['name']} technologies in #{area['name']}", show_area: false }) %>
+<% end %>
+
+<p class="govuk-body">
+  Something missing or in the wrong ring?
+  <a class="govuk-link" href="<%= radar_h(data.tech_radar['meta']['edit_url']) %>">Edit the radar data on GitHub</a>
+  or ask in <%= radar_h(data.tech_radar['meta']['slack']) %> on Slack.
+</p>

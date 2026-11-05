@@ -1,4 +1,5 @@
 //= require govuk_tech_docs
+//= require tech_radar
 
 $(document).ready(function () {
   const pageTOC = document.getElementById('page_toc');

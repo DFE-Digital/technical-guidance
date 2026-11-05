@@ -1,0 +1,609 @@
+// DfE tech radar styles.
+// Plain SCSS only: the site compiles with Sass 3.4 (via compass).
+
+$radar-blue: #1d70b8;
+$radar-dark: #0b0c0c;
+$radar-border: #b1b4b6;
+$radar-light: #f3f2f1;
+$radar-muted: #505a5f;
+$radar-navy: #003078;
+$radar-focus: #ffdd00;
+
+$radar-adopt: #00703c;
+$radar-trial: #1d70b8;
+$radar-assess: #8a5a00;
+$radar-hold: #b1261c;
+
+// -------------------------------------------------------------- page chrome
+
+.radar-hero {
+  background: $radar-navy;
+  color: #ffffff;
+  padding: 20px 24px;
+  margin: 0 0 24px;
+
+  h1,
+  p {
+    color: #ffffff;
+    margin-bottom: 8px;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  a {
+    color: #ffffff;
+  }
+}
+
+.radar-draft {
+  border-left: 5px solid #f47738;
+  background: $radar-light;
+  padding: 12px 16px;
+  margin: 0 0 24px;
+}
+
+// ------------------------------------------------------------------- badges
+
+.radar-badges {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 12px;
+}
+
+.radar-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  margin: 0 6px 6px 0;
+  border: 1px solid $radar-border;
+  background: #ffffff;
+  color: $radar-dark;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.4;
+
+  .radar-icon {
+    margin-right: 4px;
+  }
+}
+
+.radar-badge--adopt {
+  background: $radar-adopt;
+  border-color: $radar-adopt;
+  color: #ffffff;
+}
+
+.radar-badge--trial {
+  background: $radar-trial;
+  border-color: $radar-trial;
+  color: #ffffff;
+}
+
+.radar-badge--assess {
+  background: $radar-assess;
+  border-color: $radar-assess;
+  color: #ffffff;
+}
+
+.radar-badge--hold {
+  background: $radar-hold;
+  border-color: $radar-hold;
+  color: #ffffff;
+}
+
+.radar-badge--core {
+  background: $radar-navy;
+  border-color: $radar-navy;
+  color: #ffffff;
+}
+
+.radar-icon {
+  vertical-align: -3px;
+  flex: none;
+}
+
+// ------------------------------------------------------------------ toolbar
+
+.radar-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  background: $radar-light;
+  padding: 12px 16px 4px;
+  margin: 0 0 8px;
+}
+
+.radar-toolbar .radar-field,
+.radar-toolbar .radar-views,
+.radar-toolbar .radar-reset {
+  margin: 0 16px 12px 0;
+}
+
+// The tech docs gem only compiles part of GOV.UK Frontend (no label, select,
+// button or summary list components), so the radar styles its own controls.
+.radar-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.25;
+  color: $radar-dark;
+}
+
+.radar-label--inline {
+  display: inline;
+  margin: 0;
+  font-weight: normal;
+}
+
+.radar-select,
+.radar-toolbar .govuk-input {
+  box-sizing: border-box;
+  min-width: 11em;
+  max-width: 100%;
+  height: 40px;
+  padding: 5px 8px;
+  border: 2px solid $radar-dark;
+  border-radius: 0;
+  background: #ffffff;
+  color: $radar-dark;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.25;
+
+  &:focus {
+    outline: 3px solid $radar-focus;
+    outline-offset: 0;
+    box-shadow: inset 0 0 0 2px $radar-dark;
+  }
+}
+
+.radar-button {
+  height: 40px;
+  padding: 0 14px;
+  border: 2px solid $radar-navy;
+  background: #ffffff;
+  color: $radar-navy;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    background: $radar-light;
+  }
+
+  &:focus {
+    outline: 3px solid $radar-focus;
+    outline-offset: 0;
+    box-shadow: inset 0 0 0 2px $radar-dark;
+  }
+}
+
+// Term and description rows used on the landing page.
+.radar-defs {
+  margin: 0 0 24px;
+
+  .radar-defs-row {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid $radar-border;
+    padding: 10px 0;
+  }
+
+  dt {
+    flex: 0 0 200px;
+    margin: 0 20px 0 0;
+    font-weight: bold;
+  }
+
+  dd {
+    flex: 1 1 280px;
+    margin: 0;
+  }
+}
+
+.radar-field--check {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+
+  .radar-check {
+    width: 24px;
+    height: 24px;
+    margin: 0 8px 0 0;
+  }
+
+  .radar-label {
+    margin: 0;
+  }
+}
+
+.radar-views {
+  display: flex;
+}
+
+.radar-toggle {
+  border: 2px solid $radar-navy;
+  background: #ffffff;
+  color: $radar-navy;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 7px 14px;
+  cursor: pointer;
+
+  &[aria-pressed="true"] {
+    background: $radar-navy;
+    color: #ffffff;
+  }
+
+  &:focus {
+    outline: 3px solid $radar-focus;
+    outline-offset: 0;
+    box-shadow: inset 0 0 0 2px $radar-dark;
+  }
+}
+
+.radar-count {
+  margin: 4px 0 12px;
+  font-weight: bold;
+}
+
+// ------------------------------------------------------------ radar + panel
+
+.radar-layout {
+  display: block;
+}
+
+.radar-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid $radar-border;
+}
+
+// A display rule on an element beats the browser's built-in [hidden] rule, so
+// restate it for the two panels the Radar/Grid toggle switches between.
+.radar-wrap[hidden],
+.radar-grid[hidden] {
+  display: none;
+}
+
+.radar-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  touch-action: pan-y;
+
+  &.is-dragging {
+    cursor: grabbing;
+  }
+}
+
+.radar-ring-label {
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  fill: $radar-muted;
+  pointer-events: none;
+  // White outline so the divider line does not run through the text.
+  paint-order: stroke;
+  stroke: #ffffff;
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+.radar-quadrant-label {
+  font-size: 17px;
+  font-weight: bold;
+  pointer-events: none;
+}
+
+.radar-dot {
+  cursor: pointer;
+  outline: none;
+
+  &:hover,
+  &:focus {
+    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.7));
+  }
+
+  &:focus > circle:first-child {
+    stroke: $radar-dark;
+    stroke-width: 3;
+  }
+
+  &.is-selected > circle:first-child {
+    stroke: $radar-dark;
+    stroke-width: 2;
+  }
+
+  &.is-hidden {
+    display: none;
+  }
+}
+
+.radar-hover-text {
+  font-size: 12px;
+  fill: #ffffff;
+}
+
+// Zoom buttons sit in a row above the radar so they never cover a label.
+.radar-zoom-controls {
+  order: -1;
+  display: flex;
+  flex-direction: row;
+  padding: 8px;
+  border-bottom: 1px solid $radar-border;
+}
+
+.radar-zoom {
+  width: 36px;
+  height: 36px;
+  margin-right: 4px;
+  border: 2px solid $radar-navy;
+  background: #ffffff;
+  color: $radar-navy;
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+
+  &:hover {
+    background: $radar-light;
+  }
+
+  &:focus {
+    outline: 3px solid $radar-focus;
+    outline-offset: 0;
+  }
+}
+
+.radar-legend {
+  max-width: 800px;
+  margin: 12px auto 24px;
+}
+
+.radar-legend-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+
+  li {
+    margin: 0 20px 6px 0;
+    font-weight: bold;
+  }
+}
+
+.radar-legend-hint {
+  margin: 0;
+  color: $radar-muted;
+  font-size: 16px;
+}
+
+// Detail panel: a drawer that slides in from the right, like the filter and
+// detail drawers on the Defra emerging technology radar. It is hidden from
+// view (and from assistive technology) until a technology is selected.
+.radar-detail {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  width: 380px;
+  max-width: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
+  border-left: 5px solid $radar-navy;
+  background: #ffffff;
+  padding: 16px 20px;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.25);
+  visibility: hidden;
+  transform: translateX(100%);
+  transition: transform 0.2s ease-out, visibility 0s linear 0.2s;
+
+  &.is-open {
+    visibility: visible;
+    transform: translateX(0);
+    transition: transform 0.2s ease-out, visibility 0s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radar-detail,
+  .radar-detail.is-open {
+    transition: none;
+  }
+}
+
+.radar-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.radar-detail-title {
+  margin: 0 0 12px;
+
+  &:focus {
+    outline: 3px solid $radar-focus;
+  }
+}
+
+.radar-detail-close {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+
+  &:focus {
+    outline: 3px solid $radar-focus;
+    background: $radar-focus;
+  }
+}
+
+.radar-detail-empty {
+  color: $radar-muted;
+}
+
+// ---------------------------------------------------------------- grid view
+
+.radar-grid-section {
+  margin: 0 0 24px;
+}
+
+.radar-grid-intro {
+  color: $radar-muted;
+}
+
+.radar-cards {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    margin: 0 12px 12px 0;
+  }
+}
+
+.radar-card {
+  display: block;
+  width: 210px;
+  min-height: 64px;
+  padding: 8px 12px;
+  border: 1px solid $radar-border;
+  border-left: 6px solid $radar-blue;
+  background: #ffffff;
+  color: $radar-dark;
+  font-family: inherit;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover {
+    background: $radar-light;
+  }
+
+  &:focus {
+    outline: 3px solid $radar-focus;
+    outline-offset: 0;
+    box-shadow: inset 0 0 0 2px $radar-dark;
+  }
+}
+
+.radar-card-title {
+  display: block;
+  font-weight: bold;
+}
+
+.radar-card-area {
+  display: block;
+  margin-top: 2px;
+  color: $radar-muted;
+  font-size: 14px;
+}
+
+// -------------------------------------------------------- area / list pages
+
+.radar-ring-summary {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
+
+  li {
+    margin: 0 8px 8px 0;
+  }
+}
+
+.radar-area-cards {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
+
+  li {
+    width: 260px;
+    margin: 0 16px 16px 0;
+    border: 1px solid $radar-border;
+    border-top: 5px solid $radar-navy;
+    padding: 12px 16px;
+  }
+
+  h3 {
+    margin: 0 0 8px;
+  }
+
+  p {
+    margin: 0 0 8px;
+  }
+}
+
+.radar-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 24px;
+
+  th,
+  td {
+    text-align: left;
+    vertical-align: top;
+    padding: 8px 12px 8px 0;
+    border-bottom: 1px solid $radar-border;
+  }
+
+  caption {
+    text-align: left;
+    font-weight: bold;
+    padding: 0 0 8px;
+  }
+}
+
+// The tech docs template adds bullets to lists inside the main content. The
+// radar's lists are layout lists (badges, cards, legend), so switch them off.
+// The extra class in front gives these rules enough weight to win.
+.technical-documentation {
+  .radar-ring-summary,
+  .radar-area-cards,
+  .radar-cards,
+  .radar-legend-list {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+
+    li {
+      list-style: none;
+      padding-left: 0;
+
+      &::before,
+      &::after {
+        content: none;
+      }
+    }
+  }
+}
+
+@media print {
+  .radar-toolbar,
+  .radar-zoom-controls,
+  #tech-radar {
+    display: none;
+  }
+}
+

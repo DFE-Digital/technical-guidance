@@ -92,6 +92,29 @@ A table of content for `##` Markdown sections (or `<h2>` in html) on the same pa
 <%%= partial('partials/page_toc') %>
 ```
 
+## Updating the tech radar
+
+The [tech radar](/tech-radar/) is built from a single data file, `data/tech_radar.yml`. The radar, grid view,
+area pages and tables are all generated from it, so you only ever edit that one file.
+
+To add a technology, or move it to a different ring, edit the `entries` list and raise a pull request:
+
+```yaml
+- { name: Playwright, area: testing-quality, ring: adopt, core: true, note: "Preferred browser test automation tool.", link: /guides/some-guide/ }
+```
+
+| Field | Required | Description |
+| --- | --- | --- |
+| `name` | Yes | Name of the technology. |
+| `area` | Yes | The id of one of the `areas` in the same file, for example `testing-quality`. The area decides which quadrant it appears in. |
+| `ring` | Yes | `adopt`, `trial`, `assess` or `hold`. The ring descriptions are in the same file. |
+| `core` | No | `true` if it is part of the core DfE software delivery stack. |
+| `note` | No | One or two plain English sentences of guidance. |
+| `link` | No | A link to a page on this site with more guidance. |
+
+To add a new area, add it to the `areas` list, then copy an existing page under `source/tech-radar/` and change the
+`title`, `weight` and `area_id`.
+
 ## Review
 
 The guidance must be reviewed and updated before the expiration date.

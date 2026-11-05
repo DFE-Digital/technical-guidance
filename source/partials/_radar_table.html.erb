@@ -1,0 +1,35 @@
+<%# Accessible table of radar entries. Locals: entries (array), caption (string), show_area (true/false) %>
+<% if entries.any? %>
+  <table class="radar-table">
+    <caption class="govuk-visually-hidden"><%= radar_h(caption) %></caption>
+    <thead>
+      <tr>
+        <th scope="col">Technology</th>
+        <% if show_area %><th scope="col">Area</th><% end %>
+        <th scope="col">Guidance</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% entries.each do |entry| %>
+        <% area = radar_area(entry['area']) %>
+        <tr>
+          <th scope="row">
+            <%= radar_h(entry['name']) %>
+            <% if entry['core'] %>
+              <span class="radar-badge radar-badge--core">Core DfE stack</span>
+            <% end %>
+          </th>
+          <% if show_area %>
+            <td><a class="govuk-link" href="<%= data.tech_radar['meta']['base_path'] %><%= radar_h(entry['area']) %>/"><%= radar_h(area['name']) %></a></td>
+          <% end %>
+          <td>
+            <%= radar_h(entry['note']) %>
+            <% if entry['link'] %>
+              <br><a class="govuk-link" href="<%= radar_h(entry['link']) %>">Read the DfE guidance</a>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

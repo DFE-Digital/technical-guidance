@@ -1,0 +1,335 @@
+# DfE Tech Radar data.
+#
+# This single file drives the whole radar: the interactive radar page, the
+# per-area pages and the tables. To add or move a technology edit the
+# `entries` list at the bottom and raise a pull request.
+#
+# Entry fields:
+#   name   (required) Name of the technology
+#   area   (required) One of the area ids below
+#   ring   (required) adopt | trial | assess | hold
+#   core   (optional) true if part of the core DfE software delivery stack
+#   note   (optional) Short plain-English guidance shown in the detail panel
+#   link   (optional) Internal guidance page, e.g. /infrastructure/docker/
+#
+# NOTE: ring placements are a DRAFT proposal and need review by the tech community.
+
+meta:
+  edit_url: https://github.com/DFE-Digital/technical-guidance/edit/master/data/tech_radar.yml
+  issues_url: https://github.com/DFE-Digital/technical-guidance/issues/new
+  slack: "#tech-community"
+  base_path: /tech-radar/
+  status: Draft
+  updated: May 2026
+
+rings:
+  - id: adopt
+    name: Adopt
+    description: "Recommended for use by most teams. It is well supported and proven in DfE."
+  - id: trial
+    name: Trial
+    description: "Proven for specific use cases. Fine to use in production where it fits, but check with your architect or the community first."
+  - id: assess
+    name: Assess
+    description: "Worth exploring. Some teams use it in experiments or by exception. Production use carries higher risk because in-house knowledge and support are limited."
+  - id: hold
+    name: Hold
+    description: "Do not use for new work. If you already use it, plan a move to a supported alternative."
+
+# Quadrants are drawn clockwise from the top right. Each has a colour AND a
+# shape so the radar does not rely on colour alone (circle, square, triangle, diamond).
+quadrants:
+  - id: languages-frameworks
+    name: Languages & Frameworks
+    colour: "#4c2c92"
+    shape: circle
+    description: "Programming languages, frameworks and runtimes that services are built with."
+  - id: platforms-infrastructure
+    name: Platforms & Infrastructure
+    colour: "#0f7a73"
+    shape: square
+    description: "Where services are hosted and how infrastructure, containers and pipelines are run."
+  - id: tools-delivery
+    name: Tools & Delivery
+    colour: "#a8266b"
+    shape: triangle
+    description: "Tools that teams use day to day to build, test, design and ship software."
+  - id: data-ai
+    name: Data, Analytics & AI
+    colour: "#8a5a00"
+    shape: diamond
+    description: "Databases, analytics and reporting platforms, and AI tools."
+
+areas:
+  - id: cloud-platforms
+    name: Cloud platforms
+    quadrant: platforms-infrastructure
+    description: "Public cloud and platform-as-a-service offerings used across the department."
+  - id: devops-iac
+    name: DevOps & infrastructure as code
+    quadrant: platforms-infrastructure
+    description: "Containers, orchestration, infrastructure as code, CI/CD, release and monitoring."
+  - id: languages
+    name: Programming languages
+    quadrant: languages-frameworks
+    description: "Programming and scripting languages used to build and automate services."
+  - id: frameworks-runtimes
+    name: Frameworks & runtimes
+    quadrant: languages-frameworks
+    description: "Application frameworks, runtimes, SDKs and application servers."
+  - id: source-control
+    name: Source control
+    quadrant: tools-delivery
+    description: "Source control platforms and the clients people use to work with them."
+  - id: ides-editors
+    name: IDEs & editors
+    quadrant: tools-delivery
+    description: "Development environments and code editors."
+  - id: api-tools
+    name: API & integration tools
+    quadrant: tools-delivery
+    description: "Tools for designing, calling and testing APIs and integrations."
+  - id: testing-quality
+    name: Testing & quality
+    quadrant: tools-delivery
+    description: "Automated, performance and security testing tools."
+  - id: architecture-design
+    name: Architecture & design
+    quadrant: tools-delivery
+    description: "Diagramming, modelling, whiteboarding and design tools."
+  - id: data-platforms
+    name: Data & analytics platforms
+    quadrant: data-ai
+    description: "Databases, data engineering, reporting and analytics tools."
+  - id: ai-tools
+    name: AI & GenAI tools
+    quadrant: data-ai
+    description: "AI coding assistants, generative AI products and AI platforms."
+
+entries:
+  # ---------------------------------------------------------------------------
+  # Cloud platforms
+  # ---------------------------------------------------------------------------
+  - { name: Microsoft Azure, area: cloud-platforms, ring: adopt, core: true, note: "DfE's primary hosting platform. Request an account via the Cloud Infrastructure Platform (CIP) team.", link: /guides/default-technology-stack/ }
+  - { name: Azure DevOps, area: cloud-platforms, ring: adopt, core: true, note: "Boards, repos and pipelines. Widely used for build and release.", link: /infrastructure/automation/azure-devops/ }
+  - { name: Azure Functions, area: cloud-platforms, ring: adopt, note: "Serverless compute for event-driven workloads." }
+  - { name: Azure Cosmos DB, area: cloud-platforms, ring: trial, note: "Globally distributed NoSQL database. Check it fits your data and cost profile." }
+  - { name: Microsoft Entra ID, area: cloud-platforms, ring: adopt, core: true, note: "Identity and access. Formerly Azure Active Directory." }
+  - { name: Azure CLI, area: cloud-platforms, ring: adopt, note: "Command line for managing Azure resources." }
+  - { name: Azure PowerShell, area: cloud-platforms, ring: adopt, note: "PowerShell modules for managing Azure resources." }
+  - { name: Azure Storage Explorer, area: cloud-platforms, ring: adopt, note: "Desktop app for browsing Azure storage." }
+  - { name: Azure Service Fabric, area: cloud-platforms, ring: hold, note: "Legacy microservice platform. Do not use for new work; plan a move to containers." }
+  - { name: AWS Lambda, area: cloud-platforms, ring: assess, note: "Used by exception. Azure is the default hosting platform." }
+  - { name: Amazon S3, area: cloud-platforms, ring: assess, note: "Used by exception. Azure is the default hosting platform." }
+  - { name: Amazon RDS, area: cloud-platforms, ring: assess, note: "Used by exception. Azure is the default hosting platform." }
+  - { name: Amazon Athena, area: cloud-platforms, ring: assess, note: "Used by exception. Azure is the default hosting platform." }
+  - { name: Amazon EFS, area: cloud-platforms, ring: assess, note: "Used by exception. Azure is the default hosting platform." }
+  - { name: Amazon VPC, area: cloud-platforms, ring: assess, note: "Used by exception. Azure is the default hosting platform." }
+  - { name: AWS IAM, area: cloud-platforms, ring: assess, note: "Used by exception. Azure is the default hosting platform." }
+  - { name: AWS CloudTrail, area: cloud-platforms, ring: assess, note: "Used by exception. Azure is the default hosting platform." }
+  - { name: Google Cloud Platform, area: cloud-platforms, ring: assess, note: "Used by exception. Speak to your architect before choosing it." }
+  - { name: Firebase, area: cloud-platforms, ring: assess, note: "Used by exception, mainly prototypes and mobile." }
+  - { name: Google Colab, area: cloud-platforms, ring: hold, note: "Do not use with DfE data. Use approved data platforms instead." }
+  - { name: Heroku, area: cloud-platforms, ring: hold, note: "Not an approved hosting platform for new services. Prototypes only, with no real data." }
+  - { name: Mendix, area: cloud-platforms, ring: assess, note: "Low-code platform used by a small number of services." }
+  - { name: Appian, area: cloud-platforms, ring: assess, note: "Low-code platform used by a small number of services." }
+  - { name: Contentful, area: cloud-platforms, ring: assess, note: "Headless CMS used by a small number of services." }
+  - { name: Cloudflare, area: cloud-platforms, ring: assess, note: "CDN and edge protection used by some services." }
+
+  # ---------------------------------------------------------------------------
+  # Source control
+  # ---------------------------------------------------------------------------
+  - { name: Git, area: source-control, ring: adopt, core: true, note: "The default version control system." }
+  - { name: GitHub, area: source-control, ring: adopt, core: true, note: "Preferred home for source code. Code should be open by default.", link: /standards/storing-source-code/ }
+  - { name: GitHub Enterprise, area: source-control, ring: adopt, core: true, note: "For code that cannot be public.", link: /guides/github/ }
+  - { name: GitHub Desktop, area: source-control, ring: adopt, note: "Simple graphical Git client." }
+  - { name: GitHub CLI, area: source-control, ring: adopt, note: "Command line access to GitHub." }
+  - { name: Git LFS, area: source-control, ring: trial, note: "Large file storage. Consider whether the files should be in Git at all." }
+  - { name: Git Extensions, area: source-control, ring: trial, note: "Windows Git client." }
+  - { name: SourceTree, area: source-control, ring: trial, note: "Graphical Git client." }
+  - { name: GitKraken, area: source-control, ring: trial, note: "Graphical Git client. Check licensing before use." }
+  - { name: GitLab, area: source-control, ring: hold, note: "Not our standard. Move code to GitHub." }
+  - { name: Bitbucket, area: source-control, ring: hold, note: "Not our standard. Move code to GitHub." }
+
+  # ---------------------------------------------------------------------------
+  # Programming languages
+  # ---------------------------------------------------------------------------
+  - { name: C#, area: languages, ring: adopt, core: true, note: "Preferred language for DfE services.", link: /guides/default-technology-stack/ }
+  - { name: SQL, area: languages, ring: adopt, core: true, note: "For querying and managing relational data." }
+  - { name: JavaScript, area: languages, ring: adopt, core: true, note: "For front-end and tooling.", link: /principles/frontend-development-principles/ }
+  - { name: TypeScript, area: languages, ring: adopt, note: "Typed JavaScript. Recommended for larger front-end and Node.js code." }
+  - { name: Python, area: languages, ring: adopt, core: true, note: "Widely used for data, automation and AI work." }
+  - { name: PowerShell, area: languages, ring: adopt, note: "Automation and Azure administration." }
+  - { name: Bash / Shell, area: languages, ring: adopt, note: "Scripting for pipelines and tooling." }
+  - { name: Java, area: languages, ring: trial, core: true, note: "Used for existing services. Speak to your architect before starting new work." }
+  - { name: Ruby, area: languages, ring: trial, note: "Supported by exception. Use the Rails template project.", link: /guides/default-technology-stack/ }
+  - { name: R, area: languages, ring: trial, note: "For statistical and analytical work." }
+  - { name: Go, area: languages, ring: assess, note: "Used by a small number of teams for tooling." }
+  - { name: C++, area: languages, ring: assess, note: "Rarely needed. Check for a managed language alternative." }
+  - { name: Groovy, area: languages, ring: assess, note: "Mostly seen in build scripts." }
+  - { name: Lua, area: languages, ring: assess, note: "Rare. Embedded scripting only." }
+  - { name: PHP, area: languages, ring: hold, note: "Not recommended for new services. Plan to migrate existing ones." }
+  - { name: Perl, area: languages, ring: hold, note: "Legacy. Plan to migrate to a supported language." }
+
+  # ---------------------------------------------------------------------------
+  # Frameworks and runtimes
+  # ---------------------------------------------------------------------------
+  - { name: ASP.NET Core, area: frameworks-runtimes, ring: adopt, core: true, note: "Preferred web framework for DfE services.", link: /guides/default-technology-stack/ }
+  - { name: .NET 8, area: frameworks-runtimes, ring: adopt, core: true, note: "Long term support release." }
+  - { name: .NET 9, area: frameworks-runtimes, ring: trial, note: "Standard term support release. Plan upgrades before it goes out of support." }
+  - { name: .NET 10, area: frameworks-runtimes, ring: trial, note: "Newest long term support release. Moving to Adopt as teams upgrade." }
+  - { name: .NET 6, area: frameworks-runtimes, ring: hold, note: "Out of support. Upgrade to a supported version." }
+  - { name: .NET Core, area: frameworks-runtimes, ring: hold, note: "Out of support versions. Upgrade to a supported .NET version." }
+  - { name: .NET Framework, area: frameworks-runtimes, ring: hold, note: "Legacy. Do not use for new work; plan migration to modern .NET." }
+  - { name: ASP.NET MVC, area: frameworks-runtimes, ring: hold, note: "Legacy .NET Framework version. Migrate to ASP.NET Core." }
+  - { name: Blazor, area: frameworks-runtimes, ring: assess, note: "Possible option for interactive web apps. Check against GOV.UK Frontend needs." }
+  - { name: Node.js, area: frameworks-runtimes, ring: trial, core: true, note: "Fine for front-end work and tooling. Not a core service stack.", link: /guides/default-technology-stack/ }
+  - { name: Electron, area: frameworks-runtimes, ring: assess, note: "Desktop apps. Rarely needed for government services." }
+  - { name: OpenJDK, area: frameworks-runtimes, ring: adopt, note: "Preferred Java runtime. Use a supported distribution." }
+  - { name: Eclipse Temurin, area: frameworks-runtimes, ring: adopt, note: "Supported OpenJDK distribution." }
+  - { name: Amazon Corretto, area: frameworks-runtimes, ring: trial, note: "Supported OpenJDK distribution." }
+  - { name: Azul Zulu JDK, area: frameworks-runtimes, ring: trial, note: "Supported OpenJDK distribution." }
+  - { name: JetBrains OpenJDK, area: frameworks-runtimes, ring: assess, note: "Bundled with JetBrains tools. Not for running services." }
+  - { name: Oracle JDK, area: frameworks-runtimes, ring: hold, note: "Licensing risk. Use an open source OpenJDK distribution." }
+  - { name: Apache Tomcat, area: frameworks-runtimes, ring: trial, note: "Java application server for existing services." }
+  - { name: Apache Ant, area: frameworks-runtimes, ring: hold, note: "Legacy build tool. Use Maven or Gradle." }
+  - { name: Maven, area: frameworks-runtimes, ring: trial, note: "Java build and dependency tool." }
+
+  # ---------------------------------------------------------------------------
+  # IDEs and editors
+  # ---------------------------------------------------------------------------
+  - { name: Visual Studio Code, area: ides-editors, ring: adopt, core: true, note: "Lightweight editor for most languages." }
+  - { name: Visual Studio, area: ides-editors, ring: adopt, core: true, note: "Full IDE for .NET. Use a supported version (2022 or later)." }
+  - { name: JetBrains Rider, area: ides-editors, ring: adopt, note: ".NET IDE. Licence required." }
+  - { name: IntelliJ IDEA, area: ides-editors, ring: adopt, note: "Java IDE. Licence required." }
+  - { name: PyCharm, area: ides-editors, ring: adopt, note: "Python IDE. Licence required." }
+  - { name: WebStorm, area: ides-editors, ring: trial, note: "JavaScript IDE. Licence required." }
+  - { name: RubyMine, area: ides-editors, ring: trial, note: "Ruby IDE. Licence required." }
+  - { name: DataGrip, area: ides-editors, ring: trial, note: "Database IDE. Licence required." }
+  - { name: ReSharper, area: ides-editors, ring: trial, note: "Visual Studio productivity extension. Licence required." }
+  - { name: Jupyter Notebook, area: ides-editors, ring: adopt, note: "Interactive notebooks for data work." }
+  - { name: RStudio, area: ides-editors, ring: adopt, note: "IDE for R." }
+  - { name: Notepad++, area: ides-editors, ring: adopt, note: "Simple text editor." }
+  - { name: Eclipse, area: ides-editors, ring: trial, note: "Java IDE. Used for existing projects." }
+  - { name: Android Studio, area: ides-editors, ring: trial, note: "Android app development." }
+  - { name: Obsidian, area: ides-editors, ring: assess, note: "Note taking. Do not store sensitive data in unmanaged vaults." }
+  - { name: Neovim, area: ides-editors, ring: assess, note: "Terminal editor. Personal choice." }
+  - { name: Emacs, area: ides-editors, ring: assess, note: "Terminal editor. Personal choice." }
+  - { name: PhpStorm, area: ides-editors, ring: assess, note: "PHP IDE. Only for existing PHP services." }
+  - { name: GoLand, area: ides-editors, ring: assess, note: "Go IDE." }
+  - { name: DataSpell, area: ides-editors, ring: assess, note: "Data science IDE." }
+  - { name: dotPeek, area: ides-editors, ring: assess, note: ".NET decompiler. Check licence terms." }
+  - { name: Blend for Visual Studio, area: ides-editors, ring: assess, note: "XAML design tool for legacy desktop apps." }
+  - { name: BBEdit, area: ides-editors, ring: assess, note: "macOS text editor." }
+  - { name: SciTE, area: ides-editors, ring: assess, note: "Lightweight text editor." }
+  - { name: Atom, area: ides-editors, ring: hold, note: "No longer maintained. Use Visual Studio Code." }
+
+  # ---------------------------------------------------------------------------
+  # DevOps and infrastructure as code
+  # ---------------------------------------------------------------------------
+  - { name: Docker, area: devops-iac, ring: adopt, core: true, note: "Package applications as containers.", link: /infrastructure/docker/ }
+  - { name: Docker Desktop, area: devops-iac, ring: adopt, note: "Local containers. Check licence terms for your team." }
+  - { name: Docker Hub, area: devops-iac, ring: adopt, note: "Container registry. GitHub Container Registry is the alternative.", link: /infrastructure/docker/ }
+  - { name: Kubernetes, area: devops-iac, ring: adopt, core: true, note: "Container orchestration. Usually via Azure Kubernetes Service." }
+  - { name: Terraform, area: devops-iac, ring: adopt, core: true, note: "Preferred infrastructure as code tool.", link: /guides/default-technology-stack/ }
+  - { name: Ansible, area: devops-iac, ring: trial, core: true, note: "Configuration management for existing estates." }
+  - { name: Azure Bicep, area: devops-iac, ring: trial, note: "Azure-native infrastructure as code. ARM templates are the older equivalent." }
+  - { name: AWS CLI, area: devops-iac, ring: assess, note: "Only if you have an approved AWS workload." }
+  - { name: GitHub Actions, area: devops-iac, ring: adopt, note: "CI/CD for GitHub repositories.", link: /infrastructure/automation/github-actions/ }
+  - { name: Azure Pipelines, area: devops-iac, ring: adopt, note: "CI/CD in Azure DevOps.", link: /infrastructure/automation/azure-devops/ }
+  - { name: Sentry, area: devops-iac, ring: adopt, note: "Error reporting.", link: /infrastructure/monitoring/sentry/ }
+  - { name: LaunchDarkly, area: devops-iac, ring: trial, note: "Feature flags." }
+  - { name: Podman, area: devops-iac, ring: assess, note: "Docker alternative." }
+  - { name: Podman Desktop, area: devops-iac, ring: assess, note: "Docker Desktop alternative." }
+  - { name: Rancher Desktop, area: devops-iac, ring: assess, note: "Docker Desktop alternative." }
+  - { name: OrbStack, area: devops-iac, ring: assess, note: "macOS Docker alternative. Check licence terms." }
+
+  # ---------------------------------------------------------------------------
+  # Data and analytics platforms
+  # ---------------------------------------------------------------------------
+  - { name: SQL Server, area: data-platforms, ring: adopt, core: true, note: "Main relational database for .NET services." }
+  - { name: PostgreSQL, area: data-platforms, ring: adopt, core: true, note: "Open source relational database. Preferred for new services." }
+  - { name: Power BI, area: data-platforms, ring: adopt, core: true, note: "Reporting and dashboards." }
+  - { name: Databricks, area: data-platforms, ring: adopt, core: true, note: "Data engineering and analytics platform." }
+  - { name: Microsoft Fabric, area: data-platforms, ring: trial, note: "Unified analytics platform. Growing use." }
+  - { name: Grafana, area: data-platforms, ring: adopt, note: "Metrics dashboards.", link: /infrastructure/monitoring/prometheus/ }
+  - { name: Redis, area: data-platforms, ring: adopt, note: "Caching and queues." }
+  - { name: MySQL, area: data-platforms, ring: trial, note: "Used by existing services. Prefer PostgreSQL for new work." }
+  - { name: MariaDB, area: data-platforms, ring: assess, note: "Used by existing services. Prefer PostgreSQL for new work." }
+  - { name: Oracle Database, area: data-platforms, ring: hold, note: "Licensing cost and risk. Do not use for new services." }
+  - { name: MongoDB, area: data-platforms, ring: trial, note: "Document database. Check that a relational database would not fit." }
+  - { name: MongoDB Atlas, area: data-platforms, ring: assess, note: "Managed MongoDB. Needs security assurance." }
+  - { name: Neo4j, area: data-platforms, ring: assess, note: "Graph database for specific use cases." }
+  - { name: Google Analytics, area: data-platforms, ring: adopt, note: "Web analytics. Follow cookie and privacy guidance." }
+  - { name: Looker, area: data-platforms, ring: assess, note: "BI tool. Power BI is preferred." }
+  - { name: FullStory, area: data-platforms, ring: assess, note: "Session replay. Needs data protection assessment." }
+  - { name: DAX Studio, area: data-platforms, ring: trial, note: "Power BI query tuning." }
+
+  # ---------------------------------------------------------------------------
+  # API and integration tools
+  # ---------------------------------------------------------------------------
+  - { name: Postman, area: api-tools, ring: adopt, note: "API testing and exploration. Do not store secrets in shared workspaces." }
+  - { name: Bruno, area: api-tools, ring: trial, note: "Open source API client that keeps collections in Git." }
+  - { name: Insomnia, area: api-tools, ring: trial, note: "API client." }
+  - { name: HTTPie, area: api-tools, ring: trial, note: "Command line HTTP client." }
+  - { name: Service Bus Explorer, area: api-tools, ring: adopt, note: "Inspect Azure Service Bus queues and topics." }
+  - { name: Azure Functions Core Tools, area: api-tools, ring: adopt, note: "Run and debug Azure Functions locally." }
+  - { name: Apidog, area: api-tools, ring: assess, note: "Needs security review before use." }
+
+  # ---------------------------------------------------------------------------
+  # Testing and quality
+  # ---------------------------------------------------------------------------
+  - { name: Playwright, area: testing-quality, ring: adopt, core: true, note: "Preferred browser test automation tool." }
+  - { name: Cypress, area: testing-quality, ring: adopt, core: true, note: "Browser test automation." }
+  - { name: NUnit, area: testing-quality, ring: adopt, note: ".NET unit testing framework." }
+  - { name: Reqnroll, area: testing-quality, ring: adopt, note: "BDD for .NET. Replaces SpecFlow." }
+  - { name: BrowserStack, area: testing-quality, ring: adopt, note: "Cross-browser and device testing." }
+  - { name: LambdaTest, area: testing-quality, ring: trial, note: "Cross-browser testing." }
+  - { name: BlazeMeter, area: testing-quality, ring: trial, note: "Load and performance testing." }
+  - { name: LoadRunner, area: testing-quality, ring: assess, note: "Legacy performance testing. Use a modern alternative for new work." }
+  - { name: New Relic, area: testing-quality, ring: assess, note: "Performance monitoring. Azure Application Insights is preferred." }
+  - { name: OWASP ZAP, area: testing-quality, ring: adopt, note: "Automated web security scanning." }
+  - { name: Burp Suite, area: testing-quality, ring: trial, note: "Manual security testing." }
+  - { name: Nessus, area: testing-quality, ring: trial, note: "Vulnerability scanning." }
+  - { name: Qualys, area: testing-quality, ring: trial, note: "Vulnerability scanning." }
+  - { name: HackerOne, area: testing-quality, ring: assess, note: "Bug bounty and vulnerability disclosure platform." }
+  - { name: OnVUE, area: testing-quality, ring: assess, note: "Online exam proctoring for certification." }
+
+  # ---------------------------------------------------------------------------
+  # Architecture and design tools
+  # ---------------------------------------------------------------------------
+  - { name: Figma, area: architecture-design, ring: adopt, core: true, note: "Preferred design and prototyping tool." }
+  - { name: Miro, area: architecture-design, ring: adopt, core: true, note: "Online whiteboard." }
+  - { name: Lucidchart, area: architecture-design, ring: adopt, core: true, note: "Diagramming." }
+  - { name: Draw.io, area: architecture-design, ring: adopt, note: "Free diagramming. Diagrams can be stored in Git." }
+  - { name: IcePanel, area: architecture-design, ring: trial, note: "C4 architecture modelling." }
+  - { name: ArchiMate / Archi, area: architecture-design, ring: trial, note: "Enterprise architecture modelling." }
+  - { name: Lucidspark, area: architecture-design, ring: trial, note: "Online whiteboard." }
+  - { name: FigJam, area: architecture-design, ring: trial, note: "Whiteboard in Figma." }
+  - { name: Visio, area: architecture-design, ring: trial, note: "Desktop diagramming." }
+  - { name: Mural, area: architecture-design, ring: assess, note: "Online whiteboard. Miro is more widely used." }
+  - { name: Balsamiq, area: architecture-design, ring: assess, note: "Wireframing." }
+  - { name: Moqups, area: architecture-design, ring: assess, note: "Wireframing." }
+
+  # ---------------------------------------------------------------------------
+  # AI and GenAI tools
+  # ---------------------------------------------------------------------------
+  - { name: GitHub Copilot, area: ai-tools, ring: adopt, core: true, note: "AI coding assistant. Use safely.", link: /guides/github/copilot/ }
+  - { name: Microsoft Copilot, area: ai-tools, ring: adopt, core: true, note: "Approved AI assistant in the Microsoft 365 environment." }
+  - { name: Copilot Studio, area: ai-tools, ring: trial, note: "Build custom copilots and agents." }
+  - { name: Azure AI services, area: ai-tools, ring: trial, note: "Azure AI Foundry, OpenAI and Cognitive Services." }
+  - { name: Claude, area: ai-tools, ring: assess, note: "Check data handling rules and approvals before use." }
+  - { name: ChatGPT, area: ai-tools, ring: assess, note: "Do not enter official or personal data into public tools." }
+  - { name: Gemini, area: ai-tools, ring: assess, note: "Do not enter official or personal data into public tools." }
+  - { name: Cursor, area: ai-tools, ring: assess, note: "AI code editor. Needs security approval before use with DfE code." }
+  - { name: Kiro, area: ai-tools, ring: assess, note: "AI code editor. Needs security approval." }
+  - { name: Hugging Face, area: ai-tools, ring: assess, note: "Model hub. Check model licences and provenance." }
+  - { name: Google AI Studio, area: ai-tools, ring: assess, note: "Experimentation only, with no DfE data." }
+  - { name: H2O.ai, area: ai-tools, ring: assess, note: "Machine learning platform used by data teams." }
+  - { name: Replit AI, area: ai-tools, ring: hold, note: "Public AI app builder. Do not use with DfE code or data." }
+  - { name: Lovable AI, area: ai-tools, ring: hold, note: "Public AI app builder. Do not use with DfE code or data." }
+  - { name: PearAI, area: ai-tools, ring: hold, note: "Unassured AI editor. Do not use with DfE code or data." }
+  - { name: OpenRouter, area: ai-tools, ring: hold, note: "Routes prompts to third-party models. Do not use with DfE data." }
+  - { name: Qwen AI, area: ai-tools, ring: hold, note: "Do not use with DfE data." }
+
+  # --- end of entries ---

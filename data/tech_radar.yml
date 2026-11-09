@@ -20,7 +20,7 @@ meta:
   slack: "#tech-community"
   base_path: /tech-radar/
   status: Draft
-  updated: May 2026
+  updated: November 2026
 
 rings:
   - id: adopt

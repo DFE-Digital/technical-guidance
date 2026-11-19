@@ -72,7 +72,7 @@ Test manually using the `curl` command shown on the "Incoming webhooks" page
   ```yaml
   - name: Slack Notification
     if: failure()
-    uses: rtCamp/action-slack-notify@master
+    uses: rtCamp/action-slack-notify@06cc13f74fa8d4d2296c09455d91e9453e4025f4
     env:
       SLACK_COLOR: '#ff0000'
       SLACK_TITLE: Failure to Build API

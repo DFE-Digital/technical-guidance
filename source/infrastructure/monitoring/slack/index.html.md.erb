@@ -69,10 +69,11 @@ Test manually using the `curl` command shown on the "Incoming webhooks" page
   ```
 - Use a Github actions like [action-slack-notify](https://github.com/rtCamp/action-slack-notify) to post the message to the channel. Example:
 
+# rtCamp/action-slack-notify version v2.4.1
   ```yaml
   - name: Slack Notification
     if: failure()
-    uses: rtCamp/action-slack-notify@master
+    uses: rtCamp/action-slack-notify@06cc13f74fa8d4d2296c09455d91e9453e4025f4
     env:
       SLACK_COLOR: '#ff0000'
       SLACK_TITLE: Failure to Build API
